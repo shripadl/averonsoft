@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -10,6 +10,18 @@ export default function SignupPage() {
   const [loading, setLoading] = useState(false)
   const [accepted, setAccepted] = useState(false)
   const supabase = createClient()
+
+  // After OAuth redirect, Supabase restores the session.
+  // We check for the user and store the email.
+  useEffect(() => {
+    const syncUser = async () => {
+      const { data } = await supabase.auth.getUser()
+      if (data?.user?.email) {
+        localStorage.setItem('user_email', data.user.email)
+      }
+    }
+    syncUser()
+  }, [])
 
   const handleGoogleSignUp = async () => {
     if (!accepted) {

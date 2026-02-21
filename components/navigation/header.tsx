@@ -4,12 +4,20 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { Menu, X } from 'lucide-react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { ThemeToggle } from '@/components/theme-toggle'
+import { AccountMenu } from '@/app/components/AccountMenu'
 
 export function Header() {
   const pathname = usePathname()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [userEmail, setUserEmail] = useState<string | null>(null)
+
+  // Load user email from localStorage (set by Supabase client)
+  useEffect(() => {
+    const email = localStorage.getItem('user_email')
+    if (email) setUserEmail(email)
+  }, [])
 
   const navigation = [
     { name: 'Tools', href: '/tools/shortener' },
@@ -22,6 +30,8 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border bg-surface shadow-sm">
       <nav className="mx-auto flex max-w-7xl items-center justify-between p-4 lg:px-8" aria-label="Global">
+        
+        {/* Logo */}
         <div className="flex lg:flex-1">
           <Link href="/" className="-m-1.5 p-1.5 flex items-center gap-2 group">
             <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center transition-transform group-hover:scale-110">
@@ -33,6 +43,7 @@ export function Header() {
           </Link>
         </div>
 
+        {/* Mobile controls */}
         <div className="flex lg:hidden gap-2">
           <ThemeToggle />
           <button
@@ -49,6 +60,7 @@ export function Header() {
           </button>
         </div>
 
+        {/* Desktop navigation */}
         <div className="hidden lg:flex lg:gap-x-8 items-center">
           {navigation.map((item) => (
             <Link
@@ -68,14 +80,22 @@ export function Header() {
           ))}
         </div>
 
+        {/* Desktop right side */}
         <div className="hidden lg:flex lg:flex-1 lg:justify-end lg:gap-x-4 items-center">
           <ThemeToggle />
-          <Link href="/login">
-            <Button variant="ghost">Log in</Button>
-          </Link>
-          <Link href="/signup">
-            <Button>Sign up</Button>
-          </Link>
+
+          {userEmail ? (
+            <AccountMenu email={userEmail} />
+          ) : (
+            <>
+              <Link href="/login">
+                <Button variant="ghost">Log in</Button>
+              </Link>
+              <Link href="/signup">
+                <Button>Sign up</Button>
+              </Link>
+            </>
+          )}
         </div>
       </nav>
 
@@ -97,15 +117,22 @@ export function Header() {
                 {item.name}
               </Link>
             ))}
+
             <div className="mt-4 space-y-2 px-3">
-              <Link href="/login" className="block" onClick={() => setMobileMenuOpen(false)}>
-                <Button variant="secondary" className="w-full">
-                  Log in
-                </Button>
-              </Link>
-              <Link href="/signup" className="block" onClick={() => setMobileMenuOpen(false)}>
-                <Button className="w-full">Sign up</Button>
-              </Link>
+              {userEmail ? (
+                <AccountMenu email={userEmail} />
+              ) : (
+                <>
+                  <Link href="/login" className="block" onClick={() => setMobileMenuOpen(false)}>
+                    <Button variant="secondary" className="w-full">
+                      Log in
+                    </Button>
+                  </Link>
+                  <Link href="/signup" className="block" onClick={() => setMobileMenuOpen(false)}>
+                    <Button className="w-full">Sign up</Button>
+                  </Link>
+                </>
+              )}
             </div>
           </div>
         </div>
