@@ -1,0 +1,207 @@
+import Link from 'next/link'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Link as LinkIcon, Bookmark, CreditCard, ArrowRight } from 'lucide-react'
+
+export default function HomePage() {
+  const tools = [
+    {
+      name: 'URL Shortener',
+      description: 'Create short, branded links and track their performance with detailed analytics.',
+      icon: LinkIcon,
+      href: '/tools/shortener',
+      features: ['Custom domains', 'Click analytics', 'QR codes', 'Link management'],
+    },
+    {
+      name: 'Bookmark Manager',
+      description: 'Save, organize, and share your favorite web resources in beautiful collections.',
+      icon: Bookmark,
+      href: '/tools/bookmarks',
+      features: ['Collections', 'Full-text search', 'Public sharing', 'Team collaboration'],
+    },
+    {
+      name: 'Digital Business Card',
+      description: 'Create a modern, interactive digital business card with QR code sharing.',
+      icon: CreditCard,
+      href: '/tools/business-card',
+      features: ['QR code generation', 'Analytics', 'Custom templates', 'Instant sharing'],
+    },
+  ]
+
+  return (
+    <div className="flex flex-col">
+      {/* Hero Section */}
+      <section className="bg-gradient-to-b from-primary/10 to-background py-20 sm:py-32">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <h1 className="text-4xl font-bold tracking-tight sm:text-6xl">
+              Professional Tools for
+              <span className="block text-primary">Modern Professionals</span>
+            </h1>
+            <p className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground">
+              Streamline your workflow with our suite of powerful tools. Shorten URLs, manage bookmarks, and create stunning digital business cards—all in one place.
+            </p>
+            <div className="mt-10 flex items-center justify-center gap-4">
+              <Link href="/signup">
+                <Button size="lg">
+                  Get Started Free
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </Link>
+              <Link href="/pricing">
+                <Button variant="outline" size="lg">
+                  View Pricing
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Tools Section */}
+      <section className="py-20">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
+              Everything You Need
+            </h2>
+            <p className="mt-4 text-lg text-muted-foreground">
+              Three powerful tools designed to boost your productivity
+            </p>
+          </div>
+
+          <div className="mt-16 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+            {tools.map((tool) => {
+              const Icon = tool.icon
+              return (
+                <Card key={tool.name} className="transition-shadow hover:shadow-lg">
+                  <CardHeader>
+                    <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
+                      <Icon className="h-6 w-6 text-primary" />
+                    </div>
+                    <CardTitle>{tool.name}</CardTitle>
+                    <CardDescription>{tool.description}</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <ul className="space-y-2 text-sm text-muted-foreground">
+                      {tool.features.map((feature) => (
+                        <li key={feature} className="flex items-center">
+                          <ArrowRight className="mr-2 h-4 w-4 text-primary" />
+                          {feature}
+                        </li>
+                      ))}
+                    </ul>
+                    <Link href={tool.href} className="mt-6 block">
+                      <Button variant="outline" className="w-full">
+                        Learn More
+                      </Button>
+                    </Link>
+                  </CardContent>
+                </Card>
+              )
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* Pricing Preview Section */}
+      <section className="bg-muted/50 py-20">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
+              Simple, Transparent Pricing
+            </h2>
+            <p className="mt-4 text-lg text-muted-foreground">
+              Start free, upgrade when you need more
+            </p>
+          </div>
+
+          <div className="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+            <Card>
+              <CardHeader>
+                <CardTitle>Shortener Pro</CardTitle>
+                <CardDescription>
+                  <span className="text-3xl font-bold">$15</span>/month
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-muted-foreground">
+                  Unlimited links, custom domains, and advanced analytics
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle>Bookmarks Pro</CardTitle>
+                <CardDescription>
+                  <span className="text-3xl font-bold">$9</span>/month
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-muted-foreground">
+                  Unlimited bookmarks, collections, and full-text search
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle>Business Card Pro</CardTitle>
+                <CardDescription>
+                  <span className="text-3xl font-bold">$6</span>/month
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-muted-foreground">
+                  Unlimited cards, custom templates, and analytics
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="border-primary">
+              <CardHeader>
+                <CardTitle>Suite Bundle</CardTitle>
+                <CardDescription>
+                  <span className="text-3xl font-bold">$25</span>/month
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-muted-foreground">
+                  All three tools at a discounted price
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+
+          <div className="mt-12 text-center">
+            <Link href="/pricing">
+              <Button size="lg">View Full Pricing</Button>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-20">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="rounded-2xl bg-primary px-6 py-16 text-center sm:px-16">
+            <h2 className="text-3xl font-bold tracking-tight text-primary-foreground sm:text-4xl">
+              Ready to get started?
+            </h2>
+            <p className="mx-auto mt-4 max-w-xl text-lg text-primary-foreground/90">
+              Join thousands of professionals who trust AveronSoft for their daily workflows.
+            </p>
+            <div className="mt-10">
+              <Link href="/signup">
+                <Button size="lg" variant="outline" className="bg-background text-foreground hover:bg-background/90">
+                  Start Free Trial
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  )
+}

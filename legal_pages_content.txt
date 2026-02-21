@@ -1,0 +1,188 @@
+This file contains the remaining legal pages to be created:
+
+=== REFUND POLICY ===
+Path: /home/ubuntu/averonsoft/app/legal/refunds/page.tsx
+
+export default function RefundPolicyPage() {
+  return (
+    <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
+      <h1 className="mb-8 text-4xl font-bold">Refund Policy</h1>
+      <div className="prose prose-gray dark:prose-invert max-w-none">
+        <p className="text-muted-foreground">Last updated: February 19, 2026</p>
+        <h2>14-Day Money-Back Guarantee</h2>
+        <p>We offer a 14-day money-back guarantee on all paid subscriptions. If you're not satisfied, contact us for a full refund within 14 days of purchase.</p>
+        <h2>How to Request a Refund</h2>
+        <p>Contact us through our support page with your account email and reason for the refund request.</p>
+        <h2>Processing Time</h2>
+        <p>Refunds are processed within 5-10 business days through Paddle, our payment processor.</p>
+      </div>
+    </div>
+  )
+}
+
+=== EULA ===
+Path: /home/ubuntu/averonsoft/app/legal/eula/page.tsx
+
+export default function EULAPage() {
+  return (
+    <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
+      <h1 className="mb-8 text-4xl font-bold">End User License Agreement</h1>
+      <div className="prose prose-gray dark:prose-invert max-w-none">
+        <p className="text-muted-foreground">Last updated: February 19, 2026</p>
+        <h2>License Grant</h2>
+        <p>Subject to your compliance with these terms, AveronSoft grants you a limited, non-exclusive, non-transferable license to use our software.</p>
+        <h2>Restrictions</h2>
+        <p>You may not reverse engineer, decompile, or attempt to extract the source code of our software.</p>
+        <h2>Updates</h2>
+        <p>We may provide updates to the software from time to time, which may be automatically installed.</p>
+      </div>
+    </div>
+  )
+}
+
+=== GDPR NOTICE ===
+Path: /home/ubuntu/averonsoft/app/legal/gdpr/page.tsx
+
+export default function GDPRPage() {
+  return (
+    <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
+      <h1 className="mb-8 text-4xl font-bold">GDPR Compliance Notice</h1>
+      <div className="prose prose-gray dark:prose-invert max-w-none">
+        <p className="text-muted-foreground">Last updated: February 19, 2026</p>
+        <h2>Your Rights Under GDPR</h2>
+        <p>If you are a resident of the European Economic Area, you have the following rights:</p>
+        <ul>
+          <li>Right to access your personal data</li>
+          <li>Right to rectification of inaccurate data</li>
+          <li>Right to erasure ("right to be forgotten")</li>
+          <li>Right to data portability</li>
+          <li>Right to object to processing</li>
+        </ul>
+        <h2>Data Processing</h2>
+        <p>We process your data based on your consent and our legitimate business interests.</p>
+        <h2>Data Transfers</h2>
+        <p>Your data may be transferred to and processed in countries outside the EEA.</p>
+        <h2>Contact Our DPO</h2>
+        <p>For GDPR-related inquiries, contact us at our contact page.</p>
+      </div>
+    </div>
+  )
+}
+
+=== COOKIE POLICY ===
+Path: /home/ubuntu/averonsoft/app/legal/cookies/page.tsx
+
+export default function CookiePolicyPage() {
+  return (
+    <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
+      <h1 className="mb-8 text-4xl font-bold">Cookie Policy</h1>
+      <div className="prose prose-gray dark:prose-invert max-w-none">
+        <p className="text-muted-foreground">Last updated: February 19, 2026</p>
+        <h2>What Are Cookies</h2>
+        <p>Cookies are small text files stored on your device when you visit our website.</p>
+        <h2>How We Use Cookies</h2>
+        <p>We use cookies for:</p>
+        <ul>
+          <li>Authentication and security</li>
+          <li>Preferences and settings</li>
+          <li>Analytics and performance</li>
+        </ul>
+        <h2>Types of Cookies</h2>
+        <ul>
+          <li><strong>Essential Cookies:</strong> Required for the website to function</li>
+          <li><strong>Analytics Cookies:</strong> Help us understand how you use our site</li>
+          <li><strong>Preference Cookies:</strong> Remember your settings</li>
+        </ul>
+        <h2>Managing Cookies</h2>
+        <p>You can control cookies through your browser settings.</p>
+      </div>
+    </div>
+  )
+}
+
+=== ABOUT PAGE ===
+Path: /home/ubuntu/averonsoft/app/about/page.tsx
+
+export default function AboutPage() {
+  return (
+    <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
+      <h1 className="mb-8 text-4xl font-bold">About AveronSoft</h1>
+      <div className="prose prose-gray dark:prose-invert max-w-none">
+        <p className="text-lg">
+          AveronSoft is a comprehensive suite of professional tools designed to streamline your digital workflow.
+        </p>
+        <h2>Our Mission</h2>
+        <p>
+          We believe in making powerful tools accessible to everyone. Our mission is to provide simple, effective solutions for URL management, content organization, and professional networking.
+        </p>
+        <h2>What We Offer</h2>
+        <ul>
+          <li><strong>URL Shortener:</strong> Create trackable short links with detailed analytics</li>
+          <li><strong>Bookmark Manager:</strong> Organize and share your favorite web resources</li>
+          <li><strong>Digital Business Cards:</strong> Modern, shareable professional cards</li>
+        </ul>
+        <h2>Why Choose AveronSoft</h2>
+        <ul>
+          <li>Simple, intuitive interface</li>
+          <li>Powerful features</li>
+          <li>Secure and reliable</li>
+          <li>Excellent customer support</li>
+        </ul>
+      </div>
+    </div>
+  )
+}
+
+=== FAQ PAGE ===
+Path: /home/ubuntu/averonsoft/app/faq/page.tsx
+
+export default function FAQPage() {
+  const faqs = [
+    {
+      q: "How do I get started?",
+      a: "Sign up with your Google account and start using any of our three tools immediately. All plans include a 14-day free trial."
+    },
+    {
+      q: "Can I cancel my subscription anytime?",
+      a: "Yes, you can cancel your subscription at any time. Your access will continue until the end of your billing period."
+    },
+    {
+      q: "Is my data secure?",
+      a: "Absolutely. We use industry-standard encryption and security practices. Your data is stored securely with Supabase."
+    },
+    {
+      q: "Do you offer refunds?",
+      a: "Yes, we offer a 14-day money-back guarantee on all paid subscriptions."
+    },
+    {
+      q: "Can I export my data?",
+      a: "Yes, you can export all your data at any time from your account settings."
+    },
+    {
+      q: "What payment methods do you accept?",
+      a: "We accept all major credit cards and payment methods through Paddle, our payment processor."
+    }
+  ]
+
+  return (
+    <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
+      <h1 className="mb-8 text-4xl font-bold">Frequently Asked Questions</h1>
+      <div className="space-y-6">
+        {faqs.map((faq, index) => (
+          <div key={index} className="rounded-lg border p-6">
+            <h2 className="mb-2 text-xl font-semibold">{faq.q}</h2>
+            <p className="text-muted-foreground">{faq.a}</p>
+          </div>
+        ))}
+      </div>
+      <div className="mt-12 text-center">
+        <p className="text-muted-foreground">
+          Still have questions?{' '}
+          <a href="/contact" className="text-primary hover:underline">
+            Contact us
+          </a>
+        </p>
+      </div>
+    </div>
+  )
+}
