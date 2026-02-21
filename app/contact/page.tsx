@@ -144,7 +144,7 @@ export default function ContactPage() {
 
           {/* Support Email Note */}
           <p className="mt-6 text-center text-sm text-muted-foreground">
-            Prefer email? Reach us at <strong>support@averonsoft.com</strong>.
+            Prefer email? Reach us at <strong>slimaye2026@gmail.com</strong>.
           </p>
         </CardContent>
       </Card>
