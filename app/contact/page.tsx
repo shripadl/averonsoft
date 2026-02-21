@@ -42,13 +42,15 @@ export default function ContactPage() {
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-12 sm:px-6 lg:px-8">
+      {/* Header */}
       <div className="mb-8 text-center">
         <h1 className="text-3xl font-bold">Contact Us</h1>
         <p className="mt-2 text-muted-foreground">
-          Have a question? We&apos;d love to hear from you.
+          Have a question or need assistance? Our team is here to help.
         </p>
       </div>
 
+      {/* Contact Card */}
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
@@ -56,18 +58,20 @@ export default function ContactPage() {
             Send us a message
           </CardTitle>
           <CardDescription>
-            Fill out the form below and we&apos;ll get back to you as soon as possible.
+            Fill out the form below and we’ll get back to you as soon as possible.
           </CardDescription>
         </CardHeader>
+
         <CardContent>
           {success && (
             <div className="mb-6 rounded-lg bg-green-50 p-4 text-green-800 dark:bg-green-900 dark:text-green-200">
               <p className="font-medium">Message sent successfully!</p>
-              <p className="text-sm">We&apos;ll get back to you soon.</p>
+              <p className="text-sm">We’ll get back to you shortly.</p>
             </div>
           )}
 
           <form onSubmit={handleSubmit} className="space-y-4">
+            {/* Name + Email */}
             <div className="grid gap-4 md:grid-cols-2">
               <div>
                 <label htmlFor="name" className="block text-sm font-medium mb-2">
@@ -100,6 +104,7 @@ export default function ContactPage() {
               </div>
             </div>
 
+            {/* Subject */}
             <div>
               <label htmlFor="subject" className="block text-sm font-medium mb-2">
                 Subject *
@@ -115,6 +120,7 @@ export default function ContactPage() {
               />
             </div>
 
+            {/* Message */}
             <div>
               <label htmlFor="message" className="block text-sm font-medium mb-2">
                 Message *
@@ -130,10 +136,16 @@ export default function ContactPage() {
               />
             </div>
 
+            {/* Submit */}
             <Button type="submit" disabled={loading} className="w-full" size="lg">
               {loading ? 'Sending...' : 'Send Message'}
             </Button>
           </form>
+
+          {/* Support Email Note */}
+          <p className="mt-6 text-center text-sm text-muted-foreground">
+            Prefer email? Reach us at <strong>support@averonsoft.com</strong>.
+          </p>
         </CardContent>
       </Card>
     </div>

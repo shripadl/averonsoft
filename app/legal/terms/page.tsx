@@ -2,65 +2,89 @@ export default function TermsPage() {
   return (
     <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
       <h1 className="mb-8 text-4xl font-bold">Terms of Service</h1>
+
       <div className="prose prose-gray dark:prose-invert max-w-none">
         <p className="text-muted-foreground">Last updated: February 19, 2026</p>
 
+        <p>
+          These Terms of Service (“Terms”) govern your access to and use of AveronSoft 
+          (“we”, “our”, “us”). By using our services, you agree to be bound by these Terms. 
+          If you do not agree, you must discontinue use of the platform.
+        </p>
+
         <h2>1. Acceptance of Terms</h2>
         <p>
-          By accessing and using AveronSoft, you accept and agree to be bound by these Terms of Service. If you do not agree, please do not use our services.
+          By accessing or using AveronSoft, you confirm that you are at least 18 years old 
+          and legally able to enter into these Terms. If you are using the service on behalf 
+          of an organization, you represent that you have the authority to bind that organization.
         </p>
 
         <h2>2. Description of Service</h2>
         <p>
-          AveronSoft provides URL shortening, bookmark management, and digital business card creation tools. We reserve the right to modify or discontinue any feature at any time.
+          AveronSoft provides professional tools including URL shortening, bookmark management, 
+          and digital business card creation. We may update, modify, or discontinue features 
+          at any time to improve the platform or maintain security.
         </p>
 
         <h2>3. User Accounts</h2>
         <p>
-          You are responsible for maintaining the confidentiality of your account and for all activities that occur under your account. You must notify us immediately of any unauthorized use.
+          You are responsible for maintaining the confidentiality of your account credentials 
+          and for all activity under your account. You agree to notify us immediately of any 
+          unauthorized access or security breach.
+        </p>
+        <p>
+          We reserve the right to refuse service, suspend accounts, or remove content that 
+          violates these Terms or poses a risk to the platform.
         </p>
 
         <h2>4. Acceptable Use</h2>
         <p>You agree not to use AveronSoft to:</p>
         <ul>
-          <li>Violate any laws or regulations</li>
-          <li>Infringe on intellectual property rights</li>
-          <li>Distribute malware or harmful content</li>
-          <li>Engage in spam or phishing activities</li>
-          <li>Harass or harm others</li>
+          <li>Violate any applicable laws or regulations</li>
+          <li>Infringe on intellectual property or privacy rights</li>
+          <li>Upload or distribute malware, harmful code, or malicious content</li>
+          <li>Engage in spam, phishing, or deceptive practices</li>
+          <li>Harass, threaten, or harm others</li>
+          <li>Attempt to bypass security measures or access unauthorized areas</li>
+          <li>Host or share illegal, abusive, or harmful content</li>
         </ul>
 
         <h2>5. Content Ownership</h2>
         <p>
-          You retain ownership of content you create. By using our services, you grant us a license to store, display, and distribute your content as necessary to provide the service.
+          You retain ownership of the content you create using our services. 
+          By using the platform, you grant us a limited license to store, process, 
+          and display your content solely for the purpose of providing the service.
         </p>
 
-        <h2>6. Termination</h2>
+        <h2>6. Payments & Subscriptions</h2>
         <p>
-          We reserve the right to suspend or terminate your account for violations of these terms or for any other reason at our discretion.
+          Paid subscriptions are processed securely through Paddle, our Merchant of Record. 
+          By subscribing, you agree to Paddle’s payment terms, refund policies, and billing practices.
+        </p>
+        <p>
+          Subscription fees may change in the future. Any changes will be communicated in advance.
         </p>
 
-        <h2>7. Disclaimer of Warranties</h2>
+        <h2>7. Termination</h2>
         <p>
-          AveronSoft is provided &quot;as is&quot; without warranties of any kind, either express or implied.
+          We may suspend or terminate your account if you violate these Terms or engage in 
+          activities that harm the platform or other users. You may cancel your subscription 
+          at any time through your account settings.
         </p>
 
-        <h2>8. Limitation of Liability</h2>
+        <h2>8. Disclaimer of Warranties</h2>
         <p>
-          AveronSoft shall not be liable for any indirect, incidental, special, or consequential damages arising from your use of the service.
+          AveronSoft is provided on an “as is” and “as available” basis. 
+          We disclaim all warranties, express or implied, including merchantability, 
+          fitness for a particular purpose, and non‑infringement. 
+          We do not guarantee uninterrupted or error‑free service.
         </p>
 
-        <h2>9. Changes to Terms</h2>
+        <h2>9. Limitation of Liability</h2>
         <p>
-          We may update these terms from time to time. Continued use of the service after changes constitutes acceptance of the new terms.
+          To the fullest extent permitted by law, AveronSoft shall not be liable for any 
+          indirect, incidental, special, consequential, or punitive damages, including loss 
+          of data, revenue, profits, or business opportunities.
         </p>
-
-        <h2>10. Contact</h2>
         <p>
-          For questions about these Terms, contact us at{' '}
-          <a href="/contact" className="text-primary hover:underline">our contact page</a>.
-        </p>
-      </div>
-    </div>
-  )
-}
+          Our total liability for any claim arising from your use of the service shall

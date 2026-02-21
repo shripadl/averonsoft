@@ -11,7 +11,7 @@ export default function PricingPage() {
       name: 'Shortener Pro',
       monthlyPrice: 15,
       annualPrice: 150,
-      description: 'Professional URL shortening with analytics',
+      description: 'Powerful URL shortening with branded links, analytics, and advanced controls.',
       icon: LinkIcon,
       color: 'from-blue-500 to-cyan-500',
       features: [
@@ -27,39 +27,39 @@ export default function PricingPage() {
       name: 'Bookmarks Pro',
       monthlyPrice: 9,
       annualPrice: 90,
-      description: 'Advanced bookmark management',
+      description: 'Organize, search, and share your bookmarks with professional‑grade tools.',
       icon: Bookmark,
       color: 'from-purple-500 to-pink-500',
       features: [
         'Unlimited bookmarks',
         'Unlimited collections',
-        'Full-text search',
-        'Public sharing',
+        'Full‑text search',
+        'Public and private sharing',
         'Team collaboration',
-        'Import/Export',
+        'Import and export tools',
       ],
     },
     {
       name: 'Business Card Pro',
       monthlyPrice: 6,
       annualPrice: 60,
-      description: 'Professional digital business cards',
+      description: 'Create and share modern digital business cards with analytics and branding.',
       icon: CreditCard,
       color: 'from-green-500 to-emerald-500',
       features: [
-        'Unlimited cards',
+        'Unlimited digital cards',
         'Custom templates',
         'QR code generation',
-        'View analytics',
+        'View engagement analytics',
         'Custom branding',
-        'Lead capture',
+        'Lead capture tools',
       ],
     },
     {
       name: 'Suite Bundle',
       monthlyPrice: 25,
       annualPrice: 250,
-      description: 'All tools at a discounted price',
+      description: 'Access the full AveronSoft suite with premium features and priority support.',
       icon: Sparkles,
       color: 'from-orange-500 to-red-500',
       features: [
@@ -68,14 +68,13 @@ export default function PricingPage() {
         'All Business Card Pro features',
         'Priority support',
         'Early access to new features',
-        'Save 17% vs individual plans',
+        'Save 17% compared to individual plans',
       ],
       popular: true,
     },
   ]
 
   const handleCheckout = (planName: string, isAnnual: boolean) => {
-    // Paddle checkout would be implemented here
     alert(`Checkout for ${planName} (${isAnnual ? 'Annual' : 'Monthly'}) - Paddle integration pending`)
   }
 
@@ -91,7 +90,7 @@ export default function PricingPage() {
           Choose Your Plan
         </h1>
         <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-          All plans include a 14-day free trial. No credit card required.
+          All plans include a 14‑day free trial. No credit card required.
         </p>
       </div>
 
@@ -176,58 +175,4 @@ export default function PricingPage() {
           <div className="space-y-2">
             <h3 className="font-semibold">Can I switch plans?</h3>
             <p className="text-sm text-muted-foreground">
-              Yes, you can upgrade or downgrade your plan at any time. Changes take effect immediately.
-            </p>
-          </div>
-          <div className="space-y-2">
-            <h3 className="font-semibold">What payment methods do you accept?</h3>
-            <p className="text-sm text-muted-foreground">
-              We accept all major credit cards through Paddle, our secure payment processor.
-            </p>
-          </div>
-          <div className="space-y-2">
-            <h3 className="font-semibold">Is there a free trial?</h3>
-            <p className="text-sm text-muted-foreground">
-              Yes! All plans include a 14-day free trial. No credit card required to start.
-            </p>
-          </div>
-          <div className="space-y-2">
-            <h3 className="font-semibold">Can I cancel anytime?</h3>
-            <p className="text-sm text-muted-foreground">
-              Absolutely. Cancel anytime with no questions asked. Your access continues until the end of your billing period.
-            </p>
-          </div>
-        </div>
-      </div>
-
-      {/* CTA Section */}
-      <div className="mt-20">
-        <div className="relative overflow-hidden rounded-3xl border bg-gradient-to-br from-primary/10 via-background to-primary/5 p-12 text-center">
-          <div className="absolute inset-0 -z-10 opacity-20">
-            <div className="absolute left-1/4 top-0 h-64 w-64 rounded-full bg-primary blur-3xl" />
-            <div className="absolute right-1/4 bottom-0 h-64 w-64 rounded-full bg-primary blur-3xl" />
-          </div>
-          
-          <div className="space-y-6">
-            <h2 className="text-3xl font-bold">Still have questions?</h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
-              Our team is here to help. Contact us for custom plans or enterprise solutions.
-            </p>
-            <Link href="/contact">
-              <Button size="lg">Contact Sales</Button>
-            </Link>
-          </div>
-        </div>
-      </div>
-
-      {/* Footer Note */}
-      <div className="mt-12 text-center text-sm text-muted-foreground">
-        <p>
-          All plans include a 14-day free trial. No credit card required.
-          <br />
-          Billing is handled securely by Paddle. Cancel anytime.
-        </p>
-      </div>
-    </div>
-  )
-}
+              Yes. You can upgrade or downgrade at any time. Changes take effect immediately
