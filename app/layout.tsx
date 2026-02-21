@@ -6,6 +6,7 @@ import { Footer } from "@/components/navigation/footer";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { CookieConsent } from "@/components/cookie-consent";
 import { Toaster } from "sonner";
+import { Analytics } from "@vercel/analytics/react";
 
 const fontSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -14,10 +15,11 @@ const fontSans = Plus_Jakarta_Sans({
 
 export const metadata: Metadata = {
   title: "AveronSoft - Professional Tools for Modern Professionals",
-  description: "Shorten URLs, manage bookmarks, and create digital business cards with AveronSoft.",
-  robots: { 
-    index: true, 
-    follow: true, 
+  description:
+    "Shorten URLs, manage bookmarks, and create digital business cards with AveronSoft.",
+  robots: {
+    index: true,
+    follow: true,
   },
 };
 
@@ -41,7 +43,11 @@ export default function RootLayout({
             <Footer />
             <CookieConsent />
           </div>
+
           <Toaster position="top-right" richColors />
+
+          {/* Vercel Analytics */}
+          <Analytics />
         </ThemeProvider>
       </body>
     </html>
