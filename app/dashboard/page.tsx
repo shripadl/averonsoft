@@ -3,7 +3,8 @@ import { redirect } from 'next/navigation'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
-import { Link as LinkIcon, Bookmark, CreditCard, LogOut } from 'lucide-react'
+import { Link as LinkIcon, Bookmark, CreditCard } from 'lucide-react'
+import { LogoutButton } from "@/app/components/LogoutButton"
 
 export default async function DashboardPage() {
   const supabase = await createClient()
@@ -38,12 +39,9 @@ export default async function DashboardPage() {
             Welcome back, {user.email}
           </p>
         </div>
-        <form action="/auth/signout" method="post">
-          <Button variant="secondary" type="submit">
-            <LogOut className="mr-2 h-4 w-4" />
-            Sign Out
-          </Button>
-        </form>
+
+        {/* Correct logout button */}
+        <LogoutButton />
       </div>
 
       {/* Stats Grid */}
