@@ -15,6 +15,10 @@ const fontSans = Plus_Jakarta_Sans({
 export const metadata: Metadata = {
   title: "AveronSoft - Professional Tools for Modern Professionals",
   description: "Shorten URLs, manage bookmarks, and create digital business cards with AveronSoft.",
+  robots: { 
+    index: false, 
+    follow: false, 
+  },
 };
 
 export default function RootLayout({
