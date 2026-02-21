@@ -151,28 +151,3 @@ export default function PricingPage() {
                     Start Monthly Trial
                   </Button>
                   <Button
-                    onClick={() => handleCheckout(plan.name, true)}
-                    className="w-full"
-                    variant="secondary"
-                  >
-                    Start Annual Trial
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-          )
-        })}
-      </div>
-
-      {/* FAQ Section */}
-      <div className="mt-20 border-t pt-20">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold mb-4">Frequently Asked Questions</h2>
-          <p className="text-muted-foreground">Everything you need to know about our pricing</p>
-        </div>
-
-        <div className="grid gap-8 md:grid-cols-2 max-w-4xl mx-auto">
-          <div className="space-y-2">
-            <h3 className="font-semibold">Can I switch plans?</h3>
-            <p className="text-sm text-muted-foreground">
-              Yes. You can upgrade or downgrade at any time. Changes take effect immediately
