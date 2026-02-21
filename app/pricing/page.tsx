@@ -80,6 +80,7 @@ export default function PricingPage() {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+      
       {/* Header */}
       <div className="mb-16 text-center">
         <div className="inline-flex items-center rounded-full border bg-muted px-3 py-1 text-sm mb-4">
@@ -150,4 +151,90 @@ export default function PricingPage() {
                   >
                     Start Monthly Trial
                   </Button>
+
                   <Button
+                    onClick={() => handleCheckout(plan.name, true)}
+                    className="w-full"
+                    variant="secondary"
+                  >
+                    Start Annual Trial
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          )
+        })}
+      </div>
+
+      {/* FAQ Section */}
+      <div className="mt-20 border-t pt-20">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl font-bold mb-4">Frequently Asked Questions</h2>
+          <p className="text-muted-foreground">Everything you need to know about our pricing</p>
+        </div>
+
+        <div className="grid gap-8 md:grid-cols-2 max-w-4xl mx-auto">
+          
+          <div className="space-y-2">
+            <h3 className="font-semibold">Can I switch plans?</h3>
+            <p className="text-sm text-muted-foreground">
+              Yes. You can upgrade or downgrade at any time. Changes take effect immediately.
+            </p>
+          </div>
+
+          <div className="space-y-2">
+            <h3 className="font-semibold">What payment methods do you accept?</h3>
+            <p className="text-sm text-muted-foreground">
+              All payments are securely processed by Paddle, our Merchant of Record. We accept major credit cards and regional payment methods supported by Paddle.
+            </p>
+          </div>
+
+          <div className="space-y-2">
+            <h3 className="font-semibold">Is there a free trial?</h3>
+            <p className="text-sm text-muted-foreground">
+              Yes — every plan includes a 14‑day free trial with full access. No credit card required to start.
+            </p>
+          </div>
+
+          <div className="space-y-2">
+            <h3 className="font-semibold">Can I cancel anytime?</h3>
+            <p className="text-sm text-muted-foreground">
+              Yes. You can cancel at any time. Your access continues until the end of your billing period.
+            </p>
+          </div>
+
+        </div>
+      </div>
+
+      {/* CTA Section */}
+      <div className="mt-20">
+        <div className="relative overflow-hidden rounded-3xl border bg-gradient-to-br from-primary/10 via-background to-primary/5 p-12 text-center">
+          <div className="absolute inset-0 -z-10 opacity-20">
+            <div className="absolute left-1/4 top-0 h-64 w-64 rounded-full bg-primary blur-3xl" />
+            <div className="absolute right-1/4 bottom-0 h-64 w-64 rounded-full bg-primary blur-3xl" />
+          </div>
+          
+          <div className="space-y-6">
+            <h2 className="text-3xl font-bold">Still have questions?</h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              Our team is here to help. Contact us for custom plans, team accounts, or enterprise solutions.
+            </p>
+            <Link href="/contact">
+              <Button size="lg">Contact Sales</Button>
+            </Link>
+          </div>
+        </div>
+      </div>
+
+      {/* Footer Note */}
+      <div className="mt-12 text-center text-sm text-muted-foreground">
+        <p>
+          All plans include a 14‑day free trial. No credit card required.
+          <br />
+          Billing is handled securely by Paddle. Cancel anytime.
+        </p>
+      </div>
+
+    </div>
+  )
+}
