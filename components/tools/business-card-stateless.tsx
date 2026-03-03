@@ -71,7 +71,7 @@ export function BusinessCardStateless() {
       backgroundColor: '#ffffff',
       logging: false,
       // Skip SVGs - Lucide icons can trigger "lab" color parse errors in html2canvas
-      ignoreElements: (node) => node.tagName === 'svg' || node.closest?.('svg'),
+      ignoreElements: (node) => node.tagName === 'svg' || !!node.closest?.('svg'),
     })
   }
 
