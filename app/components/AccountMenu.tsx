@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { LogOut, Settings, User, CreditCard, Trash } from "lucide-react"
+import { LogOut, Settings, User, CreditCard, Trash, LayoutDashboard } from "lucide-react"
 import { LogoutButton } from "@/app/components/LogoutButton"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
@@ -27,6 +27,12 @@ export function AccountMenu({ email }: { email: string }) {
           </div>
 
           <div className="p-1">
+            <Link href="/dashboard">
+              <Button variant="ghost" className="w-full justify-start">
+                <LayoutDashboard className="mr-2 h-4 w-4" />
+                Dashboard
+              </Button>
+            </Link>
             <Link href="/account">
               <Button variant="ghost" className="w-full justify-start">
                 <Settings className="mr-2 h-4 w-4" />

@@ -1,21 +1,23 @@
 import Link from 'next/link'
+import { getToolSettings, getVisibleTools } from '@/lib/tool-settings'
 
-export function Footer() {
+export async function Footer() {
+  const toolSettings = await getToolSettings()
+  const visibleTools = getVisibleTools(toolSettings)
+
+  const productLinks = [
+    ...visibleTools.map(t => ({ name: t.name, href: t.href })),
+  ]
+
   const footerSections = [
     {
-      title: 'Product',
-      links: [
-        { name: 'URL Shortener', href: '/tools/shortener' },
-        { name: 'Bookmark Manager', href: '/tools/bookmarks' },
-        { name: 'Business Card', href: '/tools/business-card' },
-        { name: 'Pricing', href: '/pricing' },
-      ],
+      title: 'Tools',
+      links: productLinks.length > 0 ? productLinks : [{ name: 'Home', href: '/' }],
     },
     {
-      title: 'Company',
+      title: 'Info',
       links: [
         { name: 'About', href: '/about' },
-        { name: 'FAQ', href: '/faq' },
         { name: 'Contact', href: '/contact' },
       ],
     },
@@ -43,7 +45,7 @@ export function Footer() {
               <span className="text-lg font-bold text-foreground">AveronSoft</span>
             </Link>
             <p className="text-sm text-muted-foreground max-w-xs">
-              Professional tools for modern professionals. Streamline your digital workflow.
+              Fast, minimal online utilities. No signup required for most tools.
             </p>
           </div>
 

@@ -4,7 +4,7 @@ import { createServiceClient } from '@/lib/supabase/server'
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    const supabase = await createServiceClient()
+    const supabase = createServiceClient()
 
     // Verify Paddle webhook signature (implement based on Paddle docs)
     // For now, this is a placeholder

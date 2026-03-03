@@ -23,26 +23,13 @@ export default function SignupPage() {
     syncUser()
   }, [])
 
-  const handleGoogleSignUp = async () => {
+  const handleGoogleSignUp = () => {
     if (!accepted) {
       alert('Please accept the Terms of Service to continue')
       return
     }
-
     setLoading(true)
-    try {
-      const { error } = await supabase.auth.signInWithOAuth({
-        provider: 'google',
-        options: {
-          redirectTo: `${window.location.origin}/auth/callback`,
-        },
-      })
-      if (error) throw error
-    } catch (error) {
-      console.error('Error signing up:', error)
-      alert('Error signing up. Please try again.')
-      setLoading(false)
-    }
+    window.location.href = '/auth/google'
   }
 
   return (

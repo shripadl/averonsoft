@@ -2,43 +2,11 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { Check, Link as LinkIcon, Bookmark, CreditCard, Sparkles } from 'lucide-react'
+import { Check, CreditCard, Sparkles } from 'lucide-react'
 import Link from 'next/link'
 
 export default function PricingPage() {
   const plans = [
-    {
-      name: 'Shortener Pro',
-      monthlyPrice: 15,
-      annualPrice: 150,
-      description: 'Powerful URL shortening with branded links, analytics, and advanced controls.',
-      icon: LinkIcon,
-      color: 'from-blue-500 to-cyan-500',
-      features: [
-        'Unlimited short links',
-        'Custom domains',
-        'Advanced analytics',
-        'QR code generation',
-        'Link expiration',
-        'Password protection',
-      ],
-    },
-    {
-      name: 'Bookmarks Pro',
-      monthlyPrice: 9,
-      annualPrice: 90,
-      description: 'Organize, search, and share your bookmarks with professional‑grade tools.',
-      icon: Bookmark,
-      color: 'from-purple-500 to-pink-500',
-      features: [
-        'Unlimited bookmarks',
-        'Unlimited collections',
-        'Full‑text search',
-        'Public and private sharing',
-        'Team collaboration',
-        'Import and export tools',
-      ],
-    },
     {
       name: 'Business Card Pro',
       monthlyPrice: 6,
@@ -57,18 +25,15 @@ export default function PricingPage() {
     },
     {
       name: 'Suite Bundle',
-      monthlyPrice: 25,
-      annualPrice: 250,
+      monthlyPrice: 10,
+      annualPrice: 100,
       description: 'Access the full AveronSoft suite with premium features and priority support.',
       icon: Sparkles,
       color: 'from-orange-500 to-red-500',
       features: [
-        'All Shortener Pro features',
-        'All Bookmarks Pro features',
         'All Business Card Pro features',
         'Priority support',
         'Early access to new features',
-        'Save 17% compared to individual plans',
       ],
       popular: true,
     },

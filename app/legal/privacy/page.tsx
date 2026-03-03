@@ -18,7 +18,7 @@ export default function PrivacyPolicyPage() {
         <h3>A. Information you provide</h3>
         <ul>
           <li>Account information (email, name) via Google Sign-In</li>
-          <li>Content you create (short URLs, bookmarks, business cards)</li>
+          <li>Content you create (business cards, code files, audio projects)</li>
         </ul>
 
         <h3>B. Automatically collected information</h3>

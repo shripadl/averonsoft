@@ -1,6 +1,8 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
+const ADMIN_ROLES = ['admin', 'super_admin', 'support']
+
 export async function middleware(request: NextRequest) {
   let supabaseResponse = NextResponse.next({
     request,
@@ -15,7 +17,7 @@ export async function middleware(request: NextRequest) {
           return request.cookies.getAll()
         },
         setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value, options }) => request.cookies.set(name, value))
+          cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value))
           supabaseResponse = NextResponse.next({
             request,
           })
@@ -31,18 +33,50 @@ export async function middleware(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser()
 
-  // Protected routes
-  const protectedRoutes = ['/dashboard', '/admin', '/tools']
-  const isProtectedRoute = protectedRoutes.some(route => 
-    request.nextUrl.pathname.startsWith(route)
+  // Stateless tools - no login required
+  const publicToolPaths = ['/tools/character-counter', '/tools/business-card']
+  const isPublicTool = publicToolPaths.some(path =>
+    request.nextUrl.pathname === path || request.nextUrl.pathname.startsWith(path + '/')
   )
 
+  // Protected routes (excluding public tools)
+  const protectedRoutes = ['/dashboard', '/admin', '/super-admin']
+  const isProtectedRoute = protectedRoutes.some(route =>
+    request.nextUrl.pathname.startsWith(route)
+  )
+  const isProtectedTool = request.nextUrl.pathname.startsWith('/tools') && !isPublicTool
+
   // Redirect to login if accessing protected route without auth
-  if (isProtectedRoute && !user) {
+  if ((isProtectedRoute || isProtectedTool) && !user) {
     const url = request.nextUrl.clone()
     url.pathname = '/login'
     url.searchParams.set('redirect', request.nextUrl.pathname)
     return NextResponse.redirect(url)
+  }
+
+  // Admin routes and banned check: fetch profile once for protected routes
+  const isAdminRoute = request.nextUrl.pathname.startsWith('/admin')
+  if ((isProtectedRoute || isAdminRoute) && user) {
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('role, banned')
+      .eq('id', user.id)
+      .single()
+
+    const role = profile?.role || 'user'
+    const banned = profile?.banned === true
+
+    if (banned) {
+      const url = request.nextUrl.clone()
+      url.pathname = '/login'
+      return NextResponse.redirect(url)
+    }
+
+    if (isAdminRoute && !ADMIN_ROLES.includes(role)) {
+      const url = request.nextUrl.clone()
+      url.pathname = '/dashboard'
+      return NextResponse.redirect(url)
+    }
   }
 
   // Redirect to dashboard if logged in and accessing login/signup

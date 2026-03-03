@@ -14,9 +14,9 @@ const fontSans = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "AveronSoft - Professional Tools for Modern Professionals",
+  title: "Averonsoft Tools - Fast, minimal online utilities",
   description:
-    "Shorten URLs, manage bookmarks, and create digital business cards with AveronSoft.",
+    "A small collection of high-quality online tools. No signup required. No data stored. Minimal and focused.",
   robots: {
     index: true,
     follow: true,

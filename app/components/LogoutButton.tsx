@@ -4,9 +4,8 @@ import { Button } from "@/components/ui/button"
 import { LogOut } from "lucide-react"
 
 export function LogoutButton() {
-  const handleLogout = async () => {
-    await fetch("/auth/signout", { method: "POST" })
-    window.location.href = "/"
+  const handleLogout = () => {
+    window.location.href = "/auth/signout"
   }
 
   return (

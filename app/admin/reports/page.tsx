@@ -1,20 +1,12 @@
 import { createClient } from '@/lib/supabase/server'
-import { redirect } from 'next/navigation'
+import { requireAdmin } from '@/lib/admin'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { formatDateTime } from '@/lib/utils'
 
-const ADMIN_EMAILS = ['slimaye2026@gmail.com']
-
 export default async function AdminReportsPage() {
-  const supabase = await createClient()
-  
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
+  await requireAdmin('readonly')
 
-  if (!user || !ADMIN_EMAILS.includes(user.email || '')) {
-    redirect('/')
-  }
+  const supabase = await createClient()
 
   const { data: reports } = await supabase
     .from('abuse_reports')

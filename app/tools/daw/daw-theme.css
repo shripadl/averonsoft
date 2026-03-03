@@ -1,0 +1,110 @@
+/**
+ * AVERONSOFT DAW — Theme & Visual Design
+ * BandLab / Soundation / Soundtrap style
+ * Uses CSS variables for consistent theming
+ */
+
+/* DAW workspace scope - applied to .daw-workspace container */
+.daw-workspace {
+  /* Theme colors - warmer, more distinct palette */
+  --daw-bg: 12 12 16;
+  --daw-bg-elevated: 20 20 28;
+  --daw-bg-panel: 24 24 32;
+  --daw-bg-hover: 36 36 48;
+  --daw-bg-active: 44 44 56;
+  --daw-border: 255 255 255 / 0.08;
+  --daw-border-strong: 255 255 255 / 0.15;
+  --daw-text: 255 255 255 / 0.98;
+  --daw-text-secondary: 255 255 255 / 0.75;
+  --daw-text-muted: 255 255 255 / 0.5;
+  --daw-accent: 251 191 36;
+  --daw-accent-hover: 253 224 71;
+  --daw-record: 239 68 68;
+  --daw-record-hover: 248 113 113;
+  --daw-play: 34 197 94;
+  --daw-play-hover: 74 222 128;
+  --daw-track-colors: 99 102 241, 139 92 246, 236 72 153, 244 63 94, 249 115 22, 234 179 8, 34 197 94, 20 184 166;
+  
+  /* Spacing */
+  --daw-space-xs: 2px;
+  --daw-space-sm: 4px;
+  --daw-space-md: 8px;
+  --daw-space-lg: 12px;
+  --daw-space-xl: 16px;
+  --daw-space-2xl: 24px;
+  
+  /* Transitions */
+  --daw-transition-fast: 120ms ease;
+  --daw-transition: 180ms ease;
+  --daw-transition-slow: 250ms ease;
+  
+  /* Shadows - more pronounced */
+  --daw-shadow-sm: 0 2px 4px rgb(0 0 0 / 0.4);
+  --daw-shadow: 0 4px 12px rgb(0 0 0 / 0.5);
+  --daw-shadow-lg: 0 8px 32px rgb(0 0 0 / 0.6);
+  --daw-shadow-inner: inset 0 1px 3px rgb(0 0 0 / 0.3);
+  
+  /* Typography - Inter for DAW (via next/font variable) */
+  font-family: var(--font-daw), "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  
+  /* Base - visible gradient + accent top border */
+  background: linear-gradient(165deg, rgb(18 18 24) 0%, rgb(8 8 12) 50%, rgb(4 4 8) 100%);
+  color: rgb(var(--daw-text));
+  box-shadow: var(--daw-shadow-lg);
+  border: 1px solid rgb(var(--daw-border-strong));
+  border-top: 3px solid rgb(var(--daw-accent) / 0.6);
+}
+
+/* Panels - distinct card look with depth */
+.daw-workspace .daw-panel {
+  background: linear-gradient(180deg, rgb(var(--daw-bg-panel) / 0.95) 0%, rgb(var(--daw-bg-elevated) / 0.9) 100%);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgb(var(--daw-border));
+  box-shadow: var(--daw-shadow-sm), inset 0 1px 0 rgb(255 255 255 / 0.04);
+}
+
+.daw-workspace .daw-button {
+  transition: background-color var(--daw-transition-fast), color var(--daw-transition-fast), transform var(--daw-transition-fast);
+}
+
+.daw-workspace .daw-button:hover {
+  background: rgb(var(--daw-bg-hover));
+}
+
+.daw-workspace .daw-button:active {
+  transform: scale(0.98);
+}
+
+/* Custom scrollbar for DAW */
+.daw-workspace ::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+.daw-workspace ::-webkit-scrollbar-track {
+  background: rgb(var(--daw-bg));
+}
+
+.daw-workspace ::-webkit-scrollbar-thumb {
+  background: rgb(var(--daw-bg-active));
+  border-radius: 5px;
+  border: 2px solid rgb(var(--daw-bg));
+}
+
+.daw-workspace ::-webkit-scrollbar-thumb:hover {
+  background: rgb(var(--daw-text-muted));
+}
+
+/* Focus ring */
+.daw-workspace *:focus-visible {
+  outline: 2px solid rgb(var(--daw-accent) / 0.6);
+  outline-offset: 2px;
+}
+
+/* Range inputs - accent color */
+.daw-workspace input[type="range"] {
+  accent-color: rgb(var(--daw-accent));
+}
