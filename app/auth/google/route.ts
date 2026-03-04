@@ -1,12 +1,12 @@
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { generatePKCEVerifier, generatePKCEChallenge, generateState } from '@/lib/pkce'
 import { setPKCEVerifierCookie, setOAuthStateCookie } from '@/lib/cookies'
 import { buildGoogleAuthUrl } from '@/lib/google-oauth'
 import { getBaseUrl } from '@/lib/base-url'
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
-    const baseUrl = getBaseUrl()
+    const baseUrl = getBaseUrl(request)
     const verifier = generatePKCEVerifier()
     const challenge = await generatePKCEChallenge(verifier)
     const state = generateState()
@@ -28,7 +28,7 @@ export async function GET() {
     return response
   } catch (error) {
     console.error('Google OAuth start error:', error)
-    return NextResponse.redirect(`${getBaseUrl()}/login?error=oauth_start_failed`, {
+    return NextResponse.redirect(`${getBaseUrl(request)}/login?error=oauth_start_failed`, {
       status: 302,
     })
   }

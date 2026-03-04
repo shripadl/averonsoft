@@ -22,7 +22,7 @@ export async function GET(request: NextRequest) {
   const safeRedirect =
     redirectTo && redirectTo.startsWith('/') ? redirectTo : '/dashboard'
 
-  const baseUrl = getBaseUrl()
+  const baseUrl = getBaseUrl(request)
 
   const clearAuthCookies = (response: NextResponse) => {
     response.headers.append('Set-Cookie', clearCookie('pkce_verifier'))
