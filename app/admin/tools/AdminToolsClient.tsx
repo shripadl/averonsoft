@@ -6,7 +6,9 @@ import { Loader2 } from 'lucide-react'
 import { toast } from 'sonner'
 
 const TOOLS = [
+  { id: 'pdfconverter', name: 'PDF Converter', key: 'pdfconverter' },
   { id: 'charactercounter', name: 'Character Counter', key: 'charactercounter' },
+  { id: 'jsonformatter', name: 'JSON Formatter', key: 'jsonformatter' },
   { id: 'businesscard', name: 'Business Card', key: 'businesscard' },
   { id: 'aiworkspace', name: 'AI Code Workspace', key: 'aiworkspace' },
   { id: 'daw', name: 'DAW', key: 'daw' },

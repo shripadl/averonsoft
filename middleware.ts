@@ -34,7 +34,7 @@ export async function middleware(request: NextRequest) {
   } = await supabase.auth.getUser()
 
   // Stateless tools - no login required
-  const publicToolPaths = ['/tools/character-counter', '/tools/business-card']
+  const publicToolPaths = ['/tools/pdf-converter', '/tools/character-counter', '/tools/json-formatter', '/tools/business-card']
   const isPublicTool = publicToolPaths.some(path =>
     request.nextUrl.pathname === path || request.nextUrl.pathname.startsWith(path + '/')
   )

@@ -1,0 +1,1 @@
+{"name":"Averonsoft Tools","version":"1.0","tools":[{"id":"pdfconverter","features":["image-to-pdf","text-to-pdf","merge","split","compress"]},{"id":"jsonformatter","features":["format","minify","validate"]}],"settings":{"theme":"auto","locale":"en-US"},"stats":{"users":12500,"conversions":98000},"nested":{"a":1,"b":true,"c":null,"d":[1,2,3],"e":{"inner":"value"}}}

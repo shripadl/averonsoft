@@ -3,12 +3,14 @@ import { redirect } from 'next/navigation'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
-import { CreditCard, Code2, Music, Hash } from 'lucide-react'
+import { CreditCard, Code2, Music, Hash, FileText, Braces } from 'lucide-react'
 import { LogoutButton } from "@/app/components/LogoutButton"
 import { getToolSettings, getVisibleTools } from '@/lib/tool-settings'
 
 const TOOL_ICONS: Record<string, typeof CreditCard> = {
+  pdfconverter: FileText,
   charactercounter: Hash,
+  jsonformatter: Braces,
   businesscard: CreditCard,
   aiworkspace: Code2,
   daw: Music,
@@ -79,7 +81,9 @@ export default async function DashboardPage() {
           {visibleTools.map((tool) => {
             const Icon = TOOL_ICONS[tool.key] ?? Hash
             const descriptions: Record<string, string> = {
+              pdfconverter: 'Convert images, text to PDF. Merge, split, compress.',
               charactercounter: 'Count characters, words, sentences, and paragraphs',
+              jsonformatter: 'Format, minify, and validate JSON.',
               businesscard: 'Create a card and export as PNG or PDF. No data stored.',
               aiworkspace: 'Mini-IDE with Monaco editor and AI assistant',
               daw: 'Record, mix, and export audio',

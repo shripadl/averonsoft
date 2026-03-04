@@ -1,5 +1,32 @@
 import { getToolSettings, getVisibleTools } from '@/lib/tool-settings'
 import Link from 'next/link'
+import {
+  FileText,
+  Hash,
+  Braces,
+  CreditCard,
+  Code2,
+  Music,
+  ChevronRight,
+} from 'lucide-react'
+
+const TOOL_DESCRIPTIONS: Record<string, string> = {
+  pdfconverter: 'Convert images, text to PDF. Merge, split, compress. All in your browser.',
+  charactercounter: 'Count characters, words, sentences, and paragraphs.',
+  jsonformatter: 'Format, minify, and validate JSON. All in your browser.',
+  businesscard: 'Create a card, preview it, and export as PNG or PDF. No data stored.',
+  aiworkspace: 'Code with Monaco editor and AI assistant.',
+  daw: 'Record, mix, and export audio.',
+}
+
+const TOOL_ICONS: Record<string, typeof FileText> = {
+  pdfconverter: FileText,
+  charactercounter: Hash,
+  jsonformatter: Braces,
+  businesscard: CreditCard,
+  aiworkspace: Code2,
+  daw: Music,
+}
 
 export default async function HomePage() {
   const toolSettings = await getToolSettings()
@@ -22,22 +49,31 @@ export default async function HomePage() {
         <h2 className="sr-only">Tools</h2>
         {visibleTools.length > 0 ? (
           <ul className="space-y-4">
-            {visibleTools.map((tool) => (
-              <li key={tool.key}>
-                <Link
-                  href={tool.href}
-                  className="block rounded-lg border border-border bg-card p-6 transition-colors hover:border-primary/30 hover:bg-muted/50"
-                >
-                  <span className="font-medium text-foreground">{tool.name}</span>
-                  <p className="mt-1 text-sm text-muted-foreground">
-                    {tool.key === 'charactercounter' && 'Count characters, words, sentences, and paragraphs.'}
-                    {tool.key === 'businesscard' && 'Create a card, preview it, and export as PNG or PDF. No data stored.'}
-                    {tool.key === 'aiworkspace' && 'Code with Monaco editor and AI assistant.'}
-                    {tool.key === 'daw' && 'Record, mix, and export audio.'}
-                  </p>
-                </Link>
-              </li>
-            ))}
+            {visibleTools.map((tool) => {
+              const Icon = TOOL_ICONS[tool.key] ?? FileText
+              const description = TOOL_DESCRIPTIONS[tool.key] ?? ''
+              return (
+                <li key={tool.key}>
+                  <Link
+                    href={tool.href}
+                    className="group flex items-center gap-5 rounded-xl border border-border bg-card p-6 shadow-sm transition-all duration-200 hover:border-primary/25 hover:bg-card hover:shadow-md"
+                  >
+                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary transition-colors group-hover:bg-primary/15">
+                      <Icon className="h-6 w-6" />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <span className="font-semibold text-foreground group-hover:text-primary transition-colors">
+                        {tool.name}
+                      </span>
+                      <p className="mt-0.5 text-sm text-muted-foreground">
+                        {description}
+                      </p>
+                    </div>
+                    <ChevronRight className="h-5 w-5 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5 group-hover:text-primary" />
+                  </Link>
+                </li>
+              )
+            })}
           </ul>
         ) : (
           <p className="text-muted-foreground">

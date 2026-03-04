@@ -1,6 +1,6 @@
 import { createServiceClient } from '@/lib/supabase/server'
 
-export const TOOL_KEYS = ['charactercounter', 'businesscard', 'aiworkspace', 'daw'] as const
+export const TOOL_KEYS = ['pdfconverter', 'charactercounter', 'jsonformatter', 'businesscard', 'aiworkspace', 'daw'] as const
 export type ToolKey = (typeof TOOL_KEYS)[number]
 
 export interface ToolConfig {
@@ -10,7 +10,9 @@ export interface ToolConfig {
 }
 
 export const TOOL_CONFIG: ToolConfig[] = [
+  { key: 'pdfconverter', name: 'PDF Converter', href: '/tools/pdf-converter' },
   { key: 'charactercounter', name: 'Character Counter', href: '/tools/character-counter' },
+  { key: 'jsonformatter', name: 'JSON Formatter', href: '/tools/json-formatter' },
   { key: 'businesscard', name: 'Business Card', href: '/tools/business-card' },
   { key: 'aiworkspace', name: 'AI Code Workspace', href: '/tools/ai-workspace' },
   { key: 'daw', name: 'DAW', href: '/tools/daw' },
