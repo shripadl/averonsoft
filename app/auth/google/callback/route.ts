@@ -6,11 +6,7 @@ import {
   clearCookie,
 } from '@/lib/cookies'
 import { exchangeCodeForTokens } from '@/lib/google-oauth'
-
-const BASE_URL =
-  process.env.NEXT_PUBLIC_APP_URL ||
-  process.env.NEXT_PUBLIC_URL ||
-  'http://localhost:3000'
+import { getBaseUrl } from '@/lib/base-url'
 
 export async function GET(request: NextRequest) {
   const url = new URL(request.url)
@@ -26,6 +22,8 @@ export async function GET(request: NextRequest) {
   const safeRedirect =
     redirectTo && redirectTo.startsWith('/') ? redirectTo : '/dashboard'
 
+  const baseUrl = getBaseUrl()
+
   const clearAuthCookies = (response: NextResponse) => {
     response.headers.append('Set-Cookie', clearCookie('pkce_verifier'))
     response.headers.append('Set-Cookie', clearCookie('oauth_state'))
@@ -34,7 +32,7 @@ export async function GET(request: NextRequest) {
 
   if (error) {
     const res = NextResponse.redirect(
-      `${BASE_URL}/login?error=oauth_denied`,
+      `${baseUrl}/login?error=oauth_denied`,
       { status: 302 }
     )
     return clearAuthCookies(res)
@@ -42,7 +40,7 @@ export async function GET(request: NextRequest) {
 
   if (!state || !storedState || state !== storedState) {
     const res = NextResponse.redirect(
-      `${BASE_URL}/login?error=invalid_state`,
+      `${baseUrl}/login?error=invalid_state`,
       { status: 302 }
     )
     return clearAuthCookies(res)
@@ -50,7 +48,7 @@ export async function GET(request: NextRequest) {
 
   if (!code) {
     const res = NextResponse.redirect(
-      `${BASE_URL}/login?error=missing_code`,
+      `${baseUrl}/login?error=missing_code`,
       { status: 302 }
     )
     return clearAuthCookies(res)
@@ -58,14 +56,14 @@ export async function GET(request: NextRequest) {
 
   if (!pkceVerifier) {
     const res = NextResponse.redirect(
-      `${BASE_URL}/login?error=invalid_state`,
+      `${baseUrl}/login?error=invalid_state`,
       { status: 302 }
     )
     return clearAuthCookies(res)
   }
 
   try {
-    const redirectUri = `${BASE_URL}/auth/google/callback`
+    const redirectUri = `${baseUrl}/auth/google/callback`
     const tokens = await exchangeCodeForTokens(code, pkceVerifier, redirectUri)
 
     if (!tokens.id_token) {
@@ -81,20 +79,20 @@ export async function GET(request: NextRequest) {
     if (error) {
       console.error('Supabase signInWithIdToken error:', error)
       const res = NextResponse.redirect(
-        `${BASE_URL}/login?error=oauth_failed`,
+        `${baseUrl}/login?error=oauth_failed`,
         { status: 302 }
       )
       return clearAuthCookies(res)
     }
 
-    const res = NextResponse.redirect(`${BASE_URL}${safeRedirect}`, {
+    const res = NextResponse.redirect(`${baseUrl}${safeRedirect}`, {
       status: 302,
     })
     return clearAuthCookies(res)
   } catch (err) {
     console.error('Google OAuth callback error:', err)
     const res = NextResponse.redirect(
-      `${BASE_URL}/login?error=oauth_failed`,
+      `${baseUrl}/login?error=oauth_failed`,
       { status: 302 }
     )
     return clearAuthCookies(res)
