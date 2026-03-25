@@ -1,6 +1,15 @@
 import { createServiceClient } from '@/lib/supabase/server'
 
-export const TOOL_KEYS = ['pdfconverter', 'charactercounter', 'jsonformatter', 'businesscard', 'aiworkspace', 'daw'] as const
+export const TOOL_KEYS = [
+  'pdfconverter',
+  'charactercounter',
+  'jsonformatter',
+  'smartimageresizer',
+  'businesscard',
+  'aiworkspace',
+  'daw',
+  'regexexplainer',
+] as const
 export type ToolKey = (typeof TOOL_KEYS)[number]
 
 export interface ToolConfig {
@@ -13,9 +22,11 @@ export const TOOL_CONFIG: ToolConfig[] = [
   { key: 'pdfconverter', name: 'PDF Converter', href: '/tools/pdf-converter' },
   { key: 'charactercounter', name: 'Character Counter', href: '/tools/character-counter' },
   { key: 'jsonformatter', name: 'JSON Formatter', href: '/tools/json-formatter' },
+  { key: 'smartimageresizer', name: 'Smart Image Resizer', href: '/tools/smart-image-resizer' },
   { key: 'businesscard', name: 'Business Card', href: '/tools/business-card' },
   { key: 'aiworkspace', name: 'AI Code Workspace', href: '/tools/ai-workspace' },
   { key: 'daw', name: 'DAW', href: '/tools/daw' },
+  { key: 'regexexplainer', name: 'RegExplain', href: '/tools/regex-explainer' },
 ]
 
 export interface ToolSettings {
@@ -68,9 +79,11 @@ export async function getToolSettings(): Promise<AllToolSettings> {
 
   const result: AllToolSettings = {}
   for (const key of TOOL_KEYS) {
+    const en = map.get(`tool_${key}_enabled`)
+    const vis = map.get(`tool_${key}_visible`)
     result[key] = {
-      enabled: parseBool(map.get(`tool_${key}_enabled`)) ?? true,
-      visible: parseBool(map.get(`tool_${key}_visible`)) ?? true,
+      enabled: en == null ? true : parseBool(en),
+      visible: vis == null ? true : parseBool(vis),
       maintenance: parseBool(map.get(`${key}_maintenance`)) ?? false,
       beta: parseBool(map.get(`tool_${key}_beta`)) ?? false,
     }

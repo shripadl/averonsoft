@@ -131,3 +131,8 @@ html {
   background: rgb(var(--primary) / 0.3);
   color: rgb(var(--foreground));
 }
+
+body:has([data-regexplain-embed]) > div > header,
+body:has([data-regexplain-embed]) > div > footer {
+  display: none !important;
+}

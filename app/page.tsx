@@ -8,24 +8,30 @@ import {
   Code2,
   Music,
   ChevronRight,
+  ImageIcon,
+  TextSearch,
 } from 'lucide-react'
 
 const TOOL_DESCRIPTIONS: Record<string, string> = {
   pdfconverter: 'Convert images, text to PDF. Merge, split, compress. All in your browser.',
   charactercounter: 'Count characters, words, sentences, and paragraphs.',
   jsonformatter: 'Format, minify, and validate JSON. All in your browser.',
+  smartimageresizer: 'Resize images without cropping. Content-aware. All in your browser.',
   businesscard: 'Create a card, preview it, and export as PNG or PDF. No data stored.',
   aiworkspace: 'Code with Monaco editor and AI assistant.',
   daw: 'Record, mix, and export audio.',
+  regexexplainer: 'Explain regex in plain English and test matches in your browser.',
 }
 
 const TOOL_ICONS: Record<string, typeof FileText> = {
   pdfconverter: FileText,
   charactercounter: Hash,
   jsonformatter: Braces,
+  smartimageresizer: ImageIcon,
   businesscard: CreditCard,
   aiworkspace: Code2,
   daw: Music,
+  regexexplainer: TextSearch,
 }
 
 export default async function HomePage() {

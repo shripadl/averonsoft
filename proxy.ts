@@ -3,7 +3,7 @@ import { NextResponse, type NextRequest } from 'next/server'
 
 const ADMIN_ROLES = ['admin', 'super_admin', 'support']
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   let supabaseResponse = NextResponse.next({
     request,
   })
@@ -34,7 +34,18 @@ export async function middleware(request: NextRequest) {
   } = await supabase.auth.getUser()
 
   // Stateless tools - no login required
-  const publicToolPaths = ['/tools/pdf-converter', '/tools/character-counter', '/tools/json-formatter', '/tools/business-card']
+  const publicToolPaths = [
+    '/tools/pdf-converter',
+    '/tools/character-counter',
+    '/tools/json-formatter',
+    '/tools/smart-image-resizer',
+    '/tools/business-card',
+    '/tools/resize-image-without-cropping',
+    '/tools/resize-image-to-square',
+    '/tools/resize-image-for-instagram',
+    '/tools/resize-image-for-youtube-thumbnail',
+    '/tools/regex-explainer',
+  ]
   const isPublicTool = publicToolPaths.some(path =>
     request.nextUrl.pathname === path || request.nextUrl.pathname.startsWith(path + '/')
   )
