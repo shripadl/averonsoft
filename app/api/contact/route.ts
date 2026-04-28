@@ -35,7 +35,7 @@ Sent from AveronSoft Contact Form
     `.trim()
 
     const result = await sendEmail({
-      to: process.env.CONTACT_EMAIL || 'slimaye2026@gmail.com',
+      to: process.env.CONTACT_EMAIL || 'stonehavenst@gmail.com',
       subject: `[AveronSoft] ${subject}`,
       text: emailContent,
       html: emailContent.replace(/\n/g, '<br>'),

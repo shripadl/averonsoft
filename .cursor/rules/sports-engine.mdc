@@ -1,0 +1,49 @@
+---
+description: Sports Engine subsystem (Next.js App Router, Supabase, Tailwind)
+globs:
+  - lib/sports-engine/**
+  - app/api/sports/**
+  - app/sports/**
+---
+
+# Cursor Rules for Sports Engine (Next.js App Router + Supabase + Tailwind)
+
+## Project Context
+
+- This is a Next.js 13+ App Router project.
+- API endpoints live under `app/api/**/route.ts`.
+- Supabase is used for auth and data (Postgres backend).
+- Tailwind CSS is available and should be used for styling.
+
+## Sports Engine Subsystem
+
+- All sports analytics logic should be encapsulated under:
+  - `lib/sports-engine/**` for core logic (ingestion, prediction, decision, db helpers)
+  - `app/api/sports/**` for API route handlers
+  - `app/sports/**` for UI pages
+- The system is for analytics and predictions only.
+- It must NOT provide betting instructions, tips, or recommendations.
+- It may provide:
+  - probabilities
+  - confidence levels
+  - decision categories (e.g. HIGH_CONFIDENCE, MEDIUM_CONFIDENCE, LOW_CONFIDENCE, NO_ACTION)
+
+## Tech & Style Rules
+
+- Use TypeScript for all new files.
+- Use Next.js App Router conventions (`route.ts`, server components by default).
+- Use Supabase JS client for database operations.
+- Use Tailwind CSS for layout and styling.
+- Prefer small, composable modules over monolithic files.
+
+## Safety & Scope
+
+- Do NOT implement any betting, staking, or gambling logic.
+- Do NOT output or encode any logic that tells the user what to bet on.
+- The system is strictly for analytics, probabilities, and decision categories.
+
+## Future-Proofing
+
+- Design the sports-engine so it can be extracted into a separate service later.
+- Keep API contracts clean and versionable.
+- Keep UI components reusable and easy to restyle into a more premium design.

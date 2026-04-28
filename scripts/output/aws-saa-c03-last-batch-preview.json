@@ -1,0 +1,82 @@
+{
+  "exam": "aws-saa-c03",
+  "beforeCount": 950,
+  "batchSize": 50,
+  "afterCount": 1000,
+  "target": 1000,
+  "sampleQuestions": [
+    {
+      "globalIndex": 950,
+      "question_text": "The \"Load planning\" team reports uneven traffic on a key-value data store, risking throttling. What is the most relevant guidance for a security lead at Kite Mobility?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Model access patterns and choose a partition key that spreads write/read distribution for expected traffic, and avoid hot keys through naming or sharding in the data model."
+        },
+        {
+          "id": "B",
+          "text": "Always use a constant partition key to keep data “together for simplicity”."
+        },
+        {
+          "id": "C",
+          "text": "Set retention to 1 day for all tables without considering recovery needs."
+        },
+        {
+          "id": "D",
+          "text": "Disable all metrics so application logs never show hot key symptoms."
+        }
+      ],
+      "correct_option_id": "A",
+      "difficulty": "hard"
+    },
+    {
+      "globalIndex": 951,
+      "question_text": "Kite Mobility must satisfy internal audit for who modified identity and access policies, separate from app logs for \"Load planning\". What pattern should the security lead separate?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Use a regional logging pipeline for health and app diagnostics, and a separate immutable activity record for who changed which control-plane settings and when."
+        },
+        {
+          "id": "B",
+          "text": "Turn off all access logs in production to reduce line noise in dashboards."
+        },
+        {
+          "id": "C",
+          "text": "Store the only change history in a developer’s email outbox as the system of record."
+        },
+        {
+          "id": "D",
+          "text": "Rely on verbal confirmation for production changes with no write-down."
+        }
+      ],
+      "correct_option_id": "A",
+      "difficulty": "medium"
+    },
+    {
+      "globalIndex": 952,
+      "question_text": "Traffic for Kite Mobility's \"Load planning\" varies widely (burst traffic to 5× baseline). The security lead must serve HTTP behind a single stable endpoint. What is the most appropriate combination?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Put a load balancer in front of an autoscaling group that scales on signals tied to the workload, and register only healthy members."
+        },
+        {
+          "id": "B",
+          "text": "Add instances manually for each traffic spike and remove them the next day by guess."
+        },
+        {
+          "id": "C",
+          "text": "Point DNS at random IPs in the subnet and skip health checks."
+        },
+        {
+          "id": "D",
+          "text": "Set maximum group size to one to guarantee simplicity."
+        }
+      ],
+      "correct_option_id": "A",
+      "difficulty": "easy"
+    }
+  ],
+  "legal": "These questions are original and unofficial. Not affiliated with AWS, Microsoft, or Google."
+}

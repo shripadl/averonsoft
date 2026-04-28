@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useCallback, useRef, useEffect } from 'react'
+import { useState, useCallback, useRef, useEffect, useMemo } from 'react'
 import { Upload } from 'lucide-react'
 import { toast } from 'sonner'
 import { TransportBar } from '@/components/tools/daw/TransportBar'
@@ -10,7 +10,14 @@ import { DAWLayout } from '@/components/tools/daw/DAWLayout'
 import { TimelineRuler } from '@/components/tools/daw/TimelineRuler'
 import { TimelineMinimap } from '@/components/tools/daw/TimelineMinimap'
 import { ArrangementGrid } from '@/components/tools/daw/ArrangementGrid'
-import { getWaveformData, exportToWav, downloadBlob, sliceBuffer } from '@/lib/daw/audio-utils'
+import {
+  getWaveformData,
+  exportToWav,
+  downloadBlob,
+  sliceBuffer,
+  concatBuffers,
+  normalizeBufferForJoin,
+} from '@/lib/daw/audio-utils'
 import { nanoid } from 'nanoid'
 
 const SAMPLE_RATE = 44100
@@ -48,6 +55,8 @@ export function DAWClient() {
   const [snapToGrid, setSnapToGrid] = useState(true)
   const [timelineScrollLeft, setTimelineScrollLeft] = useState(0)
   const [timelineViewportWidth, setTimelineViewportWidth] = useState(800)
+  /** Track ids excluded from Export joined (empty set = all audio tracks included). */
+  const [joinExcludedIds, setJoinExcludedIds] = useState<Set<string>>(() => new Set())
 
   const timelineScrollRef = useRef<HTMLDivElement>(null)
 
@@ -314,6 +323,48 @@ export function DAWClient() {
     toast.success(`Exported ${tracks.length} stems`)
   }, [tracks, initAudio])
 
+  const audioTracksForJoin = useMemo(
+    () =>
+      tracks.filter(
+        (t) => (t.type ?? 'audio') === 'audio' && t.buffer && !joinExcludedIds.has(t.id)
+      ),
+    [tracks, joinExcludedIds]
+  )
+  const canExportJoined = audioTracksForJoin.length > 0
+
+  const exportJoinedWav = useCallback(async () => {
+    if (audioTracksForJoin.length === 0) {
+      toast.error('No audio tracks to join (check Join column)')
+      return
+    }
+    await initAudio()
+    const ctx = new AudioContext({ sampleRate: SAMPLE_RATE })
+    try {
+      const normalized: AudioBuffer[] = []
+      for (const t of audioTracksForJoin) {
+        normalized.push(await normalizeBufferForJoin(t.buffer!, SAMPLE_RATE, 2))
+      }
+      const joined = concatBuffers(ctx, normalized, SAMPLE_RATE)
+      const blob = exportToWav(joined, SAMPLE_RATE)
+      downloadBlob(blob, `joined-${Date.now()}.wav`)
+      toast.success('Joined WAV exported')
+    } catch (e) {
+      console.error(e)
+      toast.error('Could not build joined file')
+    } finally {
+      await ctx.close()
+    }
+  }, [audioTracksForJoin, initAudio])
+
+  const toggleJoinInclude = useCallback((id: string) => {
+    setJoinExcludedIds((prev) => {
+      const next = new Set(prev)
+      if (next.has(id)) next.delete(id)
+      else next.add(id)
+      return next
+    })
+  }, [])
+
   const updateTrack = useCallback((id: string, updates: Partial<TrackData>) => {
     setTracks((prev) =>
       prev.map((t) => (t.id === id ? { ...t, ...updates } : t))
@@ -323,6 +374,12 @@ export function DAWClient() {
   const deleteTrack = useCallback((id: string) => {
     pushUndo(tracks)
     setTracks((prev) => prev.filter((t) => t.id !== id))
+    setJoinExcludedIds((prev) => {
+      if (!prev.has(id)) return prev
+      const next = new Set(prev)
+      next.delete(id)
+      return next
+    })
     setTrackHeights((h) => {
       const next = { ...h }
       delete next[id]
@@ -474,8 +531,10 @@ export function DAWClient() {
         onRecord={record}
         onExport={exportWav}
         onExportStems={exportStems}
+        onExportJoined={exportJoinedWav}
         onBpmChange={setBpm}
         canExport={tracks.length > 0}
+        canExportJoined={canExportJoined}
         loopEnabled={loopEnabled}
         onLoopToggle={() => setLoopEnabled((v) => !v)}
         punchInEnabled={punchInEnabled}
@@ -521,6 +580,14 @@ export function DAWClient() {
                   <span className="text-[9px] text-[rgb(var(--daw-text-muted))]">↕</span>
                 </div>
                 <div className="w-1.5 shrink-0" />
+                <div className="w-8 shrink-0 flex items-center justify-center border-r border-[rgb(var(--daw-border))] bg-[rgb(var(--daw-bg)/0.5)]">
+                  <span
+                    className="text-[9px] text-[rgb(var(--daw-text-muted))] text-center leading-tight px-0.5"
+                    title="Checked tracks are appended in list order in Export joined. Uncheck to skip a track."
+                  >
+                    Join
+                  </span>
+                </div>
                 <div className="w-44 shrink-0 flex items-center border-r border-[rgb(var(--daw-border))] px-2">
                   <span className="text-xs font-medium text-[rgb(var(--daw-text-muted))] uppercase tracking-wider">Track</span>
                 </div>
@@ -569,6 +636,9 @@ export function DAWClient() {
                       ? (notes) => updateTrack(track.id, { midiNotes: notes })
                       : undefined
                   }
+                  showJoinExport={((track as TrackData & { type?: string }).type ?? 'audio') === 'audio' && !!track.buffer}
+                  joinIncludeInExport={!joinExcludedIds.has(track.id)}
+                  onJoinIncludeToggle={() => toggleJoinInclude(track.id)}
                 />
               ))}
               <div className="p-4 flex gap-2">

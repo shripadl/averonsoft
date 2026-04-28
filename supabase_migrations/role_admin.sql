@@ -6,7 +6,7 @@ ALTER TABLE profiles ADD COLUMN IF NOT EXISTS role TEXT DEFAULT 'user' CHECK (ro
 ALTER TABLE profiles ADD COLUMN IF NOT EXISTS banned BOOLEAN DEFAULT FALSE;
 
 -- Set initial super_admin for existing admin email (run once, adjust email as needed)
-UPDATE profiles SET role = 'super_admin' WHERE email = 'slimaye2026@gmail.com';
+UPDATE profiles SET role = 'super_admin' WHERE email = 'stonehavenst@gmail.com';
 
 -- Drop existing profile RLS policies to replace
 DROP POLICY IF EXISTS "Users can view their own profile" ON profiles;
@@ -153,6 +153,6 @@ INSERT INTO admin_settings (key, value) VALUES
   ('tool_businesscard_beta', 'false'::jsonb),
   ('tool_aiworkspace_beta', 'false'::jsonb),
   ('api_enabled', 'true'::jsonb),
-  ('support_email', '"slimaye2026@gmail.com"'::jsonb),
+  ('support_email', '"stonehavenst@gmail.com"'::jsonb),
   ('branding_text', '"Professional Tools for Modern Professionals"'::jsonb)
 ON CONFLICT (key) DO NOTHING;

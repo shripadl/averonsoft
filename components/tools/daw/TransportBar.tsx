@@ -1,6 +1,6 @@
 'use client'
 
-import { Play, Pause, Square, Mic, Download, Undo2, Redo2, Repeat, ZoomIn, ZoomOut, Magnet } from 'lucide-react'
+import { Play, Pause, Square, Mic, Download, Undo2, Redo2, Repeat, ZoomIn, ZoomOut, Magnet, Link2 } from 'lucide-react'
 
 interface TransportBarProps {
   isPlaying: boolean
@@ -13,8 +13,10 @@ interface TransportBarProps {
   onRecord: () => void
   onExport: () => void
   onExportStems: () => void
+  onExportJoined: () => void
   onBpmChange: (bpm: number) => void
   canExport: boolean
+  canExportJoined: boolean
   loopEnabled: boolean
   onLoopToggle: () => void
   punchInEnabled: boolean
@@ -45,8 +47,10 @@ export function TransportBar({
   onRecord,
   onExport,
   onExportStems,
+  onExportJoined,
   onBpmChange,
   canExport,
+  canExportJoined,
   loopEnabled,
   onLoopToggle,
   punchInEnabled,
@@ -236,6 +240,16 @@ export function TransportBar({
         >
           <Download className="h-4 w-4" />
           Export Stems
+        </button>
+        <button
+          type="button"
+          onClick={onExportJoined}
+          disabled={!canExportJoined}
+          title="Concatenate audio tracks in list order (uncheck Join on a track to exclude). Export mix above still sums tracks."
+          className="daw-button flex items-center gap-2 rounded-lg border border-[rgb(var(--daw-border-strong))] bg-[rgb(var(--daw-bg-active))] px-4 py-2 text-sm font-medium text-[rgb(var(--daw-text))] hover:bg-[rgb(var(--daw-bg-hover))] disabled:opacity-40 disabled:hover:bg-[rgb(var(--daw-bg-active))] transition-colors"
+        >
+          <Link2 className="h-4 w-4" />
+          Export joined
         </button>
       </div>
     </div>

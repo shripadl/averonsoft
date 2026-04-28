@@ -14,6 +14,8 @@ const TOOLS = [
   { id: 'aiworkspace', name: 'AI Code Workspace', key: 'aiworkspace' },
   { id: 'daw', name: 'DAW', key: 'daw' },
   { id: 'regexexplainer', name: 'RegExplain', key: 'regexexplainer' },
+  { id: 'sportanalytics', name: 'Sports Analytics', key: 'sportanalytics' },
+  { id: 'practiceexams', name: 'Practice Exams', key: 'practiceexams' },
 ]
 
 function Toggle({
@@ -108,7 +110,11 @@ export function AdminToolsClient() {
         <Card key={tool.id}>
           <CardHeader>
             <CardTitle>{tool.name}</CardTitle>
-            <CardDescription>Configure visibility and availability</CardDescription>
+            <CardDescription>
+              {tool.key === 'sportanalytics'
+                ? 'Use Public visibility to hide/show Sports pages while background data collection continues.'
+                : 'Configure visibility and availability'}
+            </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="flex items-center justify-between">
@@ -119,7 +125,9 @@ export function AdminToolsClient() {
               />
             </div>
             <div className="flex items-center justify-between">
-              <span className="text-sm font-medium">Visible (public)</span>
+              <span className="text-sm font-medium">
+                {tool.key === 'sportanalytics' ? 'Public visibility' : 'Visible (public)'}
+              </span>
               <Toggle
                 checked={get(`tool_${tool.key}_visible`)}
                 onChange={v => updateSetting(`tool_${tool.key}_visible`, v)}
@@ -139,6 +147,21 @@ export function AdminToolsClient() {
                 onChange={v => updateSetting(`tool_${tool.key}_beta`, v)}
               />
             </div>
+            {tool.key === 'sportanalytics' ? (
+              <div className="flex items-center justify-between">
+                <div>
+                  <span className="text-sm font-medium">History/results visible to public</span>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    Keeps ingestion/predictions running in background but hides prediction history vs
+                    actual comparison from public pages.
+                  </p>
+                </div>
+                <Toggle
+                  checked={get('sports_history_public_visible')}
+                  onChange={v => updateSetting('sports_history_public_visible', v)}
+                />
+              </div>
+            ) : null}
           </CardContent>
         </Card>
       ))}

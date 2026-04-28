@@ -10,6 +10,8 @@ import {
   ChevronRight,
   ImageIcon,
   TextSearch,
+  Trophy,
+  GraduationCap,
 } from 'lucide-react'
 
 const TOOL_DESCRIPTIONS: Record<string, string> = {
@@ -21,6 +23,8 @@ const TOOL_DESCRIPTIONS: Record<string, string> = {
   aiworkspace: 'Code with Monaco editor and AI assistant.',
   daw: 'Record, mix, and export audio.',
   regexexplainer: 'Explain regex in plain English and test matches in your browser.',
+  practiceexams:
+    'Unofficial cloud certification practice exams. Sign in to track attempts; first tries are free.',
 }
 
 const TOOL_ICONS: Record<string, typeof FileText> = {
@@ -32,6 +36,8 @@ const TOOL_ICONS: Record<string, typeof FileText> = {
   aiworkspace: Code2,
   daw: Music,
   regexexplainer: TextSearch,
+  sportanalytics: Trophy,
+  practiceexams: GraduationCap,
 }
 
 export default async function HomePage() {

@@ -230,7 +230,7 @@ averonsoft/
 ## Support
 
 For issues or questions:
-- Email: slimaye2026@gmail.com
+- Email: stonehavenst@gmail.com
 - Check Supabase docs: https://supabase.com/docs
 - Check Next.js docs: https://nextjs.org/docs
 - Check Paddle docs: https://developer.paddle.com/

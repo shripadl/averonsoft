@@ -9,6 +9,8 @@ import {
   Settings,
   FileText,
   ShieldAlert,
+  ChartColumn,
+  ListFilter,
 } from 'lucide-react'
 
 const navItems = [
@@ -18,6 +20,8 @@ const navItems = [
   { href: '/admin/apis', label: 'APIs', icon: Key },
   { href: '/admin/maintenance', label: 'Maintenance', icon: AlertTriangle },
   { href: '/admin/settings', label: 'Settings', icon: Settings },
+  { href: '/admin/practice-analytics', label: 'Practice Analytics', icon: ChartColumn },
+  { href: '/admin/practice-questions', label: 'Practice questions', icon: ListFilter },
   { href: '/admin/logs', label: 'Logs', icon: FileText },
   { href: '/admin/reports', label: 'Abuse Reports', icon: ShieldAlert },
 ]

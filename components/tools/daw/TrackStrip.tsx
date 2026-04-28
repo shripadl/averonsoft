@@ -56,6 +56,10 @@ interface TrackStripProps {
   onHeightChange?: (height: number) => void
   peakLevel?: number
   rmsLevel?: number
+  /** Audio tracks: include in Export joined (concatenate). */
+  showJoinExport?: boolean
+  joinIncludeInExport?: boolean
+  onJoinIncludeToggle?: () => void
 }
 
 export function TrackStrip({
@@ -78,6 +82,9 @@ export function TrackStrip({
   onHeightChange,
   peakLevel = 0,
   rmsLevel = 0,
+  showJoinExport = false,
+  joinIncludeInExport = true,
+  onJoinIncludeToggle,
   arrangementDuration = 4,
   arrangementBpm = 120,
   pixelsPerSecond = 80,
@@ -140,6 +147,23 @@ export function TrackStrip({
         )}
       </div>
       <div className="w-1.5 shrink-0 rounded-r-sm" style={{ backgroundColor: trackColor, minWidth: 6 }} />
+      <div className="w-8 shrink-0 flex items-center justify-center border-r border-[rgb(var(--daw-border))] bg-[rgb(var(--daw-bg)/0.5)]">
+        {showJoinExport ? (
+          <label className="inline-flex cursor-pointer" onClick={(e) => e.stopPropagation()}>
+            <input
+              type="checkbox"
+              checked={joinIncludeInExport}
+              onChange={() => onJoinIncludeToggle?.()}
+              className="rounded border-[rgb(var(--daw-border-strong))] bg-[rgb(var(--daw-bg-hover))] accent-[rgb(var(--daw-accent))]"
+              title="Include in Export joined (top → bottom order)"
+            />
+          </label>
+        ) : (
+          <span className="text-[9px] text-[rgb(var(--daw-text-muted))]" title="MIDI / no audio">
+            —
+          </span>
+        )}
+      </div>
       <div className="w-44 shrink-0 flex flex-col border-r border-[rgb(var(--daw-border))] bg-[rgb(var(--daw-bg-panel)/0.5)] p-2.5">
         <div className="flex items-center justify-between gap-1 mb-1.5">
           <div className="flex items-center gap-1.5 min-w-0">

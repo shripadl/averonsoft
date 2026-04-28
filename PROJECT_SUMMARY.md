@@ -287,4 +287,4 @@ Proprietary - All rights reserved
 
 **Project Status:** ✅ Complete and ready for deployment
 
-**Contact:** slimaye2026@gmail.com
+**Contact:** stonehavenst@gmail.com

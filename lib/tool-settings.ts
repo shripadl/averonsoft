@@ -9,6 +9,8 @@ export const TOOL_KEYS = [
   'aiworkspace',
   'daw',
   'regexexplainer',
+  'sportanalytics',
+  'practiceexams',
 ] as const
 export type ToolKey = (typeof TOOL_KEYS)[number]
 
@@ -27,6 +29,8 @@ export const TOOL_CONFIG: ToolConfig[] = [
   { key: 'aiworkspace', name: 'AI Code Workspace', href: '/tools/ai-workspace' },
   { key: 'daw', name: 'DAW', href: '/tools/daw' },
   { key: 'regexexplainer', name: 'RegExplain', href: '/tools/regex-explainer' },
+  { key: 'sportanalytics', name: 'Sports Analytics', href: '/sports' },
+  { key: 'practiceexams', name: 'Practice Exams', href: '/practice' },
 ]
 
 export interface ToolSettings {
@@ -58,6 +62,7 @@ const TOOL_SETTING_KEYS = TOOL_KEYS.flatMap(k => [
   `${k}_maintenance`,
   `tool_${k}_beta`,
 ])
+const SPORTS_HISTORY_PUBLIC_VISIBLE_KEY = 'sports_history_public_visible'
 
 /** Fetch all tool settings from admin_settings. Uses service client to bypass RLS. */
 export async function getToolSettings(): Promise<AllToolSettings> {
@@ -107,4 +112,24 @@ export function isToolAccessible(settings: AllToolSettings, key: ToolKey): {
   if (!s?.enabled) return { accessible: false, maintenance: false }
   if (s.maintenance) return { accessible: false, maintenance: true }
   return { accessible: true, maintenance: false }
+}
+
+/**
+ * Separate switch for public visibility of prediction history/results on sports detail pages.
+ * Defaults to true when not configured.
+ */
+export async function getSportsHistoryPublicVisible(): Promise<boolean> {
+  const supabase = createServiceClient()
+  const { data, error } = await supabase
+    .from('admin_settings')
+    .select('value')
+    .eq('key', SPORTS_HISTORY_PUBLIC_VISIBLE_KEY)
+    .maybeSingle()
+
+  if (error) {
+    console.error('Failed to fetch sports history visibility setting:', error)
+    return true
+  }
+  if (!data) return true
+  return parseBool(data.value)
 }

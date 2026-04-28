@@ -125,3 +125,78 @@ export interface Log {
   metadata: Record<string, any> | null
   created_at: string
 }
+
+export interface PracticeExam {
+  id: string
+  slug: string
+  name: string
+  provider: string
+  description: string
+  total_questions: number
+  is_active: boolean
+  created_at: string
+  updated_at: string
+}
+
+export interface PracticeExamQuestion {
+  id: string
+  exam_id: string
+  question_text: string
+  options: Array<{ id: string; text: string }>
+  correct_option_id: string
+  explanation: string
+  difficulty: 'easy' | 'medium' | 'hard'
+  domain: string | null
+  is_outdated: boolean
+  last_reviewed_at: string | null
+  created_at: string
+  updated_at: string
+}
+
+export interface UserExamAttempt {
+  id: string
+  user_id: string
+  exam_id: string
+  score: number
+  total_questions: number
+  started_at: string
+  completed_at: string
+  attempt_number_for_exam: number
+}
+
+export interface UserExamResponse {
+  id: string
+  attempt_id: string
+  question_id: string
+  selected_option_id: string | null
+  is_correct: boolean
+}
+
+export interface UserSubscription {
+  id: string
+  user_id: string
+  exam_id: string | null
+  provider: string
+  scope_type: 'exam' | 'provider' | 'global' | null
+  provider_name: string | null
+  status: 'active' | 'expired' | 'canceled'
+  started_at: string
+  expires_at: string | null
+}
+
+export interface UserExamEntitlement {
+  user_id: string
+  exam_slug: string
+  attempts_remaining: number
+  expires_at: string
+  created_at: string
+  updated_at: string
+}
+
+export interface UserExamAccess {
+  user_id: string
+  exam_slug: string
+  free_attempt_used: boolean
+  created_at: string
+  updated_at: string
+}

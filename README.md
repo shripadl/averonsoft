@@ -84,7 +84,7 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key_here
 SUPABASE_SERVICE_ROLE_KEY=your_service_role_key_here
 
 # Contact & Email
-CONTACT_EMAIL=slimaye2026@gmail.com
+CONTACT_EMAIL=stonehavenst@gmail.com
 SMTP_USER=your_gmail@gmail.com
 SMTP_PASS=your_gmail_app_password
 
@@ -136,7 +136,7 @@ Open [http://localhost:3000](http://localhost:3000)
 
 ### Admin Access
 
-Admin email is currently: `slimaye2026@gmail.com`
+Admin email is currently: `stonehavenst@gmail.com`
 
 To add more admins, update the `ADMIN_EMAILS` array in:
 - `/app/admin/page.tsx`
@@ -190,7 +190,7 @@ averonsoft/
 
 ## 📞 Support
 
-Email: slimaye2026@gmail.com
+Email: stonehavenst@gmail.com
 
 ---
 

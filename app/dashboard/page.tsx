@@ -3,7 +3,18 @@ import { redirect } from 'next/navigation'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
-import { CreditCard, Code2, Music, Hash, FileText, Braces, ImageIcon, TextSearch } from 'lucide-react'
+import {
+  CreditCard,
+  Code2,
+  Music,
+  Hash,
+  FileText,
+  Braces,
+  ImageIcon,
+  TextSearch,
+  Trophy,
+  GraduationCap,
+} from 'lucide-react'
 import { LogoutButton } from "@/app/components/LogoutButton"
 import { getToolSettings, getVisibleTools } from '@/lib/tool-settings'
 
@@ -16,6 +27,8 @@ const TOOL_ICONS: Record<string, typeof CreditCard> = {
   aiworkspace: Code2,
   daw: Music,
   regexexplainer: TextSearch,
+  practiceexams: GraduationCap,
+  sportanalytics: Trophy,
 }
 
 export default async function DashboardPage() {
@@ -91,6 +104,8 @@ export default async function DashboardPage() {
               aiworkspace: 'Mini-IDE with Monaco editor and AI assistant',
               daw: 'Record, mix, and export audio',
               regexexplainer: 'Plain-English regex explanations and live testing',
+              sportanalytics: 'Sports fixtures and model outputs — football and cricket',
+              practiceexams: 'Unofficial cloud cert practice; track attempts and scores (account required)',
             }
             return (
               <Card key={tool.key}>
@@ -113,6 +128,7 @@ export default async function DashboardPage() {
           })}
         </div>
       </div>
+
     </div>
   )
 }

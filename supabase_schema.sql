@@ -320,7 +320,7 @@ CREATE TRIGGER on_auth_user_created
 
 -- Insert default admin settings
 INSERT INTO admin_settings (key, value) VALUES
-  ('contact_email', '"slimaye2026@gmail.com"'::jsonb),
+  ('contact_email', '"stonehavenst@gmail.com"'::jsonb),
   ('pricing_shortener_monthly', '15'::jsonb),
   ('pricing_shortener_annual', '150'::jsonb),
   ('pricing_bookmarks_monthly', '9'::jsonb),

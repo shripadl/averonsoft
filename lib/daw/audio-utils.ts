@@ -103,22 +103,80 @@ export function sliceBuffer(
   return newBuffer
 }
 
-/** Merge two buffers (paste) - creates new buffer */
+/** Resample using OfflineAudioContext (same channel count as source). */
+export async function resampleAudioBuffer(
+  buffer: AudioBuffer,
+  targetSampleRate: number
+): Promise<AudioBuffer> {
+  const channels = buffer.numberOfChannels
+  const length = Math.max(1, Math.ceil(buffer.duration * targetSampleRate))
+  const offline = new OfflineAudioContext(channels, length, targetSampleRate)
+  const src = offline.createBufferSource()
+  src.buffer = buffer
+  src.connect(offline.destination)
+  src.start(0)
+  return offline.startRendering()
+}
+
+/**
+ * Resample to target rate and normalize to a fixed channel count (mono → duplicate; stereo preserved).
+ */
+export async function normalizeBufferForJoin(
+  buffer: AudioBuffer,
+  targetRate: number,
+  targetChannels: number
+): Promise<AudioBuffer> {
+  const resampled =
+    buffer.sampleRate === targetRate ? buffer : await resampleAudioBuffer(buffer, targetRate)
+  if (resampled.numberOfChannels === targetChannels) return resampled
+
+  const ctx = new AudioContext({ sampleRate: targetRate })
+  try {
+    const out = ctx.createBuffer(targetChannels, resampled.length, targetRate)
+    const nSrc = resampled.numberOfChannels
+    if (nSrc === 1 && targetChannels >= 2) {
+      const m = resampled.getChannelData(0)
+      for (let c = 0; c < targetChannels; c++) {
+        out.copyToChannel(m, c)
+      }
+    } else if (nSrc >= 2 && targetChannels === 1) {
+      const l = resampled.getChannelData(0)
+      const r = resampled.getChannelData(1)
+      const dst = out.getChannelData(0)
+      for (let i = 0; i < resampled.length; i++) {
+        dst[i] = ((l[i] ?? 0) + (r[i] ?? 0)) * 0.5
+      }
+    } else {
+      for (let c = 0; c < Math.min(nSrc, targetChannels); c++) {
+        out.copyToChannel(resampled.getChannelData(c), c)
+      }
+    }
+    return out
+  } finally {
+    await ctx.close()
+  }
+}
+
+/** Concatenate buffers end-to-end (same sample rate and channel count). */
 export function concatBuffers(
   ctx: AudioContext,
   buffers: AudioBuffer[],
   sampleRate: number
 ): AudioBuffer {
+  if (buffers.length === 0) {
+    return ctx.createBuffer(2, 1, sampleRate)
+  }
   const totalLength = buffers.reduce((sum, b) => sum + b.length, 0)
-  const numChannels = buffers[0]?.numberOfChannels ?? 1
+  const numChannels = buffers[0]!.numberOfChannels
   const result = ctx.createBuffer(numChannels, totalLength, sampleRate)
   let offset = 0
   for (const buf of buffers) {
-    for (let ch = 0; ch < Math.min(numChannels, buf.numberOfChannels); ch++) {
-      const src = buf.getChannelData(ch)
+    for (let ch = 0; ch < numChannels; ch++) {
+      const src =
+        ch < buf.numberOfChannels ? buf.getChannelData(ch) : buf.getChannelData(0)
       const dst = result.getChannelData(ch)
       for (let i = 0; i < buf.length; i++) {
-        dst[offset + i] = src[i]
+        dst[offset + i] = src[i] ?? 0
       }
     }
     offset += buf.length
