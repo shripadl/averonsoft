@@ -22,6 +22,11 @@ export function StartAttemptButton({ examSlug }: StartAttemptButtonProps) {
       })
       const data = await response.json()
       if (!response.ok) {
+        if (response.status === 401) {
+          const next = encodeURIComponent(`/practice/${examSlug}`)
+          router.push(`/login?next=${next}`)
+          return
+        }
         if (response.status === 402 && data?.paywall?.redirectTo) {
           router.push(data.paywall.redirectTo as string)
           return
