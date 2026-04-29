@@ -3,6 +3,14 @@
     {
       "path": "/api/sports/ingestion/run",
       "schedule": "0 6 * * *"
+    },
+    {
+      "path": "/api/sports/ingestion/run",
+      "schedule": "0 12 * * *"
+    },
+    {
+      "path": "/api/sports/ingestion/run",
+      "schedule": "0 18 * * *"
     }
   ]
 }

@@ -139,11 +139,11 @@ function extractMatchList(json: CricapiMatchesResponse & Record<string, unknown>
 /**
  * Fetch matches from CricketData.org, map to fixtures, upsert today’s matches only.
  */
-export async function ingestCricketFixturesForToday(): Promise<void> {
+export async function ingestCricketFixturesForToday(): Promise<number> {
   const apiKey = process.env.CRICKET_API_KEY?.trim()
   if (!apiKey) {
     console.warn('CRICKET_API_KEY is not set; skipping cricket ingestion')
-    return
+    return 0
   }
 
   const base = getBaseUrl()
@@ -158,7 +158,7 @@ export async function ingestCricketFixturesForToday(): Promise<void> {
 
   if (!res.ok) {
     console.error('CricketData matches request failed', res.status, await res.text())
-    return
+    return 0
   }
 
   const json = (await res.json()) as CricapiMatchesResponse & Record<string, unknown>
@@ -174,7 +174,7 @@ export async function ingestCricketFixturesForToday(): Promise<void> {
       json.status,
       json.message ?? json.reason ?? '(no matches in response)'
     )
-    return
+    return 0
   }
 
   if (list.length === 0) {
@@ -182,7 +182,7 @@ export async function ingestCricketFixturesForToday(): Promise<void> {
       'CricketData: empty match list (check API key, quota, and response shape). status=',
       json.status
     )
-    return
+    return 0
   }
 
   let cricketSportId: number
@@ -193,7 +193,7 @@ export async function ingestCricketFixturesForToday(): Promise<void> {
       'Cricket ingestion: no `sports` row for slug "cricket". Apply supabase/sports-engine-schema.sql seed.',
       e
     )
-    return
+    return 0
   }
 
   const tryUpsert = async (item: CricapiMatchRaw, requireToday: boolean) => {
@@ -237,4 +237,5 @@ export async function ingestCricketFixturesForToday(): Promise<void> {
       }
     }
   }
+  return upserted
 }
