@@ -152,6 +152,17 @@ export default async function AdminPage() {
             </Link>
           </CardContent>
         </Card>
+        <Card>
+          <CardHeader>
+            <CardTitle>Reset Attempts</CardTitle>
+            <CardDescription>Restore free attempt access for selected users</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Link href="/admin/practice-reset-attempts">
+              <Button className="w-full" variant="secondary">Open Reset Tool</Button>
+            </Link>
+          </CardContent>
+        </Card>
       </div>
 
       <div className="mt-10">
@@ -187,6 +198,9 @@ export default async function AdminPage() {
                     <div className="flex gap-2">
                       <PracticeSeedButton examSlug={exam.slug} />
                       <PracticeReplaceBankButton examSlug={exam.slug} />
+                      <Link href={`/admin/practice-reset-attempts?exam=${encodeURIComponent(exam.slug)}`}>
+                        <Button variant="secondary">Reset Attempts</Button>
+                      </Link>
                     </div>
                   </div>
                 )
