@@ -50,7 +50,9 @@ export default async function PracticeExamOverviewPage({ params }: Props) {
             First attempt is free. After that, exam attempts are consumed from your purchased exam packs.
           </p>
           {attemptsRemaining !== null ? (
-            <p className="mt-2 text-sm font-medium text-foreground">You have {attemptsRemaining} attempts remaining for this exam.</p>
+            <p className="mt-2 text-sm font-medium text-foreground">
+              You have {attemptsRemaining} {attemptsRemaining === 1 ? 'attempt' : 'attempts'} remaining for this exam.
+            </p>
           ) : null}
         </div>
 

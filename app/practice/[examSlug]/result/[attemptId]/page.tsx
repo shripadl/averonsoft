@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { PASS_PERCENTAGE } from '@/lib/practice/constants'
 import { LegalDisclaimer } from '@/components/practice/LegalDisclaimer'
@@ -32,6 +32,9 @@ export default async function PracticeResultPage({ params }: Props) {
     .single()
 
   if (!attempt) notFound()
+  if (!attempt.completed_at) {
+    redirect(`/practice/${examSlug}/attempt/${attemptId}`)
+  }
 
   const { data: responses } = await supabase
     .from('user_exam_responses')

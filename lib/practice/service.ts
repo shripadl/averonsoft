@@ -34,9 +34,32 @@ export async function canUserStartAttempt(
   supabase: DbClient,
   userId: string,
   exam: { id: string; slug?: string; provider?: string },
+  resumeAttemptId?: string | null,
 ) {
   const attemptsState = await getAttemptsRemaining(supabase, userId, exam.slug || '')
   const attemptCount = await getUserAttemptCount(supabase, userId, exam.id)
+
+  // Quota was already consumed when /attempts/start created this row; allow finishing in-progress attempts.
+  if (resumeAttemptId) {
+    const { data: resumeRow, error: resumeErr } = await supabase
+      .from('user_exam_attempts')
+      .select('id')
+      .eq('id', resumeAttemptId)
+      .eq('user_id', userId)
+      .eq('exam_id', exam.id)
+      .is('completed_at', null)
+      .maybeSingle()
+    if (!resumeErr && resumeRow) {
+      return {
+        allowed: true,
+        reason: null,
+        attemptCount,
+        attemptsRemaining: attemptsState.totalAttemptsRemaining,
+        paywall: null,
+      }
+    }
+  }
+
   if (attemptsState.totalAttemptsRemaining > 0) {
     return {
       allowed: true,

@@ -36,7 +36,7 @@ create table if not exists public.user_exam_attempts (
   score int not null,
   total_questions int not null,
   started_at timestamptz not null default now(),
-  completed_at timestamptz not null default now(),
+  completed_at timestamptz null,
   attempt_number_for_exam int not null
 );
 

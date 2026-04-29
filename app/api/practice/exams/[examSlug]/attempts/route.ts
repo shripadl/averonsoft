@@ -19,7 +19,7 @@ export async function GET(_: Request, { params }: { params: Promise<{ examSlug: 
     .select('*')
     .eq('user_id', auth.user.id)
     .eq('exam_id', exam.id)
-    .order('completed_at', { ascending: false })
+    .order('started_at', { ascending: false })
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 })

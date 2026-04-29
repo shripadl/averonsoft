@@ -22,7 +22,7 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
 
   const { data: existingAttempt } = await auth.supabase
     .from('user_exam_attempts')
-    .select('id')
+    .select('id, started_at, attempt_number_for_exam')
     .eq('id', attemptId)
     .eq('user_id', auth.user.id)
     .eq('exam_id', exam.id)
@@ -70,6 +70,9 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
 
   const scored = scoreExamAnswers(questions || [], answers)
   const attemptCount = await getUserAttemptCount(auth.supabase, auth.user.id, exam.id)
+  const startedAt = existingAttempt?.started_at ?? new Date().toISOString()
+  const attemptNumber =
+    existingAttempt?.attempt_number_for_exam ?? attemptCount + 1
 
   const { error: attemptError } = await auth.supabase.from('user_exam_attempts').upsert(
     {
@@ -78,9 +81,9 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
       exam_id: exam.id,
       score: scored.score,
       total_questions: scored.totalQuestions,
-      started_at: new Date().toISOString(),
+      started_at: startedAt,
       completed_at: new Date().toISOString(),
-      attempt_number_for_exam: attemptCount + 1,
+      attempt_number_for_exam: attemptNumber,
     },
     { onConflict: 'id' },
   )

@@ -15,7 +15,10 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
     return NextResponse.json({ error: 'Exam not found' }, { status: 404 })
   }
 
-  const gate = await canUserStartAttempt(auth.supabase, auth.user.id, exam)
+  const url = new URL(request.url)
+  const attemptIdParam = url.searchParams.get('attemptId')
+
+  const gate = await canUserStartAttempt(auth.supabase, auth.user.id, exam, attemptIdParam)
   if (!gate.allowed) {
     return NextResponse.json(
       {
@@ -27,8 +30,7 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
     )
   }
 
-  const url = new URL(request.url)
-  const attemptId = url.searchParams.get('attemptId') || crypto.randomUUID()
+  const attemptId = attemptIdParam || crypto.randomUUID()
   const limit = Number(url.searchParams.get('limit') || DEFAULT_ATTEMPT_QUESTION_COUNT)
 
   const { data: questions, error } = await auth.supabase

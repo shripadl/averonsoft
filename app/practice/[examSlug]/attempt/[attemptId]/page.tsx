@@ -24,7 +24,7 @@ export default async function PracticeAttemptPage({ params }: Props) {
   const exam = await getExamBySlug(supabase, examSlug)
   if (!exam) notFound()
 
-  const gate = await canUserStartAttempt(supabase, user.id, exam)
+  const gate = await canUserStartAttempt(supabase, user.id, exam, attemptId)
   if (!gate.allowed) {
     return (
       <div className="mx-auto max-w-3xl p-8">

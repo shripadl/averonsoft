@@ -160,7 +160,7 @@ export interface UserExamAttempt {
   score: number
   total_questions: number
   started_at: string
-  completed_at: string
+  completed_at: string | null
   attempt_number_for_exam: number
 }
 
