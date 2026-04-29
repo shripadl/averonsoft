@@ -42,7 +42,7 @@ const TOOL_ICONS: Record<string, typeof FileText> = {
 
 export default async function HomePage() {
   const toolSettings = await getToolSettings()
-  const visibleTools = getVisibleTools(toolSettings)
+  const visibleTools = [...getVisibleTools(toolSettings)].reverse()
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
