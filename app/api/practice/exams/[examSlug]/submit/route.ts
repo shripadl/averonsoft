@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { requireAuthenticatedUser } from '@/lib/practice/auth'
 import { getExamBySlug, scoreExamAnswers, getUserAttemptCount, canUserStartAttempt } from '@/lib/practice/service'
 import { consumeAttempt } from '@/lib/practice/entitlements'
+import { createServiceClient } from '@/lib/supabase/server'
 
 export async function POST(request: NextRequest, { params }: { params: Promise<{ examSlug: string }> }) {
   const { examSlug } = await params
@@ -40,7 +41,8 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
         { status: 402 },
       )
     }
-    const consumption = await consumeAttempt(auth.supabase, auth.user.id, exam.slug)
+    const service = createServiceClient()
+    const consumption = await consumeAttempt(service, auth.user.id, exam.slug)
     if (!consumption) {
       return NextResponse.json(
         {

@@ -9,10 +9,7 @@ import {
   Settings,
   FileText,
   ShieldAlert,
-  ChartColumn,
-  ListFilter,
-  RotateCcw,
-  BadgeDollarSign,
+  GraduationCap,
 } from 'lucide-react'
 
 const navItems = [
@@ -22,10 +19,7 @@ const navItems = [
   { href: '/admin/apis', label: 'APIs', icon: Key },
   { href: '/admin/maintenance', label: 'Maintenance', icon: AlertTriangle },
   { href: '/admin/settings', label: 'Settings', icon: Settings },
-  { href: '/admin/practice-analytics', label: 'Practice Analytics', icon: ChartColumn },
-  { href: '/admin/practice-questions', label: 'Practice questions', icon: ListFilter },
-  { href: '/admin/practice-reset-attempts', label: 'Reset practice attempts', icon: RotateCcw },
-  { href: '/admin/practice-refunds', label: 'Practice refunds', icon: BadgeDollarSign },
+  { href: '/admin/practice', label: 'Practice Exam Admin', icon: GraduationCap },
   { href: '/admin/logs', label: 'Logs', icon: FileText },
   { href: '/admin/reports', label: 'Abuse Reports', icon: ShieldAlert },
 ]

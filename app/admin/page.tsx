@@ -143,34 +143,12 @@ export default async function AdminPage() {
         </Card>
         <Card>
           <CardHeader>
-            <CardTitle>Practice Analytics</CardTitle>
-            <CardDescription>Attempts, scores, pass rate, domain weak spots</CardDescription>
+            <CardTitle>Practice Exam Admin</CardTitle>
+            <CardDescription>Questions, attempts, refunds, purchases, and allocations</CardDescription>
           </CardHeader>
           <CardContent>
-            <Link href="/admin/practice-analytics">
-              <Button className="w-full">Open Analytics</Button>
-            </Link>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle>Reset Attempts</CardTitle>
-            <CardDescription>Restore free attempt access for selected users</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Link href="/admin/practice-reset-attempts">
-              <Button className="w-full" variant="secondary">Open Reset Tool</Button>
-            </Link>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle>Practice Refunds</CardTitle>
-            <CardDescription>Decide revoke vs goodwill per refund case</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Link href="/admin/practice-refunds">
-              <Button className="w-full" variant="secondary">Open Refund Queue</Button>
+            <Link href="/admin/practice">
+              <Button className="w-full">Open Practice Console</Button>
             </Link>
           </CardContent>
         </Card>

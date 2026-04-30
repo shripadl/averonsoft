@@ -57,6 +57,7 @@ export async function consumeAttempt(supabase: DbClient, userId: string, examSlu
   if (state.paidAttemptsRemaining <= 0) return null
 
   const next = state.paidAttemptsRemaining - 1
+  // Update by user+exam key; state already ensured this entitlement is active.
   const { error } = await supabase
     .from('user_exam_entitlements')
     .update({
@@ -65,7 +66,6 @@ export async function consumeAttempt(supabase: DbClient, userId: string, examSlu
     })
     .eq('user_id', userId)
     .eq('exam_slug', examSlug)
-    .gt('expires_at', new Date().toISOString())
 
   if (error) throw error
   return { source: 'paid' as const }

@@ -27,33 +27,42 @@ function preview(text: string, max = 100) {
   return `${t.slice(0, max)}…`
 }
 
-function parseFromUrl(searchParams: { get: (k: string) => string | null }, exams: ExamListItem[]) {
-  const exam = searchParams.get('exam')?.trim() || null
-  const d = searchParams.get('difficulty') || ''
+type InitialFilters = {
+  exam: string | null
+  q: string
+  domain: string
+  difficulty: string
+  outdated: string
+  page: number
+}
+
+function parseFromInitialFilters(initial: InitialFilters, exams: ExamListItem[]) {
+  const exam = initial.exam?.trim() || null
+  const d = initial.difficulty || ''
   const diff = d === 'easy' || d === 'medium' || d === 'hard' ? d : ''
-  const o = searchParams.get('outdated') || 'all'
+  const o = initial.outdated || 'all'
   const out = o === 'true' || o === 'false' || o === 'all' ? o : 'all'
   return {
     exam: exam && exams.some((e) => e.slug === exam) ? exam : null,
-    q: searchParams.get('q') || '',
-    domain: searchParams.get('domain') || '',
+    q: initial.q || '',
+    domain: initial.domain || '',
     difficulty: diff,
     outdated: out,
-    page: Math.max(1, parseInt(searchParams.get('page') || '1', 10) || 1),
+    page: Math.max(1, initial.page || 1),
   }
 }
 
 export function PracticeQuestionsAdminClient({
   exams,
-  searchParams: searchParamsFromServer,
+  initialFilters,
 }: {
   exams: ExamListItem[]
-  searchParams: { get: (k: string) => string | null }
+  initialFilters: InitialFilters
 }) {
   const router = useRouter()
   const pathname = usePathname()
 
-  const fromUrl = parseFromUrl(searchParamsFromServer, exams)
+  const fromUrl = parseFromInitialFilters(initialFilters, exams)
 
   const [examSlug, setExamSlug] = useState(() => fromUrl.exam ?? exams[0]?.slug ?? '')
   const [q, setQ] = useState(fromUrl.q)

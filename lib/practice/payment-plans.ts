@@ -62,8 +62,19 @@ export function getGumroadProductPermalinkForPlan(plan: ExamPlanConfig): string 
   return value && value.trim().length > 0 ? value.trim() : null
 }
 
+function normalizeGumroadRef(value: string | null | undefined): string {
+  const raw = (value || '').trim().toLowerCase()
+  if (!raw) return ''
+  return raw
+    .replace(/^https?:\/\/(www\.)?gumroad\.com\/l\//, '')
+    .replace(/^\//, '')
+    .replace(/^l\//, '')
+    .replace(/\?.*$/, '')
+    .replace(/\/+$/, '')
+}
+
 export function getExamPlanByProductRef(provider: 'gumroad' | 'paddle', productRef: string | null | undefined): ExamPlanConfig | null {
-  const ref = (productRef || '').trim()
+  const ref = provider === 'gumroad' ? normalizeGumroadRef(productRef) : (productRef || '').trim()
   if (!ref) return null
 
   for (const plan of Object.values(EXAM_PLANS)) {
@@ -71,9 +82,20 @@ export function getExamPlanByProductRef(provider: 'gumroad' | 'paddle', productR
       provider === 'gumroad'
         ? process.env[plan.gumroadProductEnvKey]
         : process.env[plan.paddleProductEnvKey]
-    if ((configured || '').trim() === ref) {
+    const configuredNormalized =
+      provider === 'gumroad' ? normalizeGumroadRef(configured) : (configured || '').trim()
+    if (configuredNormalized === ref) {
       return plan
     }
+  }
+  return null
+}
+
+export function getExamPlanByName(name: string | null | undefined): ExamPlanConfig | null {
+  const n = (name || '').trim().toLowerCase()
+  if (!n) return null
+  for (const plan of Object.values(EXAM_PLANS)) {
+    if (plan.name.toLowerCase() === n) return plan
   }
   return null
 }

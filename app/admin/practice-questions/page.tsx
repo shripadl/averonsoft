@@ -11,7 +11,7 @@ export default async function PracticeQuestionsAdminPage({
 }) {
   await requireAdmin('readonly')
   const sp = await searchParams
-  const get = (k: string) => {
+  const getSingle = (k: string): string | null => {
     const v = sp[k]
     if (Array.isArray(v)) return v[0] ?? null
     return v ?? null
@@ -30,7 +30,17 @@ export default async function PracticeQuestionsAdminPage({
       <p className="mb-8 text-sm text-muted-foreground">
         Search, filter, edit in place, and run bulk status updates. Admin access only.
       </p>
-      <PracticeQuestionsAdminClient exams={exams ?? []} searchParams={{ get }} />
+      <PracticeQuestionsAdminClient
+        exams={exams ?? []}
+        initialFilters={{
+          exam: getSingle('exam'),
+          q: getSingle('q') || '',
+          domain: getSingle('domain') || '',
+          difficulty: getSingle('difficulty') || '',
+          outdated: getSingle('outdated') || 'all',
+          page: Math.max(1, parseInt(getSingle('page') || '1', 10) || 1),
+        }}
+      />
     </div>
   )
 }

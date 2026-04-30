@@ -1,7 +1,7 @@
 import crypto from 'crypto'
 import { NextRequest, NextResponse } from 'next/server'
 import { createServiceClient } from '@/lib/supabase/server'
-import { getExamPlan, getExamPlanByProductRef } from '@/lib/practice/payment-plans'
+import { getExamPlan, getExamPlanByName, getExamPlanByProductRef } from '@/lib/practice/payment-plans'
 import { grantAttemptsForExam } from '@/lib/practice/entitlements'
 
 function parseNestedForm(rawBody: string) {
@@ -153,13 +153,20 @@ export async function POST(request: NextRequest) {
     }
 
     const userId = asString(urlParams['user_id']) || asString(customFields['user_id']) || asString(body['user_id'])
-    if (!userId) {
-      return NextResponse.json({ error: 'Missing user_id in Gumroad payload' }, { status: 400 })
-    }
+    const buyerEmail =
+      asString(body['email']) || asString(body['purchase_email']) || asString(body['buyer_email']) || null
 
     const explicitPlanType = asString(urlParams['plan_type']) || asString(customFields['plan_type']) || asString(body['plan_type'])
-    const productRef = asString(body['product_permalink']) || asString(body['product_id'])
-    const plan = getExamPlan(explicitPlanType) || getExamPlanByProductRef('gumroad', productRef)
+    const productRef =
+      asString(body['product_permalink']) ||
+      asString(body['product_id']) ||
+      asString(body['product']) ||
+      asString(body['permalink'])
+    const productName = asString(body['product_name']) || asString(body['name'])
+    const plan =
+      getExamPlan(explicitPlanType) ||
+      getExamPlanByProductRef('gumroad', productRef) ||
+      getExamPlanByName(productName)
     if (!plan) {
       return NextResponse.json({ error: 'Could not map Gumroad product to exam plan' }, { status: 400 })
     }
@@ -170,13 +177,64 @@ export async function POST(request: NextRequest) {
       asStringArrayCsv(body['exam_slugs']),
     )
 
-    if (examSlugs.length !== plan.examCount) {
-      return NextResponse.json({ error: 'Gumroad exam_slugs does not match plan requirements' }, { status: 400 })
-    }
-
     const gumroadEventId = asString(body['sale_id']) || asString(body['id']) || asString(body['purchase_id']) || null
     if (!gumroadEventId) {
       return NextResponse.json({ error: 'Missing Gumroad sale identifier' }, { status: 400 })
+    }
+
+    const isBundle = plan.type === 'three_exam_bundle' || plan.type === 'five_exam_bundle'
+    const hasExactExamSelection = examSlugs.length === plan.examCount
+    const supabase = createServiceClient()
+
+    if (!hasExactExamSelection && isBundle) {
+      if (!buyerEmail) {
+        return NextResponse.json({ error: 'Missing buyer email for external bundle purchase' }, { status: 400 })
+      }
+
+      if (refunded === 'true') {
+        const { error } = await supabase
+          .from('practice_external_bundle_purchases')
+          .update({
+            status: 'refunded',
+            updated_at: new Date().toISOString(),
+          })
+          .eq('provider_event_id', gumroadEventId)
+        if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+        return NextResponse.json({ received: true, provider: 'gumroad', refunded: true, externalBundle: true })
+      }
+
+      const now = new Date()
+      const expiresAt = new Date(now)
+      expiresAt.setMonth(expiresAt.getMonth() + plan.validityMonths)
+      const { error } = await supabase
+        .from('practice_external_bundle_purchases')
+        .upsert(
+          {
+            provider: 'gumroad',
+            provider_event_id: gumroadEventId,
+            buyer_email: buyerEmail.toLowerCase(),
+            plan_type: plan.type,
+            attempts_per_exam: plan.attemptsPerExam,
+            remaining_exam_slots: plan.examCount,
+            validity_months: plan.validityMonths,
+            expires_at: expiresAt.toISOString(),
+            status: 'active',
+            raw_payload: body,
+            updated_at: new Date().toISOString(),
+            created_at: new Date().toISOString(),
+          },
+          { onConflict: 'provider_event_id' },
+        )
+      if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+
+      return NextResponse.json({ received: true, provider: 'gumroad', externalBundle: true, buyerEmail })
+    }
+
+    if (!hasExactExamSelection) {
+      return NextResponse.json({ error: 'Gumroad exam_slugs does not match plan requirements' }, { status: 400 })
+    }
+    if (!userId) {
+      return NextResponse.json({ error: 'Missing user_id in Gumroad payload' }, { status: 400 })
     }
 
     if (refunded === 'true') {
@@ -201,8 +259,6 @@ export async function POST(request: NextRequest) {
     const now = new Date()
     const expiresAt = new Date(now)
     expiresAt.setMonth(expiresAt.getMonth() + plan.validityMonths)
-
-    const supabase = createServiceClient()
     try {
       for (const examSlug of examSlugs) {
         await grantAttemptsForExam(supabase, userId, examSlug, plan.attemptsPerExam, expiresAt.toISOString())
