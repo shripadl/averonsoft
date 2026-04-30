@@ -1,6 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { requireAuthenticatedUser } from '@/lib/practice/auth'
-import { getExamPlan, getPaddleProductIdForPlan } from '@/lib/practice/payment-plans'
+import {
+  getExamPlan,
+  getGumroadProductPermalinkForPlan,
+  getPaddleProductIdForPlan,
+} from '@/lib/practice/payment-plans'
 
 export async function POST(request: NextRequest) {
   const auth = await requireAuthenticatedUser()
@@ -35,15 +39,7 @@ export async function POST(request: NextRequest) {
   }
 
   const productId = getPaddleProductIdForPlan(plan)
-  if (!productId) {
-    return NextResponse.json(
-      {
-        error: `Missing product configuration: ${plan.paddleProductEnvKey}`,
-      },
-      { status: 500 },
-    )
-  }
-
+  const provider = (process.env.PAYMENT_PROVIDER || 'gumroad').trim().toLowerCase()
   const appBaseUrl = process.env.NEXT_PUBLIC_SITE_URL || request.nextUrl.origin
   const customData = {
     source: 'practice_exams',
@@ -55,22 +51,63 @@ export async function POST(request: NextRequest) {
   }
 
   const firstExamSlug = examSlugs[0] || ''
-  const query = new URLSearchParams({
+  if (provider === 'paddle') {
+    if (!productId) {
+      return NextResponse.json(
+        {
+          error: `Missing product configuration: ${plan.paddleProductEnvKey}`,
+        },
+        { status: 500 },
+      )
+    }
+
+    const query = new URLSearchParams({
+      user_id: auth.user.id,
+      product: productId,
+      custom_data: JSON.stringify(customData),
+      success: `${appBaseUrl}/practice/${encodeURIComponent(firstExamSlug)}`,
+      cancel: `${appBaseUrl}/exam-payment-plans?exam=${encodeURIComponent(firstExamSlug)}`,
+    })
+
+    return NextResponse.json({
+      provider: 'paddle',
+      checkoutUrl: `https://checkout.paddle.com/checkout?${query.toString()}`,
+      metadata: {
+        userId: auth.user.id,
+        planType: plan.type,
+        examSlugs,
+        productId,
+      },
+    })
+  }
+
+  const permalink = getGumroadProductPermalinkForPlan(plan)
+  if (!permalink) {
+    return NextResponse.json(
+      {
+        error: `Missing Gumroad product configuration: ${plan.gumroadProductEnvKey}`,
+      },
+      { status: 500 },
+    )
+  }
+
+  const gumroadParams = new URLSearchParams({
+    wanted: 'true',
+    email: auth.user.email || '',
     user_id: auth.user.id,
-    product: productId,
-    custom_data: JSON.stringify(customData),
-    success: `${appBaseUrl}/practice/${encodeURIComponent(firstExamSlug)}`,
-    cancel: `${appBaseUrl}/exam-payment-plans?exam=${encodeURIComponent(firstExamSlug)}`,
+    plan_type: plan.type,
+    exam_slugs: examSlugs.join(','),
+    redirect_url: `${appBaseUrl}/practice/${encodeURIComponent(firstExamSlug)}`,
   })
 
   return NextResponse.json({
-    provider: 'paddle',
-    checkoutUrl: `https://checkout.paddle.com/checkout?${query.toString()}`,
+    provider: 'gumroad',
+    checkoutUrl: `https://gumroad.com/l/${encodeURIComponent(permalink)}?${gumroadParams.toString()}`,
     metadata: {
       userId: auth.user.id,
       planType: plan.type,
       examSlugs,
-      productId,
+      productPermalink: permalink,
     },
   })
 }

@@ -163,6 +163,17 @@ export default async function AdminPage() {
             </Link>
           </CardContent>
         </Card>
+        <Card>
+          <CardHeader>
+            <CardTitle>Practice Refunds</CardTitle>
+            <CardDescription>Decide revoke vs goodwill per refund case</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Link href="/admin/practice-refunds">
+              <Button className="w-full" variant="secondary">Open Refund Queue</Button>
+            </Link>
+          </CardContent>
+        </Card>
       </div>
 
       <div className="mt-10">

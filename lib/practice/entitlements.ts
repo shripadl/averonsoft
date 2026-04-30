@@ -107,3 +107,31 @@ export async function grantAttemptsForExam(
   )
   if (error) throw error
 }
+
+export async function revokeAttemptsForExam(
+  supabase: DbClient,
+  userId: string,
+  examSlug: string,
+  attemptsToRemove: number,
+) {
+  if (attemptsToRemove <= 0) return
+  const nowIso = new Date().toISOString()
+  const { data: existing, error: existingError } = await supabase
+    .from('user_exam_entitlements')
+    .select('attempts_remaining, expires_at')
+    .eq('user_id', userId)
+    .eq('exam_slug', examSlug)
+    .gt('expires_at', nowIso)
+    .maybeSingle()
+  if (existingError) throw existingError
+  if (!existing) return
+
+  const next = Math.max(0, (existing.attempts_remaining ?? 0) - attemptsToRemove)
+  const { error } = await supabase
+    .from('user_exam_entitlements')
+    .update({ attempts_remaining: next, updated_at: nowIso })
+    .eq('user_id', userId)
+    .eq('exam_slug', examSlug)
+    .gt('expires_at', nowIso)
+  if (error) throw error
+}

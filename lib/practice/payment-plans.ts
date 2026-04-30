@@ -8,6 +8,7 @@ export interface ExamPlanConfig {
   attemptsPerExam: number
   validityMonths: number
   paddleProductEnvKey: string
+  gumroadProductEnvKey: string
 }
 
 export const EXAM_PLANS: Record<ExamPlanType, ExamPlanConfig> = {
@@ -19,6 +20,7 @@ export const EXAM_PLANS: Record<ExamPlanType, ExamPlanConfig> = {
     attemptsPerExam: 5,
     validityMonths: 12,
     paddleProductEnvKey: 'PADDLE_PRODUCT_SINGLE_EXAM_PACK',
+    gumroadProductEnvKey: 'GUMROAD_PRODUCT_SINGLE_EXAM_PACK',
   },
   three_exam_bundle: {
     type: 'three_exam_bundle',
@@ -28,6 +30,7 @@ export const EXAM_PLANS: Record<ExamPlanType, ExamPlanConfig> = {
     attemptsPerExam: 5,
     validityMonths: 12,
     paddleProductEnvKey: 'PADDLE_PRODUCT_THREE_EXAM_BUNDLE',
+    gumroadProductEnvKey: 'GUMROAD_PRODUCT_THREE_EXAM_BUNDLE',
   },
   five_exam_bundle: {
     type: 'five_exam_bundle',
@@ -37,6 +40,7 @@ export const EXAM_PLANS: Record<ExamPlanType, ExamPlanConfig> = {
     attemptsPerExam: 5,
     validityMonths: 12,
     paddleProductEnvKey: 'PADDLE_PRODUCT_FIVE_EXAM_BUNDLE',
+    gumroadProductEnvKey: 'GUMROAD_PRODUCT_FIVE_EXAM_BUNDLE',
   },
 }
 
@@ -51,4 +55,25 @@ export function getExamPlan(type: string | null | undefined): ExamPlanConfig | n
 export function getPaddleProductIdForPlan(plan: ExamPlanConfig): string | null {
   const value = process.env[plan.paddleProductEnvKey]
   return value && value.trim().length > 0 ? value.trim() : null
+}
+
+export function getGumroadProductPermalinkForPlan(plan: ExamPlanConfig): string | null {
+  const value = process.env[plan.gumroadProductEnvKey]
+  return value && value.trim().length > 0 ? value.trim() : null
+}
+
+export function getExamPlanByProductRef(provider: 'gumroad' | 'paddle', productRef: string | null | undefined): ExamPlanConfig | null {
+  const ref = (productRef || '').trim()
+  if (!ref) return null
+
+  for (const plan of Object.values(EXAM_PLANS)) {
+    const configured =
+      provider === 'gumroad'
+        ? process.env[plan.gumroadProductEnvKey]
+        : process.env[plan.paddleProductEnvKey]
+    if ((configured || '').trim() === ref) {
+      return plan
+    }
+  }
+  return null
 }
