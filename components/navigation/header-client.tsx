@@ -110,7 +110,7 @@ export function HeaderClient({ user, visibleTools }: HeaderClientProps) {
                 </Link>
               )}
               {showPracticeSignOut ? (
-                <LogoutButton size="sm" variant="outline" className="shrink-0" />
+                <LogoutButton size="sm" variant="secondary" className="shrink-0" />
               ) : null}
               <AccountMenu email={user.email} />
             </>
@@ -166,7 +166,7 @@ export function HeaderClient({ user, visibleTools }: HeaderClientProps) {
                     </Link>
                   )}
                   {showPracticeSignOut ? (
-                    <LogoutButton size="sm" variant="outline" className="w-full" />
+                    <LogoutButton size="sm" variant="secondary" className="w-full" />
                   ) : null}
                   <AccountMenu email={user.email} />
                 </>
