@@ -7,6 +7,7 @@ import { Menu, X, LayoutDashboard, Shield } from 'lucide-react'
 import { useState } from 'react'
 import { ThemeToggle } from '@/components/theme-toggle'
 import { AccountMenu } from '@/app/components/AccountMenu'
+import { LogoutButton } from '@/app/components/LogoutButton'
 import type { ToolConfig } from '@/lib/tool-settings'
 
 interface HeaderClientProps {
@@ -28,6 +29,12 @@ export function HeaderClient({ user, visibleTools }: HeaderClientProps) {
   ]
 
   const navigation = [...toolsNav, ...baseNav]
+
+  const showPracticeSignOut =
+    !!user?.email &&
+    (pathname.startsWith('/practice') ||
+      pathname.startsWith('/exam-payment-plans') ||
+      pathname.startsWith('/exam-payment-confirmation'))
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border bg-surface shadow-sm">
@@ -102,6 +109,9 @@ export function HeaderClient({ user, visibleTools }: HeaderClientProps) {
                   </Button>
                 </Link>
               )}
+              {showPracticeSignOut ? (
+                <LogoutButton size="sm" variant="outline" className="shrink-0" />
+              ) : null}
               <AccountMenu email={user.email} />
             </>
           ) : (
@@ -155,6 +165,9 @@ export function HeaderClient({ user, visibleTools }: HeaderClientProps) {
                       </Button>
                     </Link>
                   )}
+                  {showPracticeSignOut ? (
+                    <LogoutButton size="sm" variant="outline" className="w-full" />
+                  ) : null}
                   <AccountMenu email={user.email} />
                 </>
               ) : (
