@@ -6,12 +6,14 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
+import { safePostLoginPath } from '@/lib/safe-post-login-path'
 
 export function LoginForm() {
   const [loading, setLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const supabase = createClient()
   const searchParams = useSearchParams()
+  const nextSafe = safePostLoginPath(searchParams.get('next'))
 
   useEffect(() => {
     const error = searchParams.get('error')
@@ -39,8 +41,15 @@ export function LoginForm() {
 
   const handleGoogleSignIn = () => {
     setLoading(true)
-    window.location.href = '/auth/google'
+    const href =
+      nextSafe != null
+        ? `/auth/google?next=${encodeURIComponent(nextSafe)}`
+        : '/auth/google'
+    window.location.href = href
   }
+
+  const signupHref =
+    nextSafe != null ? `/signup?next=${encodeURIComponent(nextSafe)}` : '/signup'
 
   return (
     <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center px-4 py-12">
@@ -68,7 +77,7 @@ export function LoginForm() {
 
           <div className="text-center text-sm text-muted-foreground">
             Don&apos;t have an account?{' '}
-            <Link href="/signup" className="text-primary hover:underline">
+            <Link href={signupHref} className="text-primary hover:underline">
               Sign up
             </Link>
           </div>

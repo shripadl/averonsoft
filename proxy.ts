@@ -1,5 +1,6 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
+import { safePostLoginPath } from '@/lib/safe-post-login-path'
 
 const ADMIN_ROLES = ['admin', 'super_admin', 'support']
 
@@ -90,10 +91,10 @@ export async function proxy(request: NextRequest) {
     }
   }
 
-  // Redirect to dashboard if logged in and accessing login/signup
+  // Redirect if logged in and accessing login/signup (prefer ?next= post-login destination)
   if (user && (request.nextUrl.pathname === '/login' || request.nextUrl.pathname === '/signup')) {
-    const url = request.nextUrl.clone()
-    url.pathname = '/dashboard'
+    const dest = safePostLoginPath(request.nextUrl.searchParams.get('next')) || '/dashboard'
+    const url = new URL(dest, request.nextUrl.origin)
     return NextResponse.redirect(url)
   }
 

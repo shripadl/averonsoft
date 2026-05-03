@@ -19,6 +19,22 @@ export function setOAuthStateCookie(state: string): string {
   return serializeCookie('oauth_state', state, COOKIE_OPTIONS)
 }
 
+const OAUTH_POST_LOGIN_PATH = 'oauth_post_login_path'
+
+export function setOAuthPostLoginPathCookie(path: string): string {
+  return serializeCookie(OAUTH_POST_LOGIN_PATH, path, COOKIE_OPTIONS)
+}
+
+export function getOAuthPostLoginPath(cookieHeader: string | null): string | null {
+  const raw = parseCookies(cookieHeader)[OAUTH_POST_LOGIN_PATH]
+  if (!raw) return null
+  try {
+    return decodeURIComponent(raw)
+  } catch {
+    return null
+  }
+}
+
 export function parseCookies(cookieHeader: string | null): Record<string, string> {
   if (!cookieHeader) return {}
   const cookies: Record<string, string> = {}
