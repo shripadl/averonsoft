@@ -1,0 +1,13 @@
+import type { TemplateConfig } from '../../template-config'
+
+export const operatingsystemsTemplate002: TemplateConfig = {
+  "domain": "operating_systems",
+  "stem": "Operating systems (2/80): which statement best matches virtual memory and paging when prioritizing security?",
+  "variables": {},
+  "correct": "Kernel design ties virtual memory and paging to measurable security characteristics for workloads and policies.",
+  "distractors": [
+    "It means deadlocks cannot occur with a single mutex.",
+    "It removes the benefit of copy-on-write after fork.",
+    "It implies the kernel never mediates hardware access."
+  ]
+}

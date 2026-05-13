@@ -12,6 +12,7 @@ import {
   TextSearch,
   Trophy,
   GraduationCap,
+  ListChecks,
 } from 'lucide-react'
 
 const TOOL_DESCRIPTIONS: Record<string, string> = {
@@ -25,6 +26,8 @@ const TOOL_DESCRIPTIONS: Record<string, string> = {
   regexexplainer: 'Explain regex in plain English and test matches in your browser.',
   practiceexams:
     'Unofficial cloud certification practice exams. Sign in to track attempts; first tries are free.',
+  examgenerator:
+    'Deterministic MCQs from your topic—no external AI. PDF export. Free for a limited period.',
 }
 
 const TOOL_ICONS: Record<string, typeof FileText> = {
@@ -38,6 +41,7 @@ const TOOL_ICONS: Record<string, typeof FileText> = {
   regexexplainer: TextSearch,
   sportanalytics: Trophy,
   practiceexams: GraduationCap,
+  examgenerator: ListChecks,
 }
 
 export default async function HomePage() {

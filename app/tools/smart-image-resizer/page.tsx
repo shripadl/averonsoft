@@ -7,19 +7,25 @@ import type { Metadata } from 'next'
 const schema = {
   '@context': 'https://schema.org',
   '@type': 'SoftwareApplication',
-  name: 'Smart Image Resizer',
+  name: 'Smart Image Toolkit',
   applicationCategory: 'MultimediaApplication',
   operatingSystem: 'Web',
+  featureList: [
+    'Content-aware image resize',
+    'Image splitting / grid tiling',
+    'AI background removal',
+  ],
   offers: { '@type': 'Offer', price: 0, priceCurrency: 'USD' },
 }
 
 export const metadata: Metadata = {
-  title: 'Smart Image Resizer | Resize Without Cropping | Averonsoft Tools',
+  title: 'Smart Image Toolkit | Resize, Split & Remove Background | Averonsoft Tools',
   description:
-    'Resize images to new aspect ratios without stretching or cropping. Content-aware seam carving. Protect faces and logos. All processing in your browser. No uploads.',
+    'All-in-one in-browser image toolkit: content-aware resize, grid/tile splitting (Instagram-ready), and AI background removal. 100% local processing — your images never leave your device.',
   openGraph: {
-    title: 'Smart Image Resizer | Averonsoft Tools',
-    description: 'Resize images without cropping. Content-aware. 100% in browser.',
+    title: 'Smart Image Toolkit | Averonsoft Tools',
+    description:
+      'Resize, split, and remove backgrounds — all in your browser. Content-aware, privacy-first.',
   },
 }
 
@@ -29,9 +35,9 @@ export default async function SmartImageResizerPage() {
 
   if (!accessible) {
     if (maintenance) {
-      return <ToolMaintenancePage toolName="Smart Image Resizer" />
+      return <ToolMaintenancePage toolName="Smart Image Toolkit" />
     }
-    return <ToolDisabledPage toolName="Smart Image Resizer" />
+    return <ToolDisabledPage toolName="Smart Image Toolkit" />
   }
 
   return (
@@ -41,9 +47,9 @@ export default async function SmartImageResizerPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
       />
       <div className="mb-8">
-        <h1 className="text-3xl font-bold">Smart Image Resizer</h1>
+        <h1 className="text-3xl font-bold">Smart Image Toolkit</h1>
         <p className="mt-2 text-muted-foreground">
-          Resize images to new aspect ratios without stretching or cropping important content.
+          Content-aware resize, grid/tile splitting, and AI background removal — all running locally in your browser.
         </p>
       </div>
 

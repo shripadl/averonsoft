@@ -28,7 +28,9 @@ export default async function PracticeQuestionsAdminPage({
     <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
       <h1 className="mb-2 text-2xl font-bold text-foreground">Practice question bank</h1>
       <p className="mb-8 text-sm text-muted-foreground">
-        Search, filter, edit in place, and run bulk status updates. Admin access only.
+        Search, filter, edit in place, and run bulk status updates.         You can download the full question bank as .txt or .json
+        (all rows for the selected exam, including answers) for external validation, and run one-click rules + Gemini checks.
+        Admin access only.
       </p>
       <PracticeQuestionsAdminClient
         exams={exams ?? []}

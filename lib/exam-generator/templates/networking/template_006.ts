@@ -1,0 +1,13 @@
+import type { TemplateConfig } from '../../template-config'
+
+export const networkingTemplate006: TemplateConfig = {
+  "domain": "networking",
+  "stem": "Networking study item (6/80): which option best fits “VLAN segmentation and trunks” in the context of failure domains?",
+  "variables": {},
+  "correct": "Understanding VLAN segmentation and trunks helps place controls and performance decisions correctly when analyzing failure domains.",
+  "distractors": [
+    "It removes the value of ECMP for resilience.",
+    "It guarantees Wi-Fi channels never overlap.",
+    "It implies ARP resolves hostnames directly."
+  ]
+}

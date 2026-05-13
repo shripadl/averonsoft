@@ -9,13 +9,14 @@ const TOOLS = [
   { id: 'pdfconverter', name: 'PDF Converter', key: 'pdfconverter' },
   { id: 'charactercounter', name: 'Character Counter', key: 'charactercounter' },
   { id: 'jsonformatter', name: 'JSON Formatter', key: 'jsonformatter' },
-  { id: 'smartimageresizer', name: 'Smart Image Resizer', key: 'smartimageresizer' },
+  { id: 'smartimageresizer', name: 'Smart Image Toolkit', key: 'smartimageresizer' },
   { id: 'businesscard', name: 'Business Card', key: 'businesscard' },
   { id: 'aiworkspace', name: 'AI Code Workspace', key: 'aiworkspace' },
   { id: 'daw', name: 'DAW', key: 'daw' },
   { id: 'regexexplainer', name: 'RegExplain', key: 'regexexplainer' },
   { id: 'sportanalytics', name: 'Sports Analytics', key: 'sportanalytics' },
   { id: 'practiceexams', name: 'Practice Exams', key: 'practiceexams' },
+  { id: 'examgenerator', name: 'Exam Question Generator', key: 'examgenerator' },
 ]
 
 function Toggle({

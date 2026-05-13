@@ -11,6 +11,7 @@ export const TOOL_KEYS = [
   'regexexplainer',
   'sportanalytics',
   'practiceexams',
+  'examgenerator',
 ] as const
 export type ToolKey = (typeof TOOL_KEYS)[number]
 
@@ -24,13 +25,14 @@ export const TOOL_CONFIG: ToolConfig[] = [
   { key: 'pdfconverter', name: 'PDF Converter', href: '/tools/pdf-converter' },
   { key: 'charactercounter', name: 'Character Counter', href: '/tools/character-counter' },
   { key: 'jsonformatter', name: 'JSON Formatter', href: '/tools/json-formatter' },
-  { key: 'smartimageresizer', name: 'Smart Image Resizer', href: '/tools/smart-image-resizer' },
+  { key: 'smartimageresizer', name: 'Smart Image Toolkit', href: '/tools/smart-image-resizer' },
   { key: 'businesscard', name: 'Business Card', href: '/tools/business-card' },
   { key: 'aiworkspace', name: 'AI Code Workspace', href: '/tools/ai-workspace' },
   { key: 'daw', name: 'DAW', href: '/tools/daw' },
   { key: 'regexexplainer', name: 'RegExplain', href: '/tools/regex-explainer' },
   { key: 'sportanalytics', name: 'Sports Analytics', href: '/sports' },
   { key: 'practiceexams', name: 'Practice Exams', href: '/practice' },
+  { key: 'examgenerator', name: 'Exam Question Generator', href: '/exam-generator' },
 ]
 
 export interface ToolSettings {

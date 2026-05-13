@@ -14,6 +14,7 @@ import {
   TextSearch,
   Trophy,
   GraduationCap,
+  ListChecks,
 } from 'lucide-react'
 import { LogoutButton } from "@/app/components/LogoutButton"
 import { getToolSettings, getVisibleTools } from '@/lib/tool-settings'
@@ -29,6 +30,7 @@ const TOOL_ICONS: Record<string, typeof CreditCard> = {
   regexexplainer: TextSearch,
   practiceexams: GraduationCap,
   sportanalytics: Trophy,
+  examgenerator: ListChecks,
 }
 
 export default async function DashboardPage() {

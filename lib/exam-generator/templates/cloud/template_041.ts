@@ -1,0 +1,13 @@
+import type { TemplateConfig } from '../../template-config'
+
+export const cloudTemplate041: TemplateConfig = {
+  "domain": "cloud",
+  "stem": "For generic public-cloud study (41/80): which statement aligns best with “object lifecycle and storage classes” when discussing availability and fault-isolation assumptions?",
+  "variables": {},
+  "correct": "Policies, monitoring, and architecture choices around object lifecycle and storage classes should explicitly address availability and fault-isolation assumptions under a shared-responsibility model.",
+  "distractors": [
+    "It replaces the need for backup copies entirely.",
+    "It mandates identical hardware in every rack.",
+    "It eliminates monitoring because the provider observes everything."
+  ]
+}

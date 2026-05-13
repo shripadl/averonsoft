@@ -1,0 +1,13 @@
+import type { TemplateConfig } from '../../template-config'
+
+export const networkingTemplate061: TemplateConfig = {
+  "domain": "networking",
+  "stem": "Networking study item (61/80): which option best fits “OSPF area concepts (introductory)” in the context of broadcast versus collision domains?",
+  "variables": {},
+  "correct": "Understanding OSPF area concepts (introductory) helps place controls and performance decisions correctly when analyzing broadcast versus collision domains.",
+  "distractors": [
+    "It guarantees jitter is irrelevant for VoIP quality.",
+    "It means ICMP always carries application payloads.",
+    "It implies trunks cannot carry more than one VLAN."
+  ]
+}
