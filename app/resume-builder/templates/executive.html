@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:"Segoe UI",Tahoma,sans-serif;background:#fff;color:#1a1a1a;padding:44px 52px;max-width:820px;margin:0 auto}
+  .rule{height:4px;background:linear-gradient(90deg,#92400e,#b45309);margin-bottom:24px}
+  h1{font-size:1.9rem;font-weight:300;letter-spacing:0.04em;color:#78350f}
+  .headline{font-size:0.9rem;color:#57534e;margin-top:6px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em}
+  .contact{font-size:0.8rem;color:#78716c;margin:14px 0 30px}
+  .sec{margin-bottom:26px}
+  .sec h2{font-size:0.68rem;text-transform:uppercase;letter-spacing:0.14em;color:#92400e;margin-bottom:12px;font-weight:700}
+  .skill-row{display:block;margin-bottom:10px}
+  .skill-name{font-size:0.8rem;font-weight:600}
+  .skill-bar{display:block;height:4px;background:#fef3c7;margin-top:4px}
+  .skill-fill{display:block;height:100%;width:90%;background:#b45309}
+  .exp-item{margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid #f5f5f4}
+  .exp-item h3{font-size:0.95rem;font-weight:600}
+  .meta{font-size:0.78rem;color:#a8a29e}
+  .desc{font-size:0.88rem;color:#44403c;margin-top:6px}
+  @media(max-width:640px){body{padding:28px 22px}}
+</style>
+</head>
+<body class="tpl-executive">
+<div class="rule"></div>
+<header>
+  <h1>{{fullName}}</h1>
+  <p class="headline">{{headline}}</p>
+  <p class="contact">{{contactLine}}</p>
+</header>
+<main>{{sections}}</main>
+</body>
+</html>

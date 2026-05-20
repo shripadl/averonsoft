@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:Georgia,"Times New Roman",serif;background:#fafafa;color:#18181b;padding:56px 64px;max-width:780px;margin:0 auto;line-height:1.7}
+  h1{font-size:2.4rem;font-weight:400;letter-spacing:0.02em}
+  .headline{font-style:italic;color:#52525b;margin-top:8px;font-size:1.05rem}
+  .contact{font-size:0.8rem;color:#71717a;margin-top:16px;letter-spacing:0.04em}
+  .sec{margin-top:40px}
+  .sec h2{font-size:0.65rem;text-transform:uppercase;letter-spacing:0.2em;color:#a1a1aa;margin-bottom:16px;font-weight:400;border:none}
+  .chip{background:transparent;border-bottom:1px solid #d4d4d8;border-radius:0;padding:2px 0;margin-right:12px;font-size:0.85rem;display:inline}
+  .exp-item{margin-bottom:24px;padding-left:0}
+  .exp-item h3{font-weight:400;font-size:1rem}
+  .meta{font-size:0.78rem;color:#71717a}
+  .desc{margin-top:8px;font-size:0.9rem}
+  @media(max-width:640px){body{padding:32px 24px}}
+</style>
+</head>
+<body class="tpl-minimal">
+<header>
+  <h1>{{fullName}}</h1>
+  <p class="headline">{{headline}}</p>
+  <p class="contact">{{email}} · {{phone}} · {{location}}</p>
+</header>
+<main>{{sections}}</main>
+</body>
+</html>

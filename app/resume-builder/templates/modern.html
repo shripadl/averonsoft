@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:system-ui,-apple-system,sans-serif;background:#fff;color:#0f172a;line-height:1.55;padding:40px 48px;max-width:820px;margin:0 auto}
+  .header{border-bottom:3px solid #0ea5e9;padding-bottom:20px;margin-bottom:28px}
+  h1{font-size:2rem;font-weight:700;letter-spacing:-0.02em}
+  .headline{font-size:1rem;color:#0369a1;margin-top:6px;font-weight:500}
+  .contact{font-size:0.85rem;color:#64748b;margin-top:10px}
+  .sec{margin-bottom:26px}
+  .sec h2{font-size:0.7rem;text-transform:uppercase;letter-spacing:0.12em;color:#0ea5e9;margin-bottom:12px;font-weight:700}
+  .chip{display:inline-block;background:#f0f9ff;border:1px solid #bae6fd;color:#0369a1;padding:4px 10px;border-radius:999px;font-size:0.75rem;margin:3px 4px 3px 0}
+  .exp-item{margin-bottom:16px}
+  .exp-item h3{font-size:0.95rem;font-weight:600}
+  .meta{font-size:0.8rem;color:#64748b;margin:2px 0 6px}
+  .desc{font-size:0.88rem;color:#334155}
+  .edu-item{margin-bottom:12px}
+  .edu-item h3{font-size:0.9rem}
+  @media(max-width:640px){body{padding:24px 20px}}
+</style>
+</head>
+<body class="tpl-modern">
+<header class="header">
+  <h1>{{fullName}}</h1>
+  <p class="headline">{{headline}}</p>
+  <p class="contact">{{contactLine}}</p>
+</header>
+<main>{{sections}}</main>
+</body>
+</html>

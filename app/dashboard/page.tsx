@@ -15,6 +15,7 @@ import {
   Trophy,
   GraduationCap,
   ListChecks,
+  FileUser,
 } from 'lucide-react'
 import { LogoutButton } from "@/app/components/LogoutButton"
 import { getToolSettings, getVisibleTools } from '@/lib/tool-settings'
@@ -31,6 +32,7 @@ const TOOL_ICONS: Record<string, typeof CreditCard> = {
   practiceexams: GraduationCap,
   sportanalytics: Trophy,
   examgenerator: ListChecks,
+  resumebuilder: FileUser,
 }
 
 export default async function DashboardPage() {
@@ -108,6 +110,8 @@ export default async function DashboardPage() {
               regexexplainer: 'Plain-English regex explanations and live testing',
               sportanalytics: 'Sports fixtures and model outputs — football and cricket',
               practiceexams: 'Unofficial cloud cert practice; track attempts and scores (account required)',
+              examgenerator: 'Generate practice MCQs from your topics with PDF export.',
+              resumebuilder: 'Build a CV with templates, PDF export, and certificate upload.',
             }
             return (
               <Card key={tool.key}>

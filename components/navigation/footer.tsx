@@ -9,9 +9,14 @@ export async function Footer() {
     ...visibleTools.map(t => ({ name: t.name, href: t.href })),
   ]
 
-  const footerSections = [
+  const footerSections: {
+    title: string
+    scrollable?: boolean
+    links: { name: string; href: string }[]
+  }[] = [
     {
       title: 'Tools',
+      scrollable: true,
       links: productLinks.length > 0 ? productLinks : [{ name: 'Home', href: '/' }],
     },
     {
@@ -53,18 +58,43 @@ export async function Footer() {
           {footerSections.map((section) => (
             <div key={section.title}>
               <h3 className="text-sm font-semibold mb-4 text-foreground">{section.title}</h3>
-              <ul className="space-y-3">
-                {section.links.map((link) => (
-                  <li key={link.name}>
+              {section.scrollable ? (
+                <>
+                  <p className="mb-2">
                     <Link
-                      href={link.href}
-                      className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                      href="/"
+                      className="text-xs font-medium text-primary hover:underline"
                     >
-                      {link.name}
+                      Browse all tools on the homepage →
                     </Link>
-                  </li>
-                ))}
-              </ul>
+                  </p>
+                  <ul className="max-h-48 overflow-y-auto overscroll-contain space-y-3 pr-1 text-left [scrollbar-width:thin]">
+                    {section.links.map((link) => (
+                      <li key={link.name}>
+                        <Link
+                          href={link.href}
+                          className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                        >
+                          {link.name}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              ) : (
+                <ul className="space-y-3">
+                  {section.links.map((link) => (
+                    <li key={link.name}>
+                      <Link
+                        href={link.href}
+                        className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                      >
+                        {link.name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
           ))}
         </div>

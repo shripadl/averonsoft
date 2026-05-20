@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:Arial,sans-serif;background:#fff;color:#171717;padding:28px 36px;max-width:780px;margin:0 auto;font-size:0.82rem;line-height:1.4}
+  h1{font-size:1.25rem;font-weight:700}
+  .headline{font-size:0.8rem;color:#525252}
+  .contact{font-size:0.72rem;color:#737373;margin:6px 0 16px}
+  .sec{margin-bottom:14px}
+  .sec h2{font-size:0.65rem;text-transform:uppercase;letter-spacing:0.06em;background:#f5f5f5;padding:3px 8px;margin-bottom:8px;display:inline-block}
+  .skills-inline{color:#404040}
+  .exp-line{margin-bottom:4px}
+  .edu-item{margin-bottom:6px}
+  .edu-item h3{font-size:0.82rem;display:inline}
+  .edu-item p{display:inline}
+  .meta{color:#737373}
+  @media(max-width:640px){body{padding:20px 16px}}
+</style>
+</head>
+<body class="tpl-compact">
+<header>
+  <h1>{{fullName}}</h1>
+  <p class="headline">{{headline}}</p>
+  <p class="contact">{{contactLine}}</p>
+</header>
+<main>{{sections}}</main>
+</body>
+</html>

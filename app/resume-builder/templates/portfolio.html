@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:system-ui,sans-serif;background:#18181b;color:#fafafa;padding:40px;max-width:840px;margin:0 auto}
+  h1{font-size:2.1rem;font-weight:800;letter-spacing:-0.03em}
+  .headline{color:#a3a3a3;margin-top:6px;font-size:1rem}
+  .contact{font-size:0.8rem;color:#737373;margin:12px 0 32px}
+  .sec{margin-bottom:28px}
+  .sec h2{font-size:0.7rem;text-transform:uppercase;color:#f97316;letter-spacing:0.12em;margin-bottom:14px}
+  .card{background:#262626;border:1px solid #404040;border-radius:10px;padding:18px 20px;margin-bottom:12px}
+  .card h3{font-size:1rem;color:#fff}
+  .card-sub{color:#f97316;font-size:0.85rem;margin-top:2px}
+  .meta{font-size:0.75rem;color:#a3a3a3;margin-top:6px}
+  .desc{font-size:0.85rem;color:#d4d4d4;margin-top:8px;line-height:1.5}
+  .chip{background:#422006;color:#fdba74;border:1px solid #ea580c;padding:4px 10px;border-radius:6px;font-size:0.72rem;margin:3px;display:inline-block}
+  @media(max-width:640px){body{padding:24px 18px}}
+</style>
+</head>
+<body class="tpl-portfolio">
+<header>
+  <h1>{{fullName}}</h1>
+  <p class="headline">{{headline}}</p>
+  <p class="contact">{{contactLine}}</p>
+</header>
+<main>{{sections}}</main>
+</body>
+</html>

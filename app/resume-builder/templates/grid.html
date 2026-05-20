@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:system-ui,sans-serif;background:#f1f5f9;color:#0f172a;padding:32px;max-width:860px;margin:0 auto}
+  .intro{background:#fff;padding:28px 32px;border-radius:12px;margin-bottom:20px;box-shadow:0 1px 3px rgb(0 0 0/0.08)}
+  h1{font-size:1.8rem}
+  .headline{color:#64748b;margin-top:4px}
+  .contact{font-size:0.82rem;color:#94a3b8;margin-top:10px}
+  .sec{background:#fff;padding:22px 26px;border-radius:10px;margin-bottom:16px;box-shadow:0 1px 2px rgb(0 0 0/0.06)}
+  .sec h2{font-size:0.7rem;text-transform:uppercase;color:#7c3aed;margin-bottom:12px;letter-spacing:0.08em}
+  .skills-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  .skill-cell{background:#f5f3ff;border:1px solid #ddd6fe;padding:8px;text-align:center;font-size:0.78rem;border-radius:6px}
+  .edu-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .edu-card{background:#faf5ff;padding:12px;border-radius:8px;border:1px solid #e9d5ff}
+  .edu-card h3{font-size:0.88rem}
+  .card,.exp-item{margin-bottom:12px}
+  .meta{font-size:0.78rem;color:#64748b}
+  @media(max-width:640px){.skills-grid,.edu-grid{grid-template-columns:1fr}body{padding:16px}}
+</style>
+</head>
+<body class="tpl-grid">
+<header class="intro">
+  <h1>{{fullName}}</h1>
+  <p class="headline">{{headline}}</p>
+  <p class="contact">{{contactLine}}</p>
+</header>
+<main>{{sections}}</main>
+</body>
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:Georgia,"Times New Roman",Times,serif;
+    background:#fff;
+    color:#000;
+    padding:44px 52px;
+    max-width:820px;
+    margin:0 auto;
+    line-height:1.5;
+    font-size:10.5pt;
+  }
+  .formal-head{
+    text-align:center;
+    margin-bottom:28px;
+    padding-bottom:0;
+  }
+  .formal-head h1{
+    font-size:1.35rem;
+    font-weight:700;
+    letter-spacing:0.02em;
+    margin-bottom:6px;
+  }
+  .formal-head .headline{
+    font-size:1.05rem;
+    font-weight:700;
+    margin-bottom:8px;
+  }
+  .formal-head .contact{
+    font-size:0.82rem;
+    font-weight:400;
+    color:#000;
+  }
+  .sec{margin-bottom:0}
+  .sec-rail{
+    display:grid;
+    grid-template-columns:minmax(110px,28%) 1fr;
+    gap:16px 24px;
+    padding:18px 0;
+    border-top:1px solid #000;
+    align-items:start;
+  }
+  .sec-rail .rail-label{
+    font-size:0.72rem;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    margin:0;
+    padding-top:2px;
+  }
+  .sec-rail .rail-content{
+    font-size:0.92rem;
+  }
+  .sec-rail .rail-content p{margin:0}
+  .skills-cols{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:6px 32px;
+    font-size:0.88rem;
+  }
+  .skills-cols .skill-item{padding:2px 0}
+  .sec-block{
+    border-top:1px solid #000;
+    padding:18px 0 8px;
+  }
+  .sec-block .block-title{
+    font-size:0.72rem;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    margin:0 0 14px;
+  }
+  .rail-entry{
+    display:grid;
+    grid-template-columns:minmax(110px,28%) 1fr;
+    gap:8px 24px;
+    margin-bottom:16px;
+    align-items:start;
+  }
+  .rail-entry .rail-date{
+    font-size:0.82rem;
+    color:#000;
+  }
+  .rail-entry .rail-body h3{
+    font-size:0.92rem;
+    font-weight:700;
+    margin:0 0 6px;
+  }
+  .rail-entry .rail-body .desc{
+    font-size:0.88rem;
+    margin:0;
+    line-height:1.45;
+  }
+  .link-item{font-size:0.88rem;margin-bottom:4px}
+  @media(max-width:640px){
+    body{padding:28px 20px}
+    .sec-rail,.rail-entry{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body class="tpl-formal">
+<header class="formal-head">
+  <h1>{{fullName}}</h1>
+  <p class="headline">{{headline}}</p>
+  <p class="contact">{{formalContactLine}}</p>
+</header>
+<main>{{sections}}</main>
+</body>
+</html>

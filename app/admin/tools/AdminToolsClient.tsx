@@ -17,6 +17,7 @@ const TOOLS = [
   { id: 'sportanalytics', name: 'Sports Analytics', key: 'sportanalytics' },
   { id: 'practiceexams', name: 'Practice Exams', key: 'practiceexams' },
   { id: 'examgenerator', name: 'Exam Question Generator', key: 'examgenerator' },
+  { id: 'resumebuilder', name: 'CV / Resume Builder', key: 'resumebuilder' },
 ]
 
 function Toggle({

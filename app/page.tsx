@@ -13,6 +13,7 @@ import {
   Trophy,
   GraduationCap,
   ListChecks,
+  FileUser,
 } from 'lucide-react'
 
 const TOOL_DESCRIPTIONS: Record<string, string> = {
@@ -28,6 +29,8 @@ const TOOL_DESCRIPTIONS: Record<string, string> = {
     'Unofficial cloud certification practice exams. Sign in to track attempts; first tries are free.',
   examgenerator:
     'Deterministic MCQs from your topic—no external AI. PDF export. Free for a limited period.',
+  resumebuilder:
+    'Build a professional CV with templates, PDF export, and certificate text extraction. No AI.',
 }
 
 const TOOL_ICONS: Record<string, typeof FileText> = {
@@ -42,6 +45,7 @@ const TOOL_ICONS: Record<string, typeof FileText> = {
   sportanalytics: Trophy,
   practiceexams: GraduationCap,
   examgenerator: ListChecks,
+  resumebuilder: FileUser,
 }
 
 export default async function HomePage() {

@@ -12,6 +12,7 @@ export const TOOL_KEYS = [
   'sportanalytics',
   'practiceexams',
   'examgenerator',
+  'resumebuilder',
 ] as const
 export type ToolKey = (typeof TOOL_KEYS)[number]
 
@@ -33,6 +34,7 @@ export const TOOL_CONFIG: ToolConfig[] = [
   { key: 'sportanalytics', name: 'Sports Analytics', href: '/sports' },
   { key: 'practiceexams', name: 'Practice Exams', href: '/practice' },
   { key: 'examgenerator', name: 'Exam Question Generator', href: '/exam-generator' },
+  { key: 'resumebuilder', name: 'CV / Resume Builder', href: '/resume-builder' },
 ]
 
 export interface ToolSettings {
