@@ -4,8 +4,12 @@ import { renderHtmlToPdfBuffer } from "@/lib/render-resume-pdf";
 export const runtime = "nodejs";
 export const maxDuration = 60;
 
-const CHROME_HINT =
-  "Chromium is not installed for PDF export. From the project folder run: pnpm puppeteer:install — then restart the dev server.";
+function chromeHint(): string {
+  if (process.env.VERCEL === "1") {
+    return "PDF export could not start on the server. Redeploy after the latest build, or try again in a minute.";
+  }
+  return "Chromium is not installed for PDF export. From the project folder run: pnpm puppeteer:install — then restart the dev server.";
+}
 
 export async function POST(req: Request) {
   let body: { html?: string };
@@ -31,7 +35,7 @@ export async function POST(req: Request) {
     const isChrome = result.code === "chrome_missing";
     return NextResponse.json(
       {
-        error: isChrome ? CHROME_HINT : "PDF generation failed",
+        error: isChrome ? chromeHint() : "PDF generation failed",
         detail: result.message,
         code: result.code,
       },

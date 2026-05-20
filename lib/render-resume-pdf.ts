@@ -1,43 +1,27 @@
 import { prepareResumePdfHtml } from "@/lib/prepare-resume-pdf-html";
-
-const LAUNCH_ARGS = [
-  "--no-sandbox",
-  "--disable-setuid-sandbox",
-  "--disable-dev-shm-usage",
-  "--disable-gpu",
-];
+import { launchPdfBrowser } from "@/lib/puppeteer-launch";
 
 export type RenderPdfResult =
   | { ok: true; buffer: Buffer }
   | { ok: false; code: "chrome_missing" | "failed"; message: string };
 
 /**
- * Vector PDF via headless Chrome (Puppeteer). Requires Chrome from
- * `pnpm puppeteer:install` (runs on postinstall).
+ * Vector PDF via headless Chrome (Puppeteer).
+ * Vercel: @sparticuz/chromium. Local: Chrome from `pnpm puppeteer:install`.
  */
 export async function renderHtmlToPdfBuffer(html: string): Promise<RenderPdfResult> {
   const prepared = prepareResumePdfHtml(html);
 
-  let puppeteer: typeof import("puppeteer");
+  let browser: Awaited<ReturnType<typeof launchPdfBrowser>> | undefined;
   try {
-    puppeteer = await import("puppeteer");
-  } catch (err) {
-    const message = err instanceof Error ? err.message : "Could not load puppeteer";
-    return { ok: false, code: "failed", message };
-  }
-
-  let browser: Awaited<ReturnType<typeof puppeteer.default.launch>> | undefined;
-  try {
-    browser = await puppeteer.default.launch({
-      headless: true,
-      args: LAUNCH_ARGS,
-    });
+    browser = await launchPdfBrowser();
   } catch (err) {
     const message = err instanceof Error ? err.message : "Browser launch failed";
     const chromeMissing =
       /could not find chrome/i.test(message) ||
       /executable doesn't exist/i.test(message) ||
-      /browser was not found/i.test(message);
+      /browser was not found/i.test(message) ||
+      /chrome not found/i.test(message);
     return {
       ok: false,
       code: chromeMissing ? "chrome_missing" : "failed",

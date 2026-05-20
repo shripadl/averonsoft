@@ -4,6 +4,8 @@ const nextConfig: NextConfig = {
   serverExternalPackages: [
     "pdf-parse",
     "puppeteer",
+    "puppeteer-core",
+    "@sparticuz/chromium",
     "tesseract.js",
     "mammoth",
     "@prisma/client",
