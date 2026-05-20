@@ -33,11 +33,6 @@ import {
 import { exportHtmlToPdf, exportIframeToPdf } from "@/lib/export-preview-pdf";
 import { postServerPdf } from "@/lib/download-server-pdf";
 import {
-  buildCoverLetterDocx,
-  buildResumeDocx,
-  downloadBlob as downloadDocxBlob,
-} from "@/lib/export-resume-docx";
-import {
   countParsedFields,
   mergeParsedIntoResume,
   parseTextToResume,
@@ -84,7 +79,13 @@ async function extractFile(
   return json.rawText;
 }
 
-export function ResumeBuilderScreen() {
+type ResumeBuilderScreenProps = {
+  canExportWord?: boolean;
+};
+
+export function ResumeBuilderScreen({
+  canExportWord = false,
+}: ResumeBuilderScreenProps) {
   const searchParams = useSearchParams();
   const pdfDebug = searchParams.get("debug") === "pdf";
   const [tab, setTab] = useState<BuilderTab>("resume");
@@ -234,15 +235,18 @@ export function ResumeBuilderScreen() {
   }
 
   async function exportWord() {
+    if (!canExportWord) return;
     setExportingWord(true);
     try {
+      const { buildCoverLetterDocx, buildResumeDocx, downloadBlob } =
+        await import("@/lib/export-resume-docx");
       const blob =
         tab === "cover"
           ? await buildCoverLetterDocx(coverLetter, template)
           : await buildResumeDocx(data, template);
       const filename =
         tab === "cover" ? "cover-letter.docx" : "resume.docx";
-      downloadDocxBlob(blob, filename);
+      downloadBlob(blob, filename);
       toast.success("Word document downloaded");
     } catch (err) {
       const message =
@@ -342,18 +346,20 @@ export function ResumeBuilderScreen() {
                 ? "Download cover PDF"
                 : "Download PDF"}
           </button>
-          <button
-            type="button"
-            onClick={exportWord}
-            disabled={busyExport}
-            className="btn"
-          >
-            {exportingWord
-              ? "Word…"
-              : tab === "cover"
-                ? "Export cover Word"
-                : "Export Word"}
-          </button>
+          {canExportWord && (
+            <button
+              type="button"
+              onClick={exportWord}
+              disabled={busyExport}
+              className="btn"
+            >
+              {exportingWord
+                ? "Word…"
+                : tab === "cover"
+                  ? "Export cover Word"
+                  : "Export Word"}
+            </button>
+          )}
         </div>
       </div>
 
@@ -456,18 +462,20 @@ export function ResumeBuilderScreen() {
                     ? "Download cover letter PDF"
                     : "Download resume PDF"}
               </button>
-              <button
-                type="button"
-                onClick={exportWord}
-                disabled={busyExport}
-                className="btn"
-              >
-                {exportingWord
-                  ? "Word…"
-                  : tab === "cover"
-                    ? "Export cover letter Word"
-                    : "Export resume Word"}
-              </button>
+              {canExportWord && (
+                <button
+                  type="button"
+                  onClick={exportWord}
+                  disabled={busyExport}
+                  className="btn"
+                >
+                  {exportingWord
+                    ? "Word…"
+                    : tab === "cover"
+                      ? "Export cover letter Word"
+                      : "Export resume Word"}
+                </button>
+              )}
             </div>
           </div>
         </aside>
@@ -501,10 +509,16 @@ function ResumeBuilderFallback() {
   );
 }
 
-export function ResumeBuilderClient() {
+type ResumeBuilderClientProps = {
+  canExportWord?: boolean;
+};
+
+export function ResumeBuilderClient({
+  canExportWord = false,
+}: ResumeBuilderClientProps) {
   return (
     <Suspense fallback={<ResumeBuilderFallback />}>
-      <ResumeBuilderScreen />
+      <ResumeBuilderScreen canExportWord={canExportWord} />
     </Suspense>
   );
 }

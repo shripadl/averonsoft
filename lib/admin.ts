@@ -62,6 +62,11 @@ export function canManageMaintenance(role: UserRole | undefined): boolean {
   return role === 'admin' || role === 'super_admin'
 }
 
+/** Resume builder Word export (preview feature — admin-only until formatting is ready). */
+export function canExportResumeWord(role: UserRole | undefined): boolean {
+  return role === 'admin' || role === 'super_admin'
+}
+
 export function isReadOnlyAdmin(role: UserRole | undefined): boolean {
   return role === 'support'
 }
