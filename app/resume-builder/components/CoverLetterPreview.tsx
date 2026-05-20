@@ -23,7 +23,7 @@ export default function CoverLetterPreview({
   return (
     <iframe
       data-preview="cover"
-      className="h-full w-full rounded-xl border border-slate-800"
+      className="h-full w-full rounded-xl border border-border"
       srcDoc={html}
       title="Cover letter preview"
     />

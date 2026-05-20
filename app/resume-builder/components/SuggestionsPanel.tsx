@@ -38,13 +38,13 @@ export default function SuggestionsPanel({
   }, {});
 
   return (
-    <section className="rounded-xl border border-slate-700 bg-slate-900/80 p-4 space-y-4">
+    <section className="rounded-xl border border-border bg-card p-4 space-y-4">
       <div className="flex items-center justify-between gap-2">
         <div>
-          <h2 className="text-sm font-semibold text-slate-200">
+          <h2 className="text-sm font-semibold text-foreground">
             Suggestions ({suggestions.length})
           </h2>
-          <p className="text-xs text-slate-500 mt-0.5">
+          <p className="text-xs text-muted-foreground mt-0.5">
             Rule-based checks only — nothing is changed until you approve.
           </p>
         </div>
@@ -61,7 +61,7 @@ export default function SuggestionsPanel({
 
       {(Object.keys(grouped) as Suggestion["category"][]).map((cat) => (
         <div key={cat} className="space-y-2">
-          <h3 className="text-xs font-medium text-slate-400 uppercase tracking-wide">
+          <h3 className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
             {CATEGORY_LABELS[cat]}
           </h3>
           {grouped[cat].map((s) => (
@@ -69,8 +69,8 @@ export default function SuggestionsPanel({
               key={s.id}
               className={`rounded-lg border p-3 ${CATEGORY_STYLES[cat]}`}
             >
-              <p className="text-sm font-medium text-slate-200">{s.title}</p>
-              <p className="text-xs text-slate-400 mt-1">{s.detail}</p>
+              <p className="text-sm font-medium text-foreground">{s.title}</p>
+              <p className="text-xs text-muted-foreground mt-1">{s.detail}</p>
               <div className="flex gap-2 mt-3">
                 {s.patch ? (
                   <button
@@ -84,7 +84,7 @@ export default function SuggestionsPanel({
                 <button
                   type="button"
                   onClick={() => onDismiss(s.id)}
-                  className="text-xs px-2.5 py-1 rounded border border-slate-600 text-slate-300 hover:bg-slate-800"
+                  className="text-xs px-2.5 py-1 rounded border border-border text-foreground-secondary hover:bg-surface-hover"
                 >
                   Dismiss
                 </button>

@@ -164,6 +164,21 @@ export function AdminToolsClient() {
                 />
               </div>
             ) : null}
+            {tool.key === 'resumebuilder' ? (
+              <div className="flex items-center justify-between border-t border-border pt-4">
+                <div>
+                  <span className="text-sm font-medium">Word export for all users</span>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    When off, only admin accounts see Export Word. Turn on when DOCX formatting is ready
+                    for everyone.
+                  </p>
+                </div>
+                <Toggle
+                  checked={get('resume_word_export_public')}
+                  onChange={v => updateSetting('resume_word_export_public', v)}
+                />
+              </div>
+            ) : null}
           </CardContent>
         </Card>
       ))}

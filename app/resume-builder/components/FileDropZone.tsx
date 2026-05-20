@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useId, useRef, useState } from "react";
 
 type FileDropZoneProps = {
   title: string;
@@ -19,10 +19,15 @@ export default function FileDropZone({
   loadingDetail,
   onFile,
 }: FileDropZoneProps) {
+  const inputId = useId();
+  const inputRef = useRef<HTMLInputElement>(null);
   const [dragging, setDragging] = useState(false);
+  const [fileName, setFileName] = useState<string | null>(null);
 
   function handle(file: File | undefined) {
-    if (file) onFile(file);
+    if (!file) return;
+    setFileName(file.name);
+    onFile(file);
   }
 
   return (
@@ -35,24 +40,46 @@ export default function FileDropZone({
       onDrop={(e) => {
         e.preventDefault();
         setDragging(false);
-        handle(e.dataTransfer.files[0]);
+        const file = e.dataTransfer.files[0];
+        handle(file);
       }}
       className={`rounded-xl border p-6 text-center transition ${
         dragging
-          ? "border-sky-500 bg-sky-500/10"
-          : "border-slate-800 bg-slate-900/60"
+          ? "border-primary bg-primary/10"
+          : "border-border bg-card"
       }`}
     >
-      <p className="text-sm text-slate-300">{title}</p>
-      <p className="text-xs text-slate-500 mt-1">{hint}</p>
+      <p className="text-sm text-foreground">{title}</p>
+      <p className="text-xs text-muted-foreground mt-1">{hint}</p>
+
+      <div className="mt-4 flex flex-wrap items-center justify-center gap-3">
+        <button
+          type="button"
+          onClick={() => inputRef.current?.click()}
+          disabled={loading}
+          className="btn shrink-0"
+        >
+          Choose file
+        </button>
+        <span className="text-sm text-muted-foreground">
+          {fileName ?? "No file chosen"}
+        </span>
+      </div>
+
       <input
+        id={inputId}
+        ref={inputRef}
         type="file"
         accept={accept}
-        onChange={(e) => handle(e.target.files?.[0])}
-        className="mt-3 text-xs text-slate-400"
+        className="sr-only"
+        onChange={(e) => {
+          handle(e.target.files?.[0]);
+          e.target.value = "";
+        }}
       />
+
       {loading && (
-        <p className="text-xs text-slate-400 mt-2">
+        <p className="text-xs text-muted-foreground mt-3">
           {loadingDetail ?? "Processing…"}
         </p>
       )}

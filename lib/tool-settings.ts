@@ -67,6 +67,7 @@ const TOOL_SETTING_KEYS = TOOL_KEYS.flatMap(k => [
   `tool_${k}_beta`,
 ])
 const SPORTS_HISTORY_PUBLIC_VISIBLE_KEY = 'sports_history_public_visible'
+export const RESUME_WORD_EXPORT_PUBLIC_KEY = 'resume_word_export_public'
 
 /** Fetch all tool settings from admin_settings. Uses service client to bypass RLS. */
 export async function getToolSettings(): Promise<AllToolSettings> {
@@ -135,5 +136,22 @@ export async function getSportsHistoryPublicVisible(): Promise<boolean> {
     return true
   }
   if (!data) return true
+  return parseBool(data.value)
+}
+
+/** When true, all users can export resume/cover letter as Word (admins always can). */
+export async function getResumeWordExportPublicEnabled(): Promise<boolean> {
+  const supabase = createServiceClient()
+  const { data, error } = await supabase
+    .from('admin_settings')
+    .select('value')
+    .eq('key', RESUME_WORD_EXPORT_PUBLIC_KEY)
+    .maybeSingle()
+
+  if (error) {
+    console.error('Failed to fetch resume Word export setting:', error)
+    return false
+  }
+  if (!data) return false
   return parseBool(data.value)
 }

@@ -71,13 +71,13 @@ export default function ResumePreview({
   return (
     <div className="relative h-full w-full">
       {loading && (
-        <div className="absolute inset-0 z-10 flex items-center justify-center rounded-xl bg-slate-900/80 text-sm text-slate-400">
+        <div className="absolute inset-0 z-10 flex items-center justify-center rounded-xl bg-background/80 text-sm text-muted-foreground">
           Loading template…
         </div>
       )}
       <iframe
         data-preview="resume"
-        className={`h-full w-full rounded-xl border border-slate-800 bg-white transition-opacity duration-300 ${
+        className={`h-full w-full rounded-xl border border-border bg-white transition-opacity duration-300 ${
           fade ? "opacity-40" : "opacity-100"
         }`}
         srcDoc={srcDoc}

@@ -73,8 +73,8 @@ export default function ResumeForm({ data, onChange }: ResumeFormProps) {
 
   return (
     <div className="space-y-6">
-      <section className="rounded-xl border border-slate-800 bg-slate-900/60 p-4">
-        <h2 className="text-sm font-semibold text-slate-200 mb-3">
+      <section className="rounded-xl border border-border bg-card p-4">
+        <h2 className="text-sm font-semibold text-foreground mb-3">
           Basic Information
         </h2>
         <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
@@ -111,8 +111,8 @@ export default function ResumeForm({ data, onChange }: ResumeFormProps) {
         </div>
       </section>
 
-      <section className="rounded-xl border border-slate-800 bg-slate-900/60 p-4">
-        <h2 className="text-sm font-semibold text-slate-200 mb-3">Summary</h2>
+      <section className="rounded-xl border border-border bg-card p-4">
+        <h2 className="text-sm font-semibold text-foreground mb-3">Summary</h2>
         <textarea
           className="textarea"
           placeholder="Professional summary"
@@ -121,8 +121,8 @@ export default function ResumeForm({ data, onChange }: ResumeFormProps) {
         />
       </section>
 
-      <section className="rounded-xl border border-slate-800 bg-slate-900/60 p-4">
-        <h2 className="text-sm font-semibold text-slate-200 mb-3">Skills</h2>
+      <section className="rounded-xl border border-border bg-card p-4">
+        <h2 className="text-sm font-semibold text-foreground mb-3">Skills</h2>
         <input
           className="input"
           placeholder="Comma-separated skills"
@@ -139,26 +139,26 @@ export default function ResumeForm({ data, onChange }: ResumeFormProps) {
         />
       </section>
 
-      <section className="rounded-xl border border-slate-800 bg-slate-900/60 p-4">
+      <section className="rounded-xl border border-border bg-card p-4">
         <div className="mb-3 flex items-center justify-between gap-2">
-          <h2 className="text-sm font-semibold text-slate-200">Experience</h2>
+          <h2 className="text-sm font-semibold text-foreground">Experience</h2>
           <button
             type="button"
             onClick={() => setExperience([...experience, emptyExperience()])}
-            className="text-xs px-2.5 py-1 rounded-md border border-slate-600 text-slate-300 hover:bg-slate-800"
+            className="text-xs px-2.5 py-1 rounded-md border border-border text-foreground-secondary hover:bg-surface-hover"
           >
             + Add
           </button>
         </div>
 
         {experience.length === 0 ? (
-          <p className="text-xs text-slate-500">No entries yet.</p>
+          <p className="text-xs text-muted-foreground">No entries yet.</p>
         ) : (
           <div className="space-y-4">
             {experience.map((exp, i) => (
               <div
                 key={i}
-                className="rounded-lg border border-slate-700/80 bg-slate-950/40 p-3 space-y-2"
+                className="rounded-lg border border-border bg-muted p-3 space-y-2"
               >
                 <div className="flex justify-end">
                   <button
@@ -219,26 +219,26 @@ export default function ResumeForm({ data, onChange }: ResumeFormProps) {
         )}
       </section>
 
-      <section className="rounded-xl border border-slate-800 bg-slate-900/60 p-4">
+      <section className="rounded-xl border border-border bg-card p-4">
         <div className="mb-3 flex items-center justify-between gap-2">
-          <h2 className="text-sm font-semibold text-slate-200">Education</h2>
+          <h2 className="text-sm font-semibold text-foreground">Education</h2>
           <button
             type="button"
             onClick={() => setEducation([...education, emptyEducation()])}
-            className="text-xs px-2.5 py-1 rounded-md border border-slate-600 text-slate-300 hover:bg-slate-800"
+            className="text-xs px-2.5 py-1 rounded-md border border-border text-foreground-secondary hover:bg-surface-hover"
           >
             + Add
           </button>
         </div>
 
         {education.length === 0 ? (
-          <p className="text-xs text-slate-500">No entries yet.</p>
+          <p className="text-xs text-muted-foreground">No entries yet.</p>
         ) : (
           <div className="space-y-4">
             {education.map((edu, i) => (
               <div
                 key={i}
-                className="rounded-lg border border-slate-700/80 bg-slate-950/40 p-3 space-y-2"
+                className="rounded-lg border border-border bg-muted p-3 space-y-2"
               >
                 <div className="flex justify-end">
                   <button
@@ -291,22 +291,22 @@ export default function ResumeForm({ data, onChange }: ResumeFormProps) {
         )}
       </section>
 
-      <section className="rounded-xl border border-slate-800 bg-slate-900/60 p-4">
+      <section className="rounded-xl border border-border bg-card p-4">
         <div className="mb-3 flex items-center justify-between gap-2">
-          <h2 className="text-sm font-semibold text-slate-200">Links</h2>
+          <h2 className="text-sm font-semibold text-foreground">Links</h2>
           <button
             type="button"
             onClick={() =>
               setLinks([...links, { label: "", url: "" }])
             }
-            className="text-xs px-2.5 py-1 rounded-md border border-slate-600 text-slate-300 hover:bg-slate-800"
+            className="text-xs px-2.5 py-1 rounded-md border border-border text-foreground-secondary hover:bg-surface-hover"
           >
             + Add
           </button>
         </div>
 
         {links.length === 0 ? (
-          <p className="text-xs text-slate-500">
+          <p className="text-xs text-muted-foreground">
             LinkedIn, portfolio, GitHub, etc.
           </p>
         ) : (
@@ -314,7 +314,7 @@ export default function ResumeForm({ data, onChange }: ResumeFormProps) {
             {links.map((link, i) => (
               <div
                 key={i}
-                className="rounded-lg border border-slate-700/80 bg-slate-950/40 p-3 space-y-2"
+                className="rounded-lg border border-border bg-muted p-3 space-y-2"
               >
                 <div className="flex justify-end">
                   <button

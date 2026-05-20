@@ -14,7 +14,7 @@ export default function BuilderTabs({ active, onChange }: BuilderTabsProps) {
   ];
 
   return (
-    <div className="inline-flex rounded-lg border border-slate-700 bg-slate-900/60 p-1">
+    <div className="inline-flex rounded-lg border border-border bg-card p-1">
       {tabs.map((t) => (
         <button
           key={t.id}
@@ -22,8 +22,8 @@ export default function BuilderTabs({ active, onChange }: BuilderTabsProps) {
           onClick={() => onChange(t.id)}
           className={`px-4 py-2 text-sm rounded-md ${
             active === t.id
-              ? "bg-sky-500 text-white"
-              : "text-slate-300 hover:bg-slate-800"
+              ? "bg-primary text-primary-foreground"
+              : "text-foreground-secondary hover:bg-surface-hover"
           }`}
         >
           {t.label}

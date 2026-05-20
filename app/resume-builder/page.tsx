@@ -1,12 +1,18 @@
 import { canExportResumeWord, getCurrentUserWithRole } from "@/lib/admin";
-import { getToolSettings, isToolAccessible } from "@/lib/tool-settings";
+import {
+  getResumeWordExportPublicEnabled,
+  getToolSettings,
+  isToolAccessible,
+} from "@/lib/tool-settings";
 import { ToolMaintenancePage } from "@/components/tool-maintenance-page";
 import { ToolDisabledPage } from "@/components/tool-disabled-page";
 import { ResumeBuilderClient } from "./ResumeBuilderClient";
 
 export default async function ResumeBuilderPage() {
   const auth = await getCurrentUserWithRole();
-  const canExportWord = canExportResumeWord(auth?.profile?.role);
+  const wordExportPublic = await getResumeWordExportPublicEnabled();
+  const canExportWord =
+    canExportResumeWord(auth?.profile?.role) || wordExportPublic;
 
   const toolSettings = await getToolSettings();
   const { accessible, maintenance } = isToolAccessible(

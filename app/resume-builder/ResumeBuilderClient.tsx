@@ -314,13 +314,13 @@ export function ResumeBuilderScreen({
   return (
     <div>
       {pdfDebug && (
-        <p className="mb-3 rounded-lg border border-blue-500/40 bg-blue-500/10 px-3 py-2 text-sm text-blue-200">
+        <p className="mb-3 rounded-lg border border-primary/40 bg-primary/10 px-3 py-2 text-sm text-foreground-secondary">
           PDF debug: preview uses the same print pack as server export; horizontal bands approximate
           A4 page breaks (compare with Print Preview for pagination).
         </p>
       )}
       <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
-        <h1 className="text-2xl font-semibold text-slate-100">
+        <h1 className="text-2xl font-semibold text-foreground">
           CV / Resume Builder
         </h1>
         <div className="flex flex-wrap items-center gap-2 shrink-0">
@@ -368,7 +368,7 @@ export function ResumeBuilderScreen({
         <button
           type="button"
           onClick={() => setSidebarOpen((o) => !o)}
-          className="mt-3 w-full rounded-lg border border-slate-700 bg-slate-900/60 px-4 py-2 text-sm text-slate-300"
+          className="mt-3 w-full rounded-lg border border-border bg-card px-4 py-2 text-sm text-foreground-secondary"
         >
           {sidebarOpen ? "Hide editor panel" : "Show editor panel"}
         </button>
@@ -376,7 +376,7 @@ export function ResumeBuilderScreen({
 
       <div className="flex flex-col lg:flex-row lg:min-h-[calc(100vh-10rem)]">
         <aside
-          className={`w-full shrink-0 lg:w-[400px] lg:max-w-[420px] lg:border-r lg:border-slate-800 lg:overflow-y-auto lg:max-h-[calc(100vh-8rem)] ${
+          className={`w-full shrink-0 lg:w-[400px] lg:max-w-[420px] lg:border-r lg:border-border lg:overflow-y-auto lg:max-h-[calc(100vh-8rem)] ${
             sidebarOpen ? "block" : "hidden lg:block"
           }`}
         >
@@ -419,7 +419,7 @@ export function ResumeBuilderScreen({
                 />
 
                 {certificateTexts.length > 0 && (
-                  <p className="text-xs text-slate-500">
+                  <p className="text-xs text-muted-foreground">
                     {certificateTexts.length} certificate(s) loaded in memory
                   </p>
                 )}
@@ -503,7 +503,7 @@ export function ResumeBuilderScreen({
 
 function ResumeBuilderFallback() {
   return (
-    <div className="rounded-xl border border-slate-800 bg-slate-950/80 p-8 text-center text-slate-400">
+    <div className="rounded-xl border border-border bg-muted p-8 text-center text-muted-foreground">
       Loading resume builder…
     </div>
   );

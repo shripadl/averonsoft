@@ -137,59 +137,59 @@ body:has([data-regexplain-embed]) > div > footer {
   display: none !important;
 }
 
-/* Resume builder form controls */
+/* Resume builder form controls — follow site light/dark theme */
 .input {
   width: 100%;
   border-radius: 0.5rem;
-  border: 1px solid rgb(51 65 85);
-  background: rgb(2 6 23);
+  border: 1px solid rgb(var(--border));
+  background: rgb(var(--surface-elevated));
   padding: 0.5rem 0.75rem;
   font-size: 0.875rem;
-  color: rgb(241 245 249);
+  color: rgb(var(--foreground));
 }
 
 .input::placeholder {
-  color: rgb(100 116 139);
+  color: rgb(var(--foreground-muted));
 }
 
 .input:focus {
   outline: none;
-  border-color: rgb(14 165 233);
+  border-color: rgb(var(--primary));
 }
 
 .textarea {
   width: 100%;
   min-height: 6rem;
   border-radius: 0.5rem;
-  border: 1px solid rgb(51 65 85);
-  background: rgb(2 6 23);
+  border: 1px solid rgb(var(--border));
+  background: rgb(var(--surface-elevated));
   padding: 0.5rem 0.75rem;
   font-size: 0.875rem;
-  color: rgb(241 245 249);
+  color: rgb(var(--foreground));
   resize: vertical;
 }
 
 .textarea::placeholder {
-  color: rgb(100 116 139);
+  color: rgb(var(--foreground-muted));
 }
 
 .textarea:focus {
   outline: none;
-  border-color: rgb(14 165 233);
+  border-color: rgb(var(--primary));
 }
 
 .btn {
   border-radius: 0.5rem;
-  border: 1px solid rgb(51 65 85);
-  background: rgb(15 23 42);
+  border: 1px solid rgb(var(--border));
+  background: rgb(var(--surface));
   padding: 0.5rem 1rem;
   font-size: 0.875rem;
   font-weight: 500;
-  color: rgb(226 232 240);
+  color: rgb(var(--foreground));
 }
 
 .btn:hover:not(:disabled) {
-  background: rgb(30 41 59);
+  background: rgb(var(--surface-hover));
 }
 
 .btn:disabled {
@@ -199,15 +199,16 @@ body:has([data-regexplain-embed]) > div > footer {
 
 .btn-primary {
   border-radius: 0.5rem;
-  background: rgb(14 165 233);
+  border: 1px solid transparent;
+  background: rgb(var(--primary));
   padding: 0.5rem 1rem;
   font-size: 0.875rem;
   font-weight: 500;
-  color: white;
+  color: rgb(var(--primary-foreground));
 }
 
 .btn-primary:hover:not(:disabled) {
-  background: rgb(2 132 199);
+  background: rgb(var(--primary-hover));
 }
 
 .btn-primary:disabled {

@@ -38,9 +38,9 @@ export default function SectionControls({
   }
 
   return (
-    <section className="rounded-xl border border-slate-800 bg-slate-900/60 p-4">
-      <h2 className="text-sm font-semibold text-slate-200 mb-1">Sections</h2>
-      <p className="text-xs text-slate-500 mb-3">
+    <section className="rounded-xl border border-border bg-card p-4">
+      <h2 className="text-sm font-semibold text-foreground mb-1">Sections</h2>
+      <p className="text-xs text-muted-foreground mb-3">
         Toggle visibility and drag to reorder in the preview.
       </p>
       <ul className="space-y-2">
@@ -51,20 +51,20 @@ export default function SectionControls({
             onDragStart={(e) => onDragStart(e, index)}
             onDragOver={(e) => e.preventDefault()}
             onDrop={(e) => onDrop(e, index)}
-            className="flex items-center gap-2 rounded-lg border border-slate-700/80 bg-slate-950/50 px-3 py-2 cursor-grab active:cursor-grabbing"
+            className="flex items-center gap-2 rounded-lg border border-border bg-muted px-3 py-2 cursor-grab active:cursor-grabbing"
           >
-            <span className="text-slate-500 select-none" aria-hidden>
+            <span className="text-muted-foreground select-none" aria-hidden>
               ⋮⋮
             </span>
-            <span className="flex-1 text-sm text-slate-300">
+            <span className="flex-1 text-sm text-foreground-secondary">
               {RESUME_SECTION_LABELS[id]}
             </span>
-            <label className="flex items-center gap-1.5 text-xs text-slate-400">
+            <label className="flex items-center gap-1.5 text-xs text-muted-foreground">
               <input
                 type="checkbox"
                 checked={layout.visible[id]}
                 onChange={() => toggle(id)}
-                className="rounded border-slate-600"
+                className="rounded border-border"
               />
               Show
             </label>

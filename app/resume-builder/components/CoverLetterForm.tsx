@@ -20,8 +20,8 @@ export default function CoverLetterForm({
 
   return (
     <div className="space-y-6">
-      <section className="rounded-xl border border-slate-800 bg-slate-900/60 p-4">
-        <h2 className="text-sm font-semibold text-slate-200 mb-3">
+      <section className="rounded-xl border border-border bg-card p-4">
+        <h2 className="text-sm font-semibold text-foreground mb-3">
           Role applied for
         </h2>
         <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
@@ -46,8 +46,8 @@ export default function CoverLetterForm({
         </div>
       </section>
 
-      <section className="rounded-xl border border-slate-800 bg-slate-900/60 p-4">
-        <h2 className="text-sm font-semibold text-slate-200 mb-3">Your details</h2>
+      <section className="rounded-xl border border-border bg-card p-4">
+        <h2 className="text-sm font-semibold text-foreground mb-3">Your details</h2>
         <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
           <input
             className="input"
@@ -82,8 +82,8 @@ export default function CoverLetterForm({
         </div>
       </section>
 
-      <section className="rounded-xl border border-slate-800 bg-slate-900/60 p-4">
-        <h2 className="text-sm font-semibold text-slate-200 mb-3">Letter body</h2>
+      <section className="rounded-xl border border-border bg-card p-4">
+        <h2 className="text-sm font-semibold text-foreground mb-3">Letter body</h2>
         <textarea
           className="textarea min-h-[220px]"
           placeholder="Cover letter content"
