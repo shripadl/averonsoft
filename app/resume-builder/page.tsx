@@ -1,5 +1,10 @@
-import { canExportResumeWord, getCurrentUserWithRole } from "@/lib/admin";
 import {
+  canExportResumeWord,
+  canUseResumeAi,
+  getCurrentUserWithRole,
+} from "@/lib/admin";
+import {
+  getResumeAiPublicEnabled,
   getResumeWordExportPublicEnabled,
   getToolSettings,
   isToolAccessible,
@@ -10,9 +15,13 @@ import { ResumeBuilderClient } from "./ResumeBuilderClient";
 
 export default async function ResumeBuilderPage() {
   const auth = await getCurrentUserWithRole();
-  const wordExportPublic = await getResumeWordExportPublicEnabled();
-  const canExportWord =
-    canExportResumeWord(auth?.profile?.role) || wordExportPublic;
+  const [wordExportPublic, aiPublic] = await Promise.all([
+    getResumeWordExportPublicEnabled(),
+    getResumeAiPublicEnabled(),
+  ]);
+  const role = auth?.profile?.role;
+  const canExportWord = canExportResumeWord(role) || wordExportPublic;
+  const canUseAi = canUseResumeAi(role) || aiPublic;
 
   const toolSettings = await getToolSettings();
   const { accessible, maintenance } = isToolAccessible(
@@ -27,5 +36,7 @@ export default async function ResumeBuilderPage() {
     return <ToolDisabledPage toolName="CV / Resume Builder" />;
   }
 
-  return <ResumeBuilderClient canExportWord={canExportWord} />;
+  return (
+    <ResumeBuilderClient canExportWord={canExportWord} canUseAi={canUseAi} />
+  );
 }

@@ -46,6 +46,7 @@ export async function proxy(request: NextRequest) {
     '/tools/resize-image-for-instagram',
     '/tools/resize-image-for-youtube-thumbnail',
     '/tools/regex-explainer',
+    '/tools/sip-swp',
     '/resume-builder',
   ]
   const isPublicTool = publicToolPaths.some(path =>

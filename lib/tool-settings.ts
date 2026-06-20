@@ -13,6 +13,7 @@ export const TOOL_KEYS = [
   'practiceexams',
   'examgenerator',
   'resumebuilder',
+  'sipswp',
 ] as const
 export type ToolKey = (typeof TOOL_KEYS)[number]
 
@@ -35,6 +36,7 @@ export const TOOL_CONFIG: ToolConfig[] = [
   { key: 'practiceexams', name: 'Practice Exams', href: '/practice' },
   { key: 'examgenerator', name: 'Exam Question Generator', href: '/exam-generator' },
   { key: 'resumebuilder', name: 'CV / Resume Builder', href: '/resume-builder' },
+  { key: 'sipswp', name: 'SIP / SWP Calculator', href: '/tools/sip-swp' },
 ]
 
 export interface ToolSettings {
@@ -68,6 +70,7 @@ const TOOL_SETTING_KEYS = TOOL_KEYS.flatMap(k => [
 ])
 const SPORTS_HISTORY_PUBLIC_VISIBLE_KEY = 'sports_history_public_visible'
 export const RESUME_WORD_EXPORT_PUBLIC_KEY = 'resume_word_export_public'
+export const RESUME_AI_PUBLIC_KEY = 'resume_ai_public'
 
 /** Fetch all tool settings from admin_settings. Uses service client to bypass RLS. */
 export async function getToolSettings(): Promise<AllToolSettings> {
@@ -150,6 +153,23 @@ export async function getResumeWordExportPublicEnabled(): Promise<boolean> {
 
   if (error) {
     console.error('Failed to fetch resume Word export setting:', error)
+    return false
+  }
+  if (!data) return false
+  return parseBool(data.value)
+}
+
+/** When true, all users get AI assist (smart parse + polish) on the resume builder. */
+export async function getResumeAiPublicEnabled(): Promise<boolean> {
+  const supabase = createServiceClient()
+  const { data, error } = await supabase
+    .from('admin_settings')
+    .select('value')
+    .eq('key', RESUME_AI_PUBLIC_KEY)
+    .maybeSingle()
+
+  if (error) {
+    console.error('Failed to fetch resume AI setting:', error)
     return false
   }
   if (!data) return false

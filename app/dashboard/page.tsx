@@ -16,6 +16,7 @@ import {
   GraduationCap,
   ListChecks,
   FileUser,
+  TrendingUp,
 } from 'lucide-react'
 import { LogoutButton } from "@/app/components/LogoutButton"
 import { getToolSettings, getVisibleTools } from '@/lib/tool-settings'
@@ -33,6 +34,7 @@ const TOOL_ICONS: Record<string, typeof CreditCard> = {
   sportanalytics: Trophy,
   examgenerator: ListChecks,
   resumebuilder: FileUser,
+  sipswp: TrendingUp,
 }
 
 export default async function DashboardPage() {
@@ -112,6 +114,7 @@ export default async function DashboardPage() {
               practiceexams: 'Unofficial cloud cert practice; track attempts and scores (account required)',
               examgenerator: 'Generate practice MCQs from your topics with PDF export.',
               resumebuilder: 'Build a CV with templates, PDF export, and certificate upload.',
+              sipswp: 'SIP accumulation and SWP drawdown projections with regional presets.',
             }
             return (
               <Card key={tool.key}>

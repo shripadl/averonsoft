@@ -81,10 +81,12 @@ async function extractFile(
 
 type ResumeBuilderScreenProps = {
   canExportWord?: boolean;
+  canUseAi?: boolean;
 };
 
 export function ResumeBuilderScreen({
   canExportWord = false,
+  canUseAi = false,
 }: ResumeBuilderScreenProps) {
   const searchParams = useSearchParams();
   const pdfDebug = searchParams.get("debug") === "pdf";
@@ -133,6 +135,31 @@ export function ResumeBuilderScreen({
     refreshSuggestions(next, uploadedResumeText, certificateTexts, uploadedResumeText);
   }
 
+  async function aiParseRawText(
+    rawText: string
+  ): Promise<Partial<ResumeData> | null> {
+    try {
+      const res = await fetch("/api/resume-ai/parse", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text: rawText }),
+      });
+      const json: { data?: Partial<ResumeData>; error?: string } =
+        await res.json();
+      if (!res.ok || !json.data) {
+        console.warn(
+          "[resume-ai/parse] failed:",
+          json.error ?? res.statusText
+        );
+        return null;
+      }
+      return json.data;
+    } catch (err) {
+      console.warn("[resume-ai/parse] error:", err);
+      return null;
+    }
+  }
+
   async function handleResumeUpload(file: File) {
     setResumeUploading(true);
     setResumeOcrProgress(isImageFile(file) ? 0 : null);
@@ -145,7 +172,19 @@ export function ResumeBuilderScreen({
       const rawText = await extractFile(file, (p) =>
         setResumeOcrProgress(Math.round(p * 100))
       );
-      const parsed = parseTextToResume(rawText);
+
+      let parsed: Partial<ResumeData> = parseTextToResume(rawText);
+      let usedAi = false;
+
+      if (canUseAi) {
+        toast.loading("AI is structuring your CV…", { id: toastId });
+        const aiParsed = await aiParseRawText(rawText);
+        if (aiParsed && countParsedFields(aiParsed) > countParsedFields(parsed)) {
+          parsed = aiParsed;
+          usedAi = true;
+        }
+      }
+
       const merged = mergeParsedIntoResume(data, parsed);
       const fieldCount = countParsedFields(parsed);
 
@@ -155,7 +194,7 @@ export function ResumeBuilderScreen({
 
       if (fieldCount > 0) {
         toast.success(
-          `Imported ${fieldCount} item(s) from your CV into the form and preview.`,
+          `${usedAi ? "AI imported" : "Imported"} ${fieldCount} item(s) from your CV into the form and preview.`,
           { id: toastId }
         );
       } else {
@@ -173,6 +212,34 @@ export function ResumeBuilderScreen({
       setResumeOcrProgress(null);
     }
   }
+
+  const polishWithAi = useCallback(
+    async (
+      kind: "summary" | "experience",
+      text: string,
+      context?: { role?: string; company?: string }
+    ): Promise<string | null> => {
+      try {
+        const res = await fetch("/api/resume-ai/polish", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ kind, text, ...context }),
+        });
+        const json: { text?: string; error?: string } = await res.json();
+        if (!res.ok || !json.text) {
+          toast.error(json.error ?? "AI polish failed");
+          return null;
+        }
+        return json.text;
+      } catch (err) {
+        const message =
+          err instanceof Error ? err.message : "AI polish failed";
+        toast.error(message);
+        return null;
+      }
+    },
+    []
+  );
 
   async function handleCertificateUpload(file: File) {
     setCertUploading(true);
@@ -431,7 +498,11 @@ export function ResumeBuilderScreen({
                   onApproveAll={handleApproveAll}
                 />
 
-                <ResumeForm data={data} onChange={handleResumeChange} />
+                <ResumeForm
+                  data={data}
+                  onChange={handleResumeChange}
+                  onPolish={canUseAi ? polishWithAi : undefined}
+                />
               </>
             ) : (
               <CoverLetterForm data={coverLetter} onChange={setCoverLetter} />
@@ -511,14 +582,19 @@ function ResumeBuilderFallback() {
 
 type ResumeBuilderClientProps = {
   canExportWord?: boolean;
+  canUseAi?: boolean;
 };
 
 export function ResumeBuilderClient({
   canExportWord = false,
+  canUseAi = false,
 }: ResumeBuilderClientProps) {
   return (
     <Suspense fallback={<ResumeBuilderFallback />}>
-      <ResumeBuilderScreen canExportWord={canExportWord} />
+      <ResumeBuilderScreen
+        canExportWord={canExportWord}
+        canUseAi={canUseAi}
+      />
     </Suspense>
   );
 }

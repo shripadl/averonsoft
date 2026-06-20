@@ -1,15 +1,65 @@
 "use client";
 
+import { useState } from "react";
 import type {
   EducationItem,
   ExperienceItem,
   ResumeData,
 } from "@/lib/resume";
 
+type PolishKind = "summary" | "experience";
+
+type PolishContext = { role?: string; company?: string };
+
 type ResumeFormProps = {
   data: ResumeData;
   onChange: (data: ResumeData) => void;
+  /**
+   * Optional AI polish callback. When provided, "Polish with AI" buttons are
+   * shown on Summary and each Experience description. Resolves with the new
+   * text, or null on failure (caller handles its own toasts).
+   */
+  onPolish?: (
+    kind: PolishKind,
+    text: string,
+    context?: PolishContext
+  ) => Promise<string | null>;
 };
+
+function AiPolishButton({
+  busy,
+  disabled,
+  onClick,
+  label = "Polish with AI",
+}: {
+  busy: boolean;
+  disabled: boolean;
+  onClick: () => void;
+  label?: string;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      disabled={busy || disabled}
+      className="inline-flex items-center gap-1 rounded-md border border-primary/40 bg-primary/10 px-2.5 py-1 text-xs font-medium text-primary transition-colors hover:bg-primary/20 disabled:opacity-50 disabled:cursor-not-allowed"
+      title={
+        disabled ? "Add some text first, then click Polish" : "Rewrite with AI"
+      }
+    >
+      <svg
+        viewBox="0 0 24 24"
+        width="12"
+        height="12"
+        fill="currentColor"
+        aria-hidden
+      >
+        <path d="M12 2l1.6 4.4L18 8l-4.4 1.6L12 14l-1.6-4.4L6 8l4.4-1.6L12 2zM5 14l.9 2.4L8 17l-2.1.6L5 20l-.9-2.4L2 17l2.1-.6L5 14zm14 0l.9 2.4L22 17l-2.1.6L19 20l-.9-2.4L16 17l2.1-.6L19 14z" />
+      </svg>
+      {busy ? "Polishing…" : label}
+    </button>
+  );
+}
 
 const emptyExperience = (): ExperienceItem => ({
   company: "",
@@ -26,7 +76,14 @@ const emptyEducation = (): EducationItem => ({
   endDate: "",
 });
 
-export default function ResumeForm({ data, onChange }: ResumeFormProps) {
+export default function ResumeForm({
+  data,
+  onChange,
+  onPolish,
+}: ResumeFormProps) {
+  const [polishingSummary, setPolishingSummary] = useState(false);
+  const [polishingExpIdx, setPolishingExpIdx] = useState<number | null>(null);
+
   function update<K extends keyof ResumeData>(k: K, v: ResumeData[K]) {
     onChange({ ...data, [k]: v });
   }
@@ -34,6 +91,36 @@ export default function ResumeForm({ data, onChange }: ResumeFormProps) {
   const experience = data.experience ?? [];
   const education = data.education ?? [];
   const links = data.links ?? [];
+
+  async function polishSummary() {
+    if (!onPolish) return;
+    const current = (data.summary ?? "").trim();
+    if (!current) return;
+    setPolishingSummary(true);
+    try {
+      const next = await onPolish("summary", current);
+      if (next) update("summary", next);
+    } finally {
+      setPolishingSummary(false);
+    }
+  }
+
+  async function polishExperience(i: number) {
+    if (!onPolish) return;
+    const exp = experience[i];
+    const current = (exp?.description ?? "").trim();
+    if (!current) return;
+    setPolishingExpIdx(i);
+    try {
+      const next = await onPolish("experience", current, {
+        role: exp.role,
+        company: exp.company,
+      });
+      if (next) updateExperience(i, { description: next });
+    } finally {
+      setPolishingExpIdx(null);
+    }
+  }
 
   function setExperience(next: ExperienceItem[]) {
     update("experience", next);
@@ -112,7 +199,16 @@ export default function ResumeForm({ data, onChange }: ResumeFormProps) {
       </section>
 
       <section className="rounded-xl border border-border bg-card p-4">
-        <h2 className="text-sm font-semibold text-foreground mb-3">Summary</h2>
+        <div className="mb-3 flex items-center justify-between gap-2">
+          <h2 className="text-sm font-semibold text-foreground">Summary</h2>
+          {onPolish ? (
+            <AiPolishButton
+              busy={polishingSummary}
+              disabled={!(data.summary ?? "").trim()}
+              onClick={polishSummary}
+            />
+          ) : null}
+        </div>
         <textarea
           className="textarea"
           placeholder="Professional summary"
@@ -213,6 +309,16 @@ export default function ResumeForm({ data, onChange }: ResumeFormProps) {
                     updateExperience(i, { description: e.target.value })
                   }
                 />
+                {onPolish ? (
+                  <div className="flex justify-end">
+                    <AiPolishButton
+                      busy={polishingExpIdx === i}
+                      disabled={!(exp.description ?? "").trim()}
+                      onClick={() => polishExperience(i)}
+                      label="Polish bullets with AI"
+                    />
+                  </div>
+                ) : null}
               </div>
             ))}
           </div>

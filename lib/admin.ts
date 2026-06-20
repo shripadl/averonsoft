@@ -67,6 +67,11 @@ export function canExportResumeWord(role: UserRole | undefined): boolean {
   return role === 'admin' || role === 'super_admin'
 }
 
+/** Resume builder AI assist (parse/polish via DeepSeek). Admin-only baseline. */
+export function canUseResumeAi(role: UserRole | undefined): boolean {
+  return role === 'admin' || role === 'super_admin'
+}
+
 export function isReadOnlyAdmin(role: UserRole | undefined): boolean {
   return role === 'support'
 }

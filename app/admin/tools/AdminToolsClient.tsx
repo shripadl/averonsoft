@@ -18,6 +18,7 @@ const TOOLS = [
   { id: 'practiceexams', name: 'Practice Exams', key: 'practiceexams' },
   { id: 'examgenerator', name: 'Exam Question Generator', key: 'examgenerator' },
   { id: 'resumebuilder', name: 'CV / Resume Builder', key: 'resumebuilder' },
+  { id: 'sipswp', name: 'SIP / SWP Calculator', key: 'sipswp' },
 ]
 
 function Toggle({
@@ -165,19 +166,34 @@ export function AdminToolsClient() {
               </div>
             ) : null}
             {tool.key === 'resumebuilder' ? (
-              <div className="flex items-center justify-between border-t border-border pt-4">
-                <div>
-                  <span className="text-sm font-medium">Word export for all users</span>
-                  <p className="text-xs text-muted-foreground mt-1">
-                    When off, only admin accounts see Export Word. Turn on when DOCX formatting is ready
-                    for everyone.
-                  </p>
+              <>
+                <div className="flex items-center justify-between border-t border-border pt-4">
+                  <div>
+                    <span className="text-sm font-medium">Word export for all users</span>
+                    <p className="text-xs text-muted-foreground mt-1">
+                      When off, only admin accounts see Export Word. Turn on when DOCX formatting is ready
+                      for everyone.
+                    </p>
+                  </div>
+                  <Toggle
+                    checked={get('resume_word_export_public')}
+                    onChange={v => updateSetting('resume_word_export_public', v)}
+                  />
                 </div>
-                <Toggle
-                  checked={get('resume_word_export_public')}
-                  onChange={v => updateSetting('resume_word_export_public', v)}
-                />
-              </div>
+                <div className="flex items-center justify-between border-t border-border pt-4">
+                  <div>
+                    <span className="text-sm font-medium">AI assist for all users (DeepSeek)</span>
+                    <p className="text-xs text-muted-foreground mt-1">
+                      When off, only admin accounts get Smart Parse on upload and the &ldquo;Polish with
+                      AI&rdquo; buttons. Uploaded resume text is sent to DeepSeek when AI assist is used.
+                    </p>
+                  </div>
+                  <Toggle
+                    checked={get('resume_ai_public')}
+                    onChange={v => updateSetting('resume_ai_public', v)}
+                  />
+                </div>
+              </>
             ) : null}
           </CardContent>
         </Card>

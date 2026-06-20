@@ -14,6 +14,7 @@ import {
   GraduationCap,
   ListChecks,
   FileUser,
+  TrendingUp,
 } from 'lucide-react'
 
 const TOOL_DESCRIPTIONS: Record<string, string> = {
@@ -31,6 +32,8 @@ const TOOL_DESCRIPTIONS: Record<string, string> = {
     'Deterministic MCQs from your topic—no external AI. PDF export. Free for a limited period.',
   resumebuilder:
     'Build a professional CV with templates, PDF export, and certificate text extraction. No AI.',
+  sipswp:
+    'Project SIP accumulation and SWP drawdown. USA, UK, EU, and India presets. All in your browser.',
 }
 
 const TOOL_ICONS: Record<string, typeof FileText> = {
@@ -46,6 +49,7 @@ const TOOL_ICONS: Record<string, typeof FileText> = {
   practiceexams: GraduationCap,
   examgenerator: ListChecks,
   resumebuilder: FileUser,
+  sipswp: TrendingUp,
 }
 
 export default async function HomePage() {
