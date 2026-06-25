@@ -1,10 +1,14 @@
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
+import { isCronAuthorized } from '@/lib/cron-auth'
 import { ingestCricketFixturesForToday } from '@/lib/sports-engine/ingestion/cricket'
 import { ingestFootballForDate } from '@/lib/sports-engine/ingestion/football'
 import { runPredictionPipelineForToday } from '@/lib/sports-engine/run-prediction-pipeline'
 import { createServiceClient } from '@/lib/supabase/server'
 
-export async function GET() {
+export async function GET(request: NextRequest) {
+  if (!isCronAuthorized(request)) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
   const today = new Date().toISOString().split('T')[0]
 
   const [footballUpserted, cricketUpserted] = await Promise.all([

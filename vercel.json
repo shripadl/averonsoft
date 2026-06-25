@@ -3,20 +3,9 @@
     "app/api/pdf/route.ts": {
       "memory": 1024,
       "maxDuration": 60
-    }
-  },
-  "crons": [
-    {
-      "path": "/api/sports/ingestion/run",
-      "schedule": "0 6 * * *"
     },
-    {
-      "path": "/api/sports/ingestion/run",
-      "schedule": "0 12 * * *"
-    },
-    {
-      "path": "/api/sports/ingestion/run",
-      "schedule": "0 18 * * *"
+    "app/api/sports/ingestion/run/route.ts": {
+      "maxDuration": 60
     }
-  ]
+  }
 }
