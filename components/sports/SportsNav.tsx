@@ -20,7 +20,7 @@ export function SportsNav() {
 
   return (
     <nav
-      className="flex flex-wrap gap-1 rounded-xl border border-white/10 bg-black/20 p-1 backdrop-blur-sm"
+      className="flex flex-wrap gap-1 rounded-xl border border-border bg-surface-elevated/90 p-1 shadow-sm backdrop-blur-sm"
       aria-label="Sports sections"
     >
       {TABS.map((tab) => {
@@ -29,10 +29,10 @@ export function SportsNav() {
           <Link
             key={tab.href}
             href={tab.href}
-            className={`rounded-lg px-4 py-2 text-sm font-medium transition-all ${
+            className={`rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
               active
-                ? 'bg-primary text-primary-foreground shadow-md shadow-primary/20'
-                : 'text-muted-foreground hover:bg-white/5 hover:text-foreground'
+                ? 'bg-primary text-primary-foreground shadow-sm'
+                : 'text-muted-foreground hover:bg-surface-hover hover:text-foreground'
             }`}
           >
             {tab.label}
