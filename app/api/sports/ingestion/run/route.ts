@@ -3,18 +3,32 @@ import { isCronAuthorized } from '@/lib/cron-auth'
 import { ingestCricketFixturesForToday } from '@/lib/sports-engine/ingestion/cricket'
 import { ingestFootballForDate } from '@/lib/sports-engine/ingestion/football'
 import { runPredictionPipelineForToday } from '@/lib/sports-engine/run-prediction-pipeline'
+import {
+  getValidationReport,
+  persistValidationSnapshot,
+} from '@/lib/sports-engine/validation/get-validation-report'
+import { resolveOutcomesForFinishedFixtures } from '@/lib/sports-engine/validation/resolve-outcomes'
 import { createServiceClient } from '@/lib/supabase/server'
+
+function yesterdayYmd(): string {
+  const d = new Date()
+  d.setUTCDate(d.getUTCDate() - 1)
+  return d.toISOString().split('T')[0]!
+}
 
 export async function GET(request: NextRequest) {
   if (!isCronAuthorized(request)) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
   const today = new Date().toISOString().split('T')[0]
+  const yesterday = yesterdayYmd()
 
-  const [footballUpserted, cricketUpserted] = await Promise.all([
+  const [footballToday, footballYesterday, cricketUpserted] = await Promise.all([
     ingestFootballForDate(today),
+    ingestFootballForDate(yesterday),
     ingestCricketFixturesForToday(),
   ])
+  const footballUpserted = footballToday + footballYesterday
 
   let predictionsCount = 0
   let predictionError: string | null = null
@@ -26,6 +40,17 @@ export async function GET(request: NextRequest) {
     predictionError = e instanceof Error ? e.message : 'unknown'
   }
 
+  let outcomesResolved = 0
+  let validationError: string | null = null
+  try {
+    outcomesResolved = await resolveOutcomesForFinishedFixtures()
+    const validationReport = await getValidationReport('7d')
+    await persistValidationSnapshot(validationReport)
+  } catch (e) {
+    console.error('Outcome resolution / validation failed:', e)
+    validationError = e instanceof Error ? e.message : 'unknown'
+  }
+
   const report = {
     status: 'ok',
     date: today,
@@ -33,6 +58,8 @@ export async function GET(request: NextRequest) {
     cricket_upserted: cricketUpserted,
     predictions_generated: predictionsCount,
     prediction_error: predictionError,
+    outcomes_resolved: outcomesResolved,
+    validation_error: validationError,
     generated_at: new Date().toISOString(),
   }
 

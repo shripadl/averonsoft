@@ -24,6 +24,10 @@ export type ApiSportsFixtureItem = {
     home: { name: string }
     away: { name: string }
   }
+  goals?: {
+    home: number | null
+    away: number | null
+  }
 }
 
 export type ApiSportsFixturesEnvelope<T> = {
@@ -83,6 +87,30 @@ export async function fetchFixturesByDate(date: string): Promise<ApiSportsFixtur
 
   const list = json.response
   return Array.isArray(list) ? list : []
+}
+
+export async function fetchFixtureById(externalId: string): Promise<ApiSportsFixtureItem | null> {
+  const json = await fetchFixturesJson<ApiSportsFixtureItem[]>(
+    `id=${encodeURIComponent(externalId)}`
+  )
+
+  if (hasApiSportsErrors(json.errors)) {
+    console.error('API-Sports errors (fixture by id):', json.errors)
+    return null
+  }
+
+  const list = json.response
+  return Array.isArray(list) && list.length > 0 ? list[0]! : null
+}
+
+export function mapGoalsToResultLabel(
+  home: number | null | undefined,
+  away: number | null | undefined
+): string | null {
+  if (home == null || away == null) return null
+  if (home > away) return 'home_win'
+  if (away > home) return 'away_win'
+  return 'draw'
 }
 
 /**

@@ -17,6 +17,28 @@ export async function insertOutcome(input: InsertOutcomeInput) {
   return data as OutcomeRow
 }
 
+export async function upsertOutcome(input: InsertOutcomeInput) {
+  const supabase = createServiceClient()
+  const { data: existing } = await supabase
+    .from('outcomes')
+    .select('id')
+    .eq('fixture_id', input.fixture_id)
+    .maybeSingle()
+
+  if (existing?.id) {
+    const { data, error } = await supabase
+      .from('outcomes')
+      .update({ result_label: input.result_label, resolved_at: new Date().toISOString() })
+      .eq('fixture_id', input.fixture_id)
+      .select()
+      .single()
+    if (error) throw error
+    return data as OutcomeRow
+  }
+
+  return insertOutcome(input)
+}
+
 export async function getOutcomesForFixtureIds(fixtureIds: number[]) {
   if (fixtureIds.length === 0) return []
   const supabase = createServiceClient()

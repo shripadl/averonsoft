@@ -85,7 +85,7 @@ function FixtureRow({
   const categoryLabel = prediction?.decision_category ?? '—'
 
   const body = (
-    <div className="rounded-lg border border-border bg-surface px-4 py-3">
+    <div className="rounded-2xl border border-border/80 bg-gradient-to-br from-surface to-surface/50 px-4 py-4 shadow-sm backdrop-blur-sm transition hover:border-primary/25 hover:shadow-md">
       <div className="flex items-start justify-between gap-4">
         <div>
           <div className="font-semibold">
@@ -140,7 +140,7 @@ function FixtureRow({
   return (
     <Link
       href={`/sports/${sportSlug}/fixture/${fixture.id}`}
-      className="block transition hover:-translate-y-[1px] hover:opacity-95"
+      className="block transition hover:-translate-y-0.5"
     >
       {body}
     </Link>

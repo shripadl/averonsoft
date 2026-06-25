@@ -82,3 +82,62 @@ export async function getFixtureByIdAndSportSlug(
   if (error) throw error
   return (data ?? null) as Fixture | null
 }
+
+const FINISHED_STATUS_HINTS = [
+  'ft',
+  'aet',
+  'pen',
+  'awd',
+  'wo',
+  'finished',
+  'match ended',
+  'completed',
+  'won',
+]
+
+function isLikelyFinishedStatus(status: string): boolean {
+  const s = status.toLowerCase()
+  return FINISHED_STATUS_HINTS.some((hint) => s.includes(hint))
+}
+
+export type FixtureWithSportSlug = Fixture & { sport_slug: string }
+
+/** Finished fixtures in the lookback window that do not yet have an outcome row. */
+export async function getFinishedFixturesNeedingOutcomes(
+  lookbackDays: number
+): Promise<FixtureWithSportSlug[]> {
+  const supabase = createServiceClient()
+  const since = new Date()
+  since.setUTCDate(since.getUTCDate() - lookbackDays)
+
+  const { data: fixtures, error } = await supabase
+    .from('fixtures')
+    .select('*, sports!inner(slug)')
+    .gte('start_time', since.toISOString())
+    .lt('start_time', new Date().toISOString())
+    .order('start_time', { ascending: false })
+
+  if (error) throw error
+
+  const candidates = (fixtures ?? [])
+    .map((f) => {
+      const sports = f.sports as { slug: string } | { slug: string }[]
+      const slug = Array.isArray(sports) ? sports[0]?.slug : sports.slug
+      const { sports: _s, ...fixture } = f
+      return { ...(fixture as Fixture), sport_slug: slug ?? 'unknown' }
+    })
+    .filter((f) => isLikelyFinishedStatus(f.status)) as FixtureWithSportSlug[]
+
+  if (candidates.length === 0) return []
+
+  const ids = candidates.map((f) => f.id)
+  const { data: outcomes, error: outcomesError } = await supabase
+    .from('outcomes')
+    .select('fixture_id')
+    .in('fixture_id', ids)
+
+  if (outcomesError) throw outcomesError
+
+  const hasOutcome = new Set((outcomes ?? []).map((o) => o.fixture_id as number))
+  return candidates.filter((f) => !hasOutcome.has(f.id))
+}
