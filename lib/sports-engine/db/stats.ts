@@ -29,6 +29,19 @@ export async function insertStatsForFixture(
   if (error) throw error
 }
 
+export async function replaceStatsForFixture(
+  fixtureId: number,
+  stats: { feature_name: string; feature_value: number }[]
+) {
+  const supabase = createServiceClient()
+  const { error: deleteError } = await supabase
+    .from('fixture_stats')
+    .delete()
+    .eq('fixture_id', fixtureId)
+  if (deleteError) throw deleteError
+  await insertStatsForFixture(fixtureId, stats)
+}
+
 export async function getStatsForFixture(fixtureId: number): Promise<FixtureStatNameValue[]> {
   const supabase = createServiceClient()
   const { data, error } = await supabase

@@ -20,9 +20,14 @@ export type ApiSportsFixtureItem = {
       long?: string
     }
   }
+  league?: {
+    id: number
+    season: number
+    name?: string
+  }
   teams: {
-    home: { name: string }
-    away: { name: string }
+    home: { id?: number; name: string }
+    away: { id?: number; name: string }
   }
   goals?: {
     home: number | null
@@ -58,7 +63,11 @@ function hasApiSportsErrors(errors: unknown): boolean {
 
 async function fetchFixturesJson<T>(query: string): Promise<ApiSportsFixturesEnvelope<T>> {
   const path = query.startsWith('?') ? `/fixtures${query}` : `/fixtures?${query}`
-  const url = `${getBaseUrl()}${path}`
+  return fetchApiSportsJson<T>(path)
+}
+
+async function fetchApiSportsJson<T>(path: string): Promise<ApiSportsFixturesEnvelope<T>> {
+  const url = `${getBaseUrl()}${path.startsWith('/') ? path : `/${path}`}`
 
   const res = await fetch(url, {
     headers: getAuthHeaders(),
@@ -67,7 +76,7 @@ async function fetchFixturesJson<T>(query: string): Promise<ApiSportsFixturesEnv
 
   if (!res.ok) {
     const text = await res.text()
-    throw new Error(`API-Sports fixtures request failed (${res.status}): ${text}`)
+    throw new Error(`API-Sports request failed (${res.status}): ${text}`)
   }
 
   return (await res.json()) as ApiSportsFixturesEnvelope<T>
@@ -111,6 +120,72 @@ export function mapGoalsToResultLabel(
   if (home > away) return 'home_win'
   if (away > home) return 'away_win'
   return 'draw'
+}
+
+export type ApiSportsTeamStatistics = {
+  form?: string
+  goals?: {
+    for?: { average?: { total?: string | number } }
+    against?: { average?: { total?: string | number } }
+  }
+}
+
+export type ApiSportsStandingRow = {
+  rank: number
+  team: { id: number; name?: string }
+  points?: number
+}
+
+export type ApiSportsStandingsGroup = {
+  league?: {
+    standings?: ApiSportsStandingRow[][]
+  }
+}
+
+export async function fetchTeamStatistics(
+  teamId: number,
+  leagueId: number,
+  season: number
+): Promise<ApiSportsTeamStatistics | null> {
+  const json = await fetchApiSportsJson<
+    Array<{ form?: string; goals?: ApiSportsTeamStatistics['goals'] }>
+  >(`/teams/statistics?team=${teamId}&league=${leagueId}&season=${season}`)
+
+  if (hasApiSportsErrors(json.errors)) {
+    console.error('API-Sports errors (team statistics):', json.errors)
+    return null
+  }
+
+  const row = Array.isArray(json.response) ? json.response[0] : null
+  return row ?? null
+}
+
+export async function fetchLeagueStandings(
+  leagueId: number,
+  season: number
+): Promise<Map<number, number>> {
+  const json = await fetchApiSportsJson<ApiSportsStandingsGroup[]>(
+    `/standings?league=${leagueId}&season=${season}`
+  )
+
+  if (hasApiSportsErrors(json.errors)) {
+    console.error('API-Sports errors (standings):', json.errors)
+    return new Map()
+  }
+
+  const rankByTeam = new Map<number, number>()
+  const groups = json.response ?? []
+  for (const entry of groups) {
+    const tables = entry.league?.standings ?? []
+    for (const table of tables) {
+      for (const row of table) {
+        if (row.team?.id != null && row.rank != null) {
+          rankByTeam.set(row.team.id, row.rank)
+        }
+      }
+    }
+  }
+  return rankByTeam
 }
 
 /**

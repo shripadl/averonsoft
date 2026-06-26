@@ -12,6 +12,7 @@ export function statsRowsToRawStats(
     if (feature_name === 'recentFormScore') raw.recentFormScore = feature_value
     else if (feature_name === 'goalDifferenceScore') raw.goalDifferenceScore = feature_value
     else if (feature_name === 'rankingScore') raw.rankingScore = feature_value
+    else if (feature_name === 'homeAdvantageScore') raw.homeAdvantageScore = feature_value
   }
   return raw
 }

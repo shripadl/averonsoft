@@ -169,6 +169,27 @@ export function ValidationReportClient({ initial }: { initial: ValidationSummary
         </section>
       ) : null}
 
+      {Object.keys(report.by_model_version ?? {}).length > 0 ? (
+        <section className="rounded-2xl border border-border bg-surface/60 p-5">
+          <h2 className="mb-4 text-sm font-semibold uppercase tracking-wide text-muted-foreground">
+            By model version
+          </h2>
+          <div className="space-y-2">
+            {Object.entries(report.by_model_version).map(([version, stats]) => (
+              <div
+                key={version}
+                className="flex items-center justify-between rounded-lg border border-border/60 bg-background/40 px-4 py-2 text-sm"
+              >
+                <span className="font-medium">{version}</span>
+                <span className="text-muted-foreground">
+                  {stats.hits}/{stats.total} hits ({pct(stats.hit_rate)})
+                </span>
+              </div>
+            ))}
+          </div>
+        </section>
+      ) : null}
+
       <section className="overflow-hidden rounded-2xl border border-border bg-surface/60">
         <div className="border-b border-border px-5 py-4">
           <h2 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">

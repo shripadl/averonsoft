@@ -34,6 +34,7 @@ export type ValidationSummary = {
   avg_error_abs: number | null
   by_category: Record<string, { total: number; hits: number; hit_rate: number | null }>
   by_sport: Record<string, { total: number; hits: number; hit_rate: number | null }>
+  by_model_version: Record<string, { total: number; hits: number; hit_rate: number | null }>
   daily: Array<{ date: string; total: number; hits: number; hit_rate: number | null }>
   rows: ValidationRow[]
   generated_at: string
@@ -172,6 +173,7 @@ async function assembleReport(
   const dailyMap = new Map<string, { total: number; hits: number }>()
   const byCategory = new Map<string, { total: number; hits: number }>()
   const bySport = new Map<string, { total: number; hits: number }>()
+  const byModelVersion = new Map<string, { total: number; hits: number }>()
 
   let scorable = 0
   let hits = 0
@@ -213,12 +215,15 @@ async function assembleReport(
     catBucket.total += 1
     const sportBucket = bySport.get(fixture.sport_slug) ?? { total: 0, hits: 0 }
     sportBucket.total += 1
+    const modelBucket = byModelVersion.get(prediction.model_version) ?? { total: 0, hits: 0 }
+    modelBucket.total += 1
 
     if (evalResult.hit === true) {
       hits += 1
       dayBucket.hits += 1
       catBucket.hits += 1
       sportBucket.hits += 1
+      modelBucket.hits += 1
     } else if (evalResult.hit === false) {
       misses += 1
     }
@@ -234,6 +239,7 @@ async function assembleReport(
     dailyMap.set(matchDay, dayBucket)
     byCategory.set(prediction.decision_category, catBucket)
     bySport.set(fixture.sport_slug, sportBucket)
+    byModelVersion.set(prediction.model_version, modelBucket)
   }
 
   const mapRates = (m: Map<string, { total: number; hits: number }>) => {
@@ -268,6 +274,7 @@ async function assembleReport(
     avg_error_abs: errorCount > 0 ? errorSum / errorCount : null,
     by_category: mapRates(byCategory),
     by_sport: mapRates(bySport),
+    by_model_version: mapRates(byModelVersion),
     daily,
     rows,
     generated_at: new Date().toISOString(),
@@ -287,6 +294,7 @@ function emptyReport(range: ValidationRange, from: string, to: string): Validati
     avg_error_abs: null,
     by_category: {},
     by_sport: {},
+    by_model_version: {},
     daily: [],
     rows: [],
     generated_at: new Date().toISOString(),

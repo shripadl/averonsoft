@@ -2,6 +2,7 @@ export type RawStats = {
   recentFormScore?: number
   goalDifferenceScore?: number
   rankingScore?: number
+  homeAdvantageScore?: number
 }
 
 export type Feature = {
@@ -19,6 +20,9 @@ export function extractFeatures(raw: RawStats): Feature[] {
   }
   if (typeof raw.rankingScore === 'number') {
     features.push({ name: 'rankingScore', value: raw.rankingScore })
+  }
+  if (typeof raw.homeAdvantageScore === 'number') {
+    features.push({ name: 'homeAdvantageScore', value: raw.homeAdvantageScore })
   }
   return features
 }
