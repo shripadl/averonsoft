@@ -1,13 +1,13 @@
 import { NextResponse } from 'next/server'
 import {
-  buildSportsDataMeta,
+  buildSportsDataMetaWithIngestion,
   getTodayFixturesWithPredictions,
 } from '@/lib/sports-engine/get-today-with-predictions'
 
 export async function GET() {
   try {
     const entries = await getTodayFixturesWithPredictions('football')
-    const meta = buildSportsDataMeta(entries)
+    const meta = await buildSportsDataMetaWithIngestion(entries)
     return NextResponse.json({ entries, meta })
   } catch (e) {
     console.error(e)

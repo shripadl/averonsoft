@@ -6,6 +6,8 @@
  */
 
 import { getSportIdBySlug, upsertFixture } from '@/lib/sports-engine/db/fixtures'
+import { upsertOutcome } from '@/lib/sports-engine/db/outcomes'
+import { parseCricketResultLabel } from '@/lib/sports-engine/validation/outcome-labels'
 
 const DEFAULT_BASE_URL = 'https://api.cricapi.com/v1'
 
@@ -39,23 +41,6 @@ function matchDateYmd(dateStr: string): string {
   const trimmed = dateStr.trim()
   if (trimmed.includes('T')) return trimmed.split('T')[0]!
   return trimmed.slice(0, 10)
-}
-
-/** Same calendar-day window as `getTodayFixturesBySportSlug` (local server timezone). */
-function isInLocalTodayWindow(iso: string): boolean {
-  const t = new Date(iso).getTime()
-  const now = new Date()
-  const start = new Date(now.getFullYear(), now.getMonth(), now.getDate())
-  const end = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1)
-  return t >= start.getTime() && t < end.getTime()
-}
-
-function localTodayYmd(): string {
-  const d = new Date()
-  const y = d.getFullYear()
-  const m = String(d.getMonth() + 1).padStart(2, '0')
-  const day = String(d.getDate()).padStart(2, '0')
-  return `${y}-${m}-${day}`
 }
 
 function parseHomeAway(item: CricapiMatchRaw): { home: string; away: string } {
@@ -99,13 +84,6 @@ function toStartTimeIso(item: CricapiMatchRaw): string {
   return Number.isNaN(fallback.getTime()) ? new Date().toISOString() : fallback.toISOString()
 }
 
-function isMatchForToday(item: CricapiMatchRaw, startIso: string): boolean {
-  if (isInLocalTodayWindow(startIso)) return true
-  const raw = item.dateTimeGMT ?? item.date
-  if (raw && matchDateYmd(raw) === localTodayYmd()) return true
-  return false
-}
-
 function normalizeStatus(s: unknown): string {
   if (s == null) return 'scheduled'
   if (typeof s === 'string') return s.trim() || 'scheduled'
@@ -137,7 +115,7 @@ function extractMatchList(json: CricapiMatchesResponse & Record<string, unknown>
 }
 
 /**
- * Fetch matches from CricketData.org, map to fixtures, upsert today’s matches only.
+ * Fetch matches from CricketData.org and upsert the full API list so statuses stay current.
  */
 export async function ingestCricketFixturesForToday(): Promise<number> {
   const apiKey = process.env.CRICKET_API_KEY?.trim()
@@ -196,46 +174,39 @@ export async function ingestCricketFixturesForToday(): Promise<number> {
     return 0
   }
 
-  const tryUpsert = async (item: CricapiMatchRaw, requireToday: boolean) => {
+  const upsertItem = async (item: CricapiMatchRaw): Promise<boolean> => {
     const externalId = resolveExternalId(item)
     if (!externalId) return false
 
     const startIso = toStartTimeIso(item)
-    if (requireToday && !isMatchForToday(item, startIso)) return false
-
     const { home, away } = parseHomeAway(item)
+    const status = normalizeStatus(item.status)
 
-    await upsertFixture({
+    const row = await upsertFixture({
       sport_id: cricketSportId,
       external_id: externalId,
       home_team: home,
       away_team: away,
       start_time: startIso,
-      status: normalizeStatus(item.status),
+      status,
     })
+
+    const label = parseCricketResultLabel(home, away, status)
+    if (label) {
+      await upsertOutcome({ fixture_id: row.id, result_label: label })
+    }
+
     return true
   }
 
   let upserted = 0
   for (const item of list) {
     try {
-      if (await tryUpsert(item, true)) upserted += 1
+      if (await upsertItem(item)) upserted += 1
     } catch (e) {
       console.error('CricketData upsert failed for item', resolveExternalId(item), e)
     }
   }
 
-  if (upserted === 0 && list.length > 0) {
-    console.warn(
-      'CricketData: no rows matched local today; ingesting all returned matches (API may already scope to current).'
-    )
-    for (const item of list) {
-      try {
-        if (await tryUpsert(item, false)) upserted += 1
-      } catch (e) {
-        console.error('CricketData upsert failed for item', resolveExternalId(item), e)
-      }
-    }
-  }
   return upserted
 }

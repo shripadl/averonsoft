@@ -4,6 +4,7 @@ import {
   getPredictionsForFixtureIds,
   type PredictionRow,
 } from '@/lib/sports-engine/db/predictions'
+import { createServiceClient } from '@/lib/supabase/server'
 
 export type FixtureWithPrediction = {
   fixture: Fixture
@@ -110,4 +111,36 @@ export function buildSportsDataMeta(entries: FixtureWithPrediction[]): SportsDat
     generated_at: generatedAt,
     stale,
   }
+}
+
+async function getLastIngestionGeneratedAt(): Promise<string | null> {
+  const supabase = createServiceClient()
+  const { data } = await supabase
+    .from('admin_settings')
+    .select('value')
+    .eq('key', 'sports_last_ingestion_run')
+    .maybeSingle()
+
+  const value = data?.value as { generated_at?: string } | null | undefined
+  return value?.generated_at ?? null
+}
+
+/** Meta with `generated_at` reflecting the latest cron run when newer than predictions. */
+export async function buildSportsDataMetaWithIngestion(
+  entries: FixtureWithPrediction[]
+): Promise<SportsDataMeta> {
+  const meta = buildSportsDataMeta(entries)
+  const lastIngestion = await getLastIngestionGeneratedAt()
+  if (!lastIngestion) return meta
+
+  const ingestionMs = new Date(lastIngestion).getTime()
+  const predictionMs = new Date(meta.generated_at).getTime()
+  if (ingestionMs > predictionMs) {
+    return {
+      ...meta,
+      generated_at: lastIngestion,
+      stale: Date.now() - ingestionMs > 12 * 60 * 60 * 1000,
+    }
+  }
+  return meta
 }

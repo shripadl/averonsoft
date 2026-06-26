@@ -31,10 +31,14 @@ export async function GET(request: NextRequest) {
   const footballUpserted = footballToday + footballYesterday
 
   let predictionsCount = 0
+  let footballPredictions = 0
+  let cricketPredictions = 0
   let predictionError: string | null = null
   try {
     const preds = await runPredictionPipelineForToday()
     predictionsCount = preds.length
+    footballPredictions = preds.filter((p) => p.sport === 'football').length
+    cricketPredictions = preds.filter((p) => p.sport === 'cricket').length
   } catch (e) {
     console.error('Prediction pipeline after ingestion failed:', e)
     predictionError = e instanceof Error ? e.message : 'unknown'
@@ -57,6 +61,8 @@ export async function GET(request: NextRequest) {
     football_upserted: footballUpserted,
     cricket_upserted: cricketUpserted,
     predictions_generated: predictionsCount,
+    football_predictions: footballPredictions,
+    cricket_predictions: cricketPredictions,
     prediction_error: predictionError,
     outcomes_resolved: outcomesResolved,
     validation_error: validationError,

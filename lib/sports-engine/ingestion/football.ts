@@ -1,8 +1,11 @@
 import {
   fetchFixturesByDate,
   mapApiSportsItemToFixtureFields,
+  mapGoalsToResultLabel,
 } from '../providers/football/apiSports'
 import { getSportIdBySlug, upsertFixture } from '../db/fixtures'
+import { upsertOutcome } from '../db/outcomes'
+import { isFinishedFootballStatus } from '../validation/outcome-labels'
 
 export async function ingestFootballForDate(date: string): Promise<number> {
   if (!process.env.FOOTBALL_API_KEY?.trim()) {
@@ -31,11 +34,18 @@ export async function ingestFootballForDate(date: string): Promise<number> {
     if (item?.fixture?.id == null) continue
 
     const fields = mapApiSportsItemToFixtureFields(item)
-    await upsertFixture({
+    const row = await upsertFixture({
       sport_id: footballSportId,
       ...fields,
     })
     upserted += 1
+
+    if (isFinishedFootballStatus(fields.status)) {
+      const label = mapGoalsToResultLabel(item.goals?.home, item.goals?.away)
+      if (label) {
+        await upsertOutcome({ fixture_id: row.id, result_label: label })
+      }
+    }
   }
   return upserted
 }

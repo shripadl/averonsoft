@@ -51,11 +51,14 @@ function pickPriorDayPrediction(
   predictions: PredictionRow[],
   startTime: string
 ): PredictionRow | null {
+  if (predictions.length === 0) return null
+
+  const kickoff = new Date(startTime).getTime()
   const priorDay = priorDayYmd(startTime)
   const onPriorDay = predictions.filter((p) => p.created_at.slice(0, 10) === priorDay)
   if (onPriorDay.length > 0) return onPriorDay[0]!
 
-  const beforeKickoff = predictions.filter((p) => p.created_at < startTime)
+  const beforeKickoff = predictions.filter((p) => new Date(p.created_at).getTime() < kickoff)
   return beforeKickoff[0] ?? null
 }
 
