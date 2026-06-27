@@ -6,6 +6,9 @@
     },
     "app/api/sports/ingestion/run/route.ts": {
       "maxDuration": 60
+    },
+    "app/api/sports/football/enrich-stats/route.ts": {
+      "maxDuration": 60
     }
   }
 }

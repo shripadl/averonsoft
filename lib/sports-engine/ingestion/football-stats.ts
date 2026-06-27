@@ -1,11 +1,12 @@
 import type { Fixture } from '@/lib/sports-engine/db/fixtures'
-import { replaceStatsForFixture } from '@/lib/sports-engine/db/stats'
+import { getTodayFixturesBySportSlug } from '@/lib/sports-engine/db/fixtures'
+import { getStatsForFixture, replaceModelStatsForFixture } from '@/lib/sports-engine/db/stats'
 import {
   buildFootballRawStats,
   rawStatsToFeatureRows,
 } from '@/lib/sports-engine/ingestion/football-features'
+import { readFootballFixtureMeta } from '@/lib/sports-engine/ingestion/football-meta'
 import {
-  fetchFixtureById,
   fetchLeagueStandings,
   fetchTeamStatistics,
   type ApiSportsTeamStatistics,
@@ -53,26 +54,18 @@ async function getStandingsCached(
 }
 
 /**
- * Pull API-Sports form, goal averages, and league rank; persist to fixture_stats.
- * Returns true when real stats were written (false → pipeline may fall back to v1).
+ * Pull API-Sports form, goal averages, and league rank using stored fixture meta (no per-fixture fixture fetch).
  */
 export async function enrichFootballFixtureStats(fixture: Fixture): Promise<boolean> {
   if (!process.env.FOOTBALL_API_KEY?.trim()) return false
 
-  const detail = await fetchFixtureById(fixture.external_id)
-  if (!detail?.league?.id || detail.league.season == null) return false
-
-  const homeId = detail.teams.home.id
-  const awayId = detail.teams.away.id
-  if (homeId == null || awayId == null) return false
-
-  const leagueId = detail.league.id
-  const season = detail.league.season
+  const meta = await readFootballFixtureMeta(Number(fixture.id))
+  if (!meta) return false
 
   const [homeStats, awayStats, standings] = await Promise.all([
-    getTeamStatisticsCached(homeId, leagueId, season),
-    getTeamStatisticsCached(awayId, leagueId, season),
-    getStandingsCached(leagueId, season),
+    getTeamStatisticsCached(meta.homeTeamId, meta.leagueId, meta.season),
+    getTeamStatisticsCached(meta.awayTeamId, meta.leagueId, meta.season),
+    getStandingsCached(meta.leagueId, meta.season),
   ])
 
   if (!homeStats && !awayStats) return false
@@ -80,13 +73,41 @@ export async function enrichFootballFixtureStats(fixture: Fixture): Promise<bool
   const raw = buildFootballRawStats({
     homeStats,
     awayStats,
-    homeRank: standings.get(homeId) ?? null,
-    awayRank: standings.get(awayId) ?? null,
+    homeRank: standings.get(meta.homeTeamId) ?? null,
+    awayRank: standings.get(meta.awayTeamId) ?? null,
   })
 
   const rows = rawStatsToFeatureRows(raw)
   if (rows.length === 0) return false
 
-  await replaceStatsForFixture(Number(fixture.id), rows)
+  await replaceModelStatsForFixture(Number(fixture.id), rows)
   return true
+}
+
+export function fixtureNeedsStatsEnrichment(
+  statRows: { feature_name: string }[]
+): boolean {
+  return !statRows.some((r) => r.feature_name === 'homeAdvantageScore')
+}
+
+/** Enrich up to `limit` today's football fixtures that lack v2 stats (for batched cron). */
+export async function enrichFootballStatsBatch(
+  limit: number
+): Promise<{ enriched: number; fixtureIds: number[] }> {
+  const fixtures = await getTodayFixturesBySportSlug('football')
+  const fixtureIds: number[] = []
+
+  for (const fixture of fixtures) {
+    if (fixtureIds.length >= limit) break
+    const statRows = await getStatsForFixture(Number(fixture.id))
+    if (!fixtureNeedsStatsEnrichment(statRows)) continue
+    try {
+      const ok = await enrichFootballFixtureStats(fixture)
+      if (ok) fixtureIds.push(Number(fixture.id))
+    } catch (e) {
+      console.error('Batch football stats enrichment failed for', fixture.id, e)
+    }
+  }
+
+  return { enriched: fixtureIds.length, fixtureIds }
 }

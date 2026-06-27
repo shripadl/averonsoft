@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { isCronAuthorized } from '@/lib/cron-auth'
 import { ingestCricketFixturesForToday } from '@/lib/sports-engine/ingestion/cricket'
 import { ingestFootballForDate } from '@/lib/sports-engine/ingestion/football'
+import { enrichFootballStatsBatch } from '@/lib/sports-engine/ingestion/football-stats'
 import { runPredictionPipelineForToday } from '@/lib/sports-engine/run-prediction-pipeline'
 import {
   getValidationReport,
@@ -28,7 +29,7 @@ export async function GET(request: NextRequest) {
     ingestFootballForDate(yesterday),
     ingestCricketFixturesForToday(),
   ])
-  const footballUpserted = footballToday + footballYesterday
+  const footballUpserted = footballToday.upserted + footballYesterday.upserted
 
   let predictionsCount = 0
   let footballPredictions = 0
@@ -42,6 +43,16 @@ export async function GET(request: NextRequest) {
   } catch (e) {
     console.error('Prediction pipeline after ingestion failed:', e)
     predictionError = e instanceof Error ? e.message : 'unknown'
+  }
+
+  let footballStatsEnriched = 0
+  let statsEnrichError: string | null = null
+  try {
+    const batch = await enrichFootballStatsBatch(25)
+    footballStatsEnriched = batch.enriched
+  } catch (e) {
+    console.error('Football stats batch enrichment failed:', e)
+    statsEnrichError = e instanceof Error ? e.message : 'unknown'
   }
 
   let outcomesResolved = 0
@@ -64,6 +75,8 @@ export async function GET(request: NextRequest) {
     football_predictions: footballPredictions,
     cricket_predictions: cricketPredictions,
     prediction_error: predictionError,
+    football_stats_enriched: footballStatsEnriched,
+    stats_enrich_error: statsEnrichError,
     outcomes_resolved: outcomesResolved,
     validation_error: validationError,
     generated_at: new Date().toISOString(),

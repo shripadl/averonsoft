@@ -33,13 +33,40 @@ export async function replaceStatsForFixture(
   fixtureId: number,
   stats: { feature_name: string; feature_value: number }[]
 ) {
+  await replaceModelStatsForFixture(fixtureId, stats)
+}
+
+/** Replace model features but keep `_meta_*` rows used for API lookups. */
+export async function replaceModelStatsForFixture(
+  fixtureId: number,
+  stats: { feature_name: string; feature_value: number }[]
+) {
+  const existing = await getStatsForFixture(fixtureId)
+  const meta = existing.filter((r) => r.feature_name.startsWith('_meta_'))
   const supabase = createServiceClient()
   const { error: deleteError } = await supabase
     .from('fixture_stats')
     .delete()
     .eq('fixture_id', fixtureId)
   if (deleteError) throw deleteError
-  await insertStatsForFixture(fixtureId, stats)
+  await insertStatsForFixture(fixtureId, [...meta, ...stats])
+}
+
+export async function upsertMetaStatsForFixture(
+  fixtureId: number,
+  meta: { feature_name: string; feature_value: number }[]
+) {
+  if (meta.length === 0) return
+  const supabase = createServiceClient()
+  for (const row of meta) {
+    const { error: deleteError } = await supabase
+      .from('fixture_stats')
+      .delete()
+      .eq('fixture_id', fixtureId)
+      .eq('feature_name', row.feature_name)
+    if (deleteError) throw deleteError
+  }
+  await insertStatsForFixture(fixtureId, meta)
 }
 
 export async function getStatsForFixture(fixtureId: number): Promise<FixtureStatNameValue[]> {

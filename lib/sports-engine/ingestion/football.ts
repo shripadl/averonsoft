@@ -1,3 +1,4 @@
+import type { ApiSportsFixtureItem } from '../providers/football/apiSports'
 import {
   fetchFixturesByDate,
   mapApiSportsItemToFixtureFields,
@@ -5,12 +6,17 @@ import {
 } from '../providers/football/apiSports'
 import { getSportIdBySlug, upsertFixture } from '../db/fixtures'
 import { upsertOutcome } from '../db/outcomes'
+import { storeFootballFixtureMeta } from './football-meta'
 import { isFinishedFootballStatus } from '../validation/outcome-labels'
 
-export async function ingestFootballForDate(date: string): Promise<number> {
+export type FootballIngestResult = {
+  upserted: number
+}
+
+export async function ingestFootballForDate(date: string): Promise<FootballIngestResult> {
   if (!process.env.FOOTBALL_API_KEY?.trim()) {
     console.warn('FOOTBALL_API_KEY is not set; skipping football ingestion')
-    return 0
+    return { upserted: 0 }
   }
 
   let footballSportId: number
@@ -18,15 +24,15 @@ export async function ingestFootballForDate(date: string): Promise<number> {
     footballSportId = await getSportIdBySlug('football')
   } catch (e) {
     console.error('Football ingestion: could not resolve sports.football id.', e)
-    return 0
+    return { upserted: 0 }
   }
 
-  let items
+  let items: ApiSportsFixtureItem[]
   try {
     items = await fetchFixturesByDate(date)
   } catch (e) {
     console.error('Failed to fetch football fixtures from API-Sports', e)
-    return 0
+    return { upserted: 0 }
   }
 
   let upserted = 0
@@ -40,6 +46,12 @@ export async function ingestFootballForDate(date: string): Promise<number> {
     })
     upserted += 1
 
+    try {
+      await storeFootballFixtureMeta(row.id, item)
+    } catch (e) {
+      console.error('Failed to store football fixture meta', row.id, e)
+    }
+
     if (isFinishedFootballStatus(fields.status)) {
       const label = mapGoalsToResultLabel(item.goals?.home, item.goals?.away)
       if (label) {
@@ -47,5 +59,5 @@ export async function ingestFootballForDate(date: string): Promise<number> {
       }
     }
   }
-  return upserted
+  return { upserted }
 }
