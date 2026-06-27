@@ -79,3 +79,31 @@ export async function getStatsForFixture(fixtureId: number): Promise<FixtureStat
   if (error) throw error
   return (data ?? []) as FixtureStatNameValue[]
 }
+
+export async function getStatsForFixtures(
+  fixtureIds: number[]
+): Promise<Map<number, FixtureStatNameValue[]>> {
+  const map = new Map<number, FixtureStatNameValue[]>()
+  if (fixtureIds.length === 0) return map
+
+  const supabase = createServiceClient()
+  const CHUNK = 200
+  for (let i = 0; i < fixtureIds.length; i += CHUNK) {
+    const slice = fixtureIds.slice(i, i + CHUNK)
+    const { data, error } = await supabase
+      .from('fixture_stats')
+      .select('fixture_id, feature_name, feature_value')
+      .in('fixture_id', slice)
+    if (error) throw error
+    for (const row of data ?? []) {
+      const id = Number(row.fixture_id)
+      const list = map.get(id) ?? []
+      list.push({
+        feature_name: row.feature_name as string,
+        feature_value: Number(row.feature_value),
+      })
+      map.set(id, list)
+    }
+  }
+  return map
+}

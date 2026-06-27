@@ -36,15 +36,16 @@ export async function ingestFootballForDate(date: string): Promise<FootballInges
   }
 
   let upserted = 0
-  for (const item of items) {
-    if (item?.fixture?.id == null) continue
+  const INGEST_CHUNK = 25
+
+  async function processItem(item: ApiSportsFixtureItem): Promise<boolean> {
+    if (item?.fixture?.id == null) return false
 
     const fields = mapApiSportsItemToFixtureFields(item)
     const row = await upsertFixture({
       sport_id: footballSportId,
       ...fields,
     })
-    upserted += 1
 
     try {
       await storeFootballFixtureMeta(row.id, item)
@@ -58,6 +59,13 @@ export async function ingestFootballForDate(date: string): Promise<FootballInges
         await upsertOutcome({ fixture_id: row.id, result_label: label })
       }
     }
+    return true
+  }
+
+  for (let i = 0; i < items.length; i += INGEST_CHUNK) {
+    const chunk = items.slice(i, i + INGEST_CHUNK)
+    const results = await Promise.all(chunk.map(processItem))
+    upserted += results.filter(Boolean).length
   }
   return { upserted }
 }

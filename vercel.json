@@ -7,6 +7,15 @@
     "app/api/sports/ingestion/run/route.ts": {
       "maxDuration": 60
     },
+    "app/api/sports/ingestion/ingest/route.ts": {
+      "maxDuration": 60
+    },
+    "app/api/sports/ingestion/predict/route.ts": {
+      "maxDuration": 60
+    },
+    "app/api/sports/ingestion/finalize/route.ts": {
+      "maxDuration": 60
+    },
     "app/api/sports/football/enrich-stats/route.ts": {
       "maxDuration": 60
     }

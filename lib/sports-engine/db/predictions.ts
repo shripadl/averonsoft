@@ -20,6 +20,14 @@ export async function insertPrediction(input: InsertPredictionInput) {
   return data as PredictionRow
 }
 
+export async function insertPredictionsBatch(inputs: InsertPredictionInput[]): Promise<PredictionRow[]> {
+  if (inputs.length === 0) return []
+  const supabase = createServiceClient()
+  const { data, error } = await supabase.from('predictions').insert(inputs).select()
+  if (error) throw error
+  return (data ?? []) as PredictionRow[]
+}
+
 export async function getPredictionsForFixtureIds(fixtureIds: number[]) {
   if (fixtureIds.length === 0) return []
   const supabase = createServiceClient()

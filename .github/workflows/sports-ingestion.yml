@@ -17,7 +17,7 @@ jobs:
   ingest:
     runs-on: ubuntu-latest
     steps:
-      - name: Trigger /api/sports/ingestion/run
+      - name: Ingest fixtures
         env:
           CRON_SECRET: ${{ secrets.CRON_SECRET }}
         run: |
@@ -27,7 +27,15 @@ jobs:
           fi
           curl -fsS --max-time 120 \
             -H "Authorization: Bearer ${CRON_SECRET}" \
-            "https://www.averonsoft.com/api/sports/ingestion/run"
+            "https://www.averonsoft.com/api/sports/ingestion/ingest"
+
+      - name: Generate predictions
+        env:
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+        run: |
+          curl -fsS --max-time 120 \
+            -H "Authorization: Bearer ${CRON_SECRET}" \
+            "https://www.averonsoft.com/api/sports/ingestion/predict"
 
       - name: Enrich football stats (batched v2 features)
         env:
@@ -38,3 +46,11 @@ jobs:
               -H "Authorization: Bearer ${CRON_SECRET}" \
               "https://www.averonsoft.com/api/sports/football/enrich-stats?limit=50" || true
           done
+
+      - name: Resolve outcomes and validation
+        env:
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+        run: |
+          curl -fsS --max-time 120 \
+            -H "Authorization: Bearer ${CRON_SECRET}" \
+            "https://www.averonsoft.com/api/sports/ingestion/finalize"
