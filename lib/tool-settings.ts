@@ -14,6 +14,7 @@ export const TOOL_KEYS = [
   'examgenerator',
   'resumebuilder',
   'sipswp',
+  'uktaxcalculator',
 ] as const
 export type ToolKey = (typeof TOOL_KEYS)[number]
 
@@ -37,6 +38,7 @@ export const TOOL_CONFIG: ToolConfig[] = [
   { key: 'examgenerator', name: 'Exam Question Generator', href: '/exam-generator' },
   { key: 'resumebuilder', name: 'CV / Resume Builder', href: '/resume-builder' },
   { key: 'sipswp', name: 'SIP / SWP Calculator', href: '/tools/sip-swp' },
+  { key: 'uktaxcalculator', name: 'UK Tax Calculator', href: '/uk-tax-calculator' },
 ]
 
 export interface ToolSettings {

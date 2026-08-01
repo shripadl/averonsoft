@@ -15,6 +15,7 @@ import {
   ListChecks,
   FileUser,
   TrendingUp,
+  Calculator,
 } from 'lucide-react'
 
 const TOOL_DESCRIPTIONS: Record<string, string> = {
@@ -34,6 +35,8 @@ const TOOL_DESCRIPTIONS: Record<string, string> = {
     'Build a professional CV with templates, PDF export, and certificate text extraction. No AI.',
   sipswp:
     'Project SIP accumulation and SWP drawdown. USA, UK, EU, and India presets. All in your browser.',
+  uktaxcalculator:
+    'UK take-home pay from HMRC rates — tax bands, NI, pension and student loans. All in your browser.',
 }
 
 const TOOL_ICONS: Record<string, typeof FileText> = {
@@ -50,6 +53,7 @@ const TOOL_ICONS: Record<string, typeof FileText> = {
   examgenerator: ListChecks,
   resumebuilder: FileUser,
   sipswp: TrendingUp,
+  uktaxcalculator: Calculator,
 }
 
 export default async function HomePage() {

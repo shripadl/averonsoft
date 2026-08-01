@@ -19,8 +19,8 @@
       }
     ],
     "paths": {
-      "@/*": ["./*"],
-      "@payframe/*": ["./uk-tax-calculator/*"]
+      "@payframe/*": ["./*"],
+      "@/*": ["./*"]
     }
   },
   "include": [
@@ -31,10 +31,5 @@
     ".next/dev/types/**/*.ts",
     "**/*.mts"
   ],
-  "exclude": [
-    "node_modules",
-    "uk-tax-calculator/node_modules",
-    "uk-tax-calculator/.next",
-    "uk-tax-calculator/app"
-  ]
+  "exclude": ["node_modules"]
 }

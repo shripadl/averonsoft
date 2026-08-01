@@ -48,6 +48,7 @@ export async function proxy(request: NextRequest) {
     '/tools/regex-explainer',
     '/tools/sip-swp',
     '/resume-builder',
+    '/uk-tax-calculator',
   ]
   const isPublicTool = publicToolPaths.some(path =>
     request.nextUrl.pathname === path || request.nextUrl.pathname.startsWith(path + '/')

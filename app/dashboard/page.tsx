@@ -17,6 +17,7 @@ import {
   ListChecks,
   FileUser,
   TrendingUp,
+  Calculator,
 } from 'lucide-react'
 import { LogoutButton } from "@/app/components/LogoutButton"
 import { getToolSettings, getVisibleTools } from '@/lib/tool-settings'
@@ -35,6 +36,7 @@ const TOOL_ICONS: Record<string, typeof CreditCard> = {
   examgenerator: ListChecks,
   resumebuilder: FileUser,
   sipswp: TrendingUp,
+  uktaxcalculator: Calculator,
 }
 
 export default async function DashboardPage() {
@@ -115,6 +117,7 @@ export default async function DashboardPage() {
               examgenerator: 'Generate practice MCQs from your topics with PDF export.',
               resumebuilder: 'Build a CV with templates, PDF export, and certificate upload.',
               sipswp: 'SIP accumulation and SWP drawdown projections with regional presets.',
+              uktaxcalculator: 'Estimate UK take-home pay, tax bands, NI, pension and student loans.',
             }
             return (
               <Card key={tool.key}>

@@ -1,0 +1,63 @@
+@import "tailwindcss";
+
+:root {
+  --ink: #0f1c1a;
+  --ink-soft: #1a2e2a;
+  --panel: #f4f7f5;
+  --panel-elevated: #ffffff;
+  --line: #d5e0db;
+  --muted: #5c726c;
+  --text: #142421;
+  --teal: #0d6b5c;
+  --teal-deep: #084c42;
+  --teal-soft: #d8efe9;
+  --amber: #c47a12;
+  --amber-soft: #f8e8d0;
+  --rose: #a35d6a;
+  --take-home: #0d6b5c;
+  --tax: #c47a12;
+  --ni: #3d6b9a;
+  --pension: #6b5b95;
+  --loan: #a35d6a;
+  --radius: 12px;
+}
+
+@theme inline {
+  --font-sans: var(--font-body), system-ui, sans-serif;
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-panel: var(--panel);
+  --color-panel-elevated: var(--panel-elevated);
+  --color-line: var(--line);
+  --color-muted: var(--muted);
+  --color-text: var(--text);
+  --color-teal: var(--teal);
+  --color-teal-deep: var(--teal-deep);
+  --color-teal-soft: var(--teal-soft);
+  --color-amber: var(--amber);
+  --color-amber-soft: var(--amber-soft);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--text);
+  font-family: var(--font-body), system-ui, sans-serif;
+  background:
+    radial-gradient(ellipse 80% 50% at 10% -10%, #d8efe9 0%, transparent 55%),
+    radial-gradient(ellipse 60% 40% at 100% 0%, #f8e8d0 0%, transparent 45%),
+    linear-gradient(180deg, #eef4f1 0%, #f7faf8 40%, #e8f0ec 100%);
+}
+
+::selection {
+  background: var(--teal-soft);
+  color: var(--teal-deep);
+}

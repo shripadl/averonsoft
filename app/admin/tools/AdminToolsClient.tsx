@@ -19,6 +19,7 @@ const TOOLS = [
   { id: 'examgenerator', name: 'Exam Question Generator', key: 'examgenerator' },
   { id: 'resumebuilder', name: 'CV / Resume Builder', key: 'resumebuilder' },
   { id: 'sipswp', name: 'SIP / SWP Calculator', key: 'sipswp' },
+  { id: 'uktaxcalculator', name: 'UK Tax Calculator', key: 'uktaxcalculator' },
 ]
 
 function Toggle({
