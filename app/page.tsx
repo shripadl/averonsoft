@@ -16,6 +16,7 @@ import {
   FileUser,
   TrendingUp,
   Calculator,
+  MapPinned,
 } from 'lucide-react'
 
 const TOOL_DESCRIPTIONS: Record<string, string> = {
@@ -37,6 +38,8 @@ const TOOL_DESCRIPTIONS: Record<string, string> = {
     'Project SIP accumulation and SWP drawdown. USA, UK, EU, and India presets. All in your browser.',
   uktaxcalculator:
     'UK take-home pay from HMRC rates — tax bands, NI, pension and student loans. All in your browser.',
+  areamap:
+    'Draw a polygon on an open map and get area and perimeter. MapLibre + OpenStreetMap. No API keys.',
 }
 
 const TOOL_ICONS: Record<string, typeof FileText> = {
@@ -54,6 +57,7 @@ const TOOL_ICONS: Record<string, typeof FileText> = {
   resumebuilder: FileUser,
   sipswp: TrendingUp,
   uktaxcalculator: Calculator,
+  areamap: MapPinned,
 }
 
 export default async function HomePage() {

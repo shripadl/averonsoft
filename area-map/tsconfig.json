@@ -19,9 +19,8 @@
       }
     ],
     "paths": {
-      "@/*": ["./*"],
-      "@payframe/*": ["./uk-tax-calculator/*"],
-      "@areamap/*": ["./area-map/*"]
+      "@areamap/*": ["./*"],
+      "@/*": ["./*"]
     }
   },
   "include": [
@@ -32,19 +31,5 @@
     ".next/dev/types/**/*.ts",
     "**/*.mts"
   ],
-  "exclude": [
-    "node_modules",
-    "uk-tax-calculator/node_modules",
-    "uk-tax-calculator/.next",
-    "uk-tax-calculator/app",
-    "uk-tax-calculator/vitest.config.mts",
-    "uk-tax-calculator/next.config.ts",
-    "uk-tax-calculator/next-env.d.ts",
-    "uk-tax-calculator/lib/**/__tests__",
-    "area-map/node_modules",
-    "area-map/.next",
-    "area-map/app",
-    "area-map/next.config.ts",
-    "area-map/next-env.d.ts"
-  ]
+  "exclude": ["node_modules"]
 }

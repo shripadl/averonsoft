@@ -31,6 +31,7 @@ const STATIC_ROUTES: {
   { path: '/legal/gdpr', priority: 0.4, changeFrequency: 'yearly' },
   { path: '/legal/eula', priority: 0.4, changeFrequency: 'yearly' },
   { path: '/uk-tax-calculator', priority: 0.8, changeFrequency: 'monthly' },
+  { path: '/area-map', priority: 0.8, changeFrequency: 'monthly' },
 ]
 
 function siteOrigin(): string {

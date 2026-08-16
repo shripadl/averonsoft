@@ -1,0 +1,458 @@
+/* Scoped PlotMeasure theme — does not override Averonsoft global tokens. */
+
+/* Hide Averonsoft chrome when PlotMeasure is mounted (stable DOM → no hydration mismatch). */
+body:has(.areamap-root) header.sticky,
+body:has(.areamap-root) > div.flex > footer,
+body:has(.areamap-root) > div.flex > header {
+  display: none !important;
+}
+
+body:has(.areamap-root) main.flex-1 {
+  padding: 0;
+  margin: 0;
+  min-height: 100dvh;
+}
+
+.areamap-root {
+  --am-ink: #14201c;
+  --am-panel: rgba(250, 252, 250, 0.92);
+  --am-line: rgba(20, 32, 28, 0.12);
+  --am-muted: #5a6b64;
+  --am-text: #14201c;
+  --am-accent: #0f6e56;
+  --am-accent-deep: #0b4f3f;
+  --am-accent-soft: #d7efe6;
+  --am-radius: 14px;
+  --am-shadow: 0 12px 40px -18px rgba(15, 32, 28, 0.45);
+  color: var(--am-text);
+  font-family: var(--font-areamap-body), system-ui, sans-serif;
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+}
+
+.areamap-root--standalone,
+.areamap-root--embedded {
+  min-height: 100dvh;
+}
+
+.areamap-stage {
+  position: relative;
+  width: 100%;
+  height: 100dvh;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse 70% 50% at 0% 0%, #d7efe6 0%, transparent 55%),
+    linear-gradient(160deg, #e4ebe6 0%, #dfe8e3 100%);
+}
+
+.areamap-canvas,
+.areamap-map-loading {
+  position: absolute;
+  inset: 0;
+}
+
+.areamap-map-loading {
+  display: grid;
+  place-items: center;
+  color: var(--am-muted);
+  font-size: 0.95rem;
+  background: #e8eee9;
+}
+
+.areamap-chrome {
+  position: absolute;
+  z-index: 2;
+  top: 1rem;
+  left: 1rem;
+  right: 1rem;
+  max-width: 28rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1rem 1.1rem 1.05rem;
+  border-radius: calc(var(--am-radius) + 2px);
+  border: 1px solid var(--am-line);
+  background: var(--am-panel);
+  backdrop-filter: blur(10px);
+  box-shadow: var(--am-shadow);
+  animation: areamap-rise 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@media (min-width: 640px) {
+  .areamap-chrome {
+    right: auto;
+    width: min(28rem, calc(100% - 2rem));
+  }
+}
+
+.areamap-logo {
+  margin: 0;
+  font-family: var(--font-areamap-display), Georgia, serif;
+  font-size: clamp(1.75rem, 4vw, 2.35rem);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  color: var(--am-accent-deep);
+}
+
+.areamap-tagline {
+  margin: 0.35rem 0 0;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  color: var(--am-muted);
+}
+
+.areamap-search {
+  position: relative;
+}
+
+.areamap-search__label {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-size: 0.7rem;
+  font-weight: 650;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--am-muted);
+}
+
+.areamap-search__field {
+  position: relative;
+}
+
+.areamap-search__input {
+  width: 100%;
+  border: 1px solid var(--am-line);
+  border-radius: 10px;
+  background: #fff;
+  color: var(--am-text);
+  font: inherit;
+  font-size: 0.9rem;
+  padding: 0.55rem 2rem 0.55rem 0.7rem;
+  outline: none;
+  transition: border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.areamap-search__input:focus {
+  border-color: color-mix(in srgb, var(--am-accent) 45%, var(--am-line));
+  box-shadow: 0 0 0 3px var(--am-accent-soft);
+}
+
+.areamap-search__status {
+  position: absolute;
+  right: 0.65rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--am-muted);
+  font-size: 0.9rem;
+  pointer-events: none;
+}
+
+.areamap-search__list {
+  position: absolute;
+  z-index: 5;
+  left: 0;
+  right: 0;
+  top: calc(100% + 0.35rem);
+  margin: 0;
+  padding: 0.3rem;
+  list-style: none;
+  max-height: 14rem;
+  overflow: auto;
+  border-radius: 12px;
+  border: 1px solid var(--am-line);
+  background: #fff;
+  box-shadow: var(--am-shadow);
+}
+
+.areamap-search__option {
+  display: block;
+  width: 100%;
+  text-align: left;
+  border: 0;
+  background: transparent;
+  color: var(--am-text);
+  font: inherit;
+  font-size: 0.8125rem;
+  line-height: 1.35;
+  padding: 0.55rem 0.6rem;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.areamap-search__option:hover,
+.areamap-search__option.is-active {
+  background: var(--am-accent-soft);
+  color: var(--am-accent-deep);
+}
+
+.areamap-search__error,
+.areamap-search__empty {
+  margin: 0.4rem 0 0;
+  font-size: 0.75rem;
+  color: var(--am-muted);
+}
+
+.areamap-search__error {
+  color: #9b3d3d;
+}
+
+.areamap-basemap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.areamap-basemap__label {
+  font-size: 0.7rem;
+  font-weight: 650;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--am-muted);
+}
+
+.areamap-basemap__options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.areamap-basemap__btn {
+  appearance: none;
+  border: 1px solid var(--am-line);
+  background: #fff;
+  color: var(--am-text);
+  border-radius: 999px;
+  padding: 0.35rem 0.7rem;
+  font: inherit;
+  font-size: 0.75rem;
+  font-weight: 550;
+  cursor: pointer;
+  transition:
+    background 160ms ease,
+    border-color 160ms ease,
+    color 160ms ease;
+}
+
+.areamap-basemap__btn:hover {
+  border-color: color-mix(in srgb, var(--am-accent) 35%, var(--am-line));
+}
+
+.areamap-basemap__btn.is-active {
+  background: var(--am-accent);
+  border-color: var(--am-accent);
+  color: #fff;
+}
+
+.areamap-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.areamap-btn {
+  appearance: none;
+  border: 1px solid var(--am-line);
+  background: #fff;
+  color: var(--am-text);
+  border-radius: 999px;
+  padding: 0.45rem 0.9rem;
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 550;
+  cursor: pointer;
+  transition:
+    background 160ms ease,
+    border-color 160ms ease,
+    transform 160ms ease;
+}
+
+.areamap-btn:hover:not(:disabled) {
+  border-color: color-mix(in srgb, var(--am-accent) 35%, var(--am-line));
+  transform: translateY(-1px);
+}
+
+.areamap-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.areamap-btn--primary {
+  background: var(--am-accent);
+  border-color: var(--am-accent);
+  color: #fff;
+}
+
+.areamap-btn--primary:hover:not(:disabled) {
+  background: var(--am-accent-deep);
+  border-color: var(--am-accent-deep);
+}
+
+.areamap-instructions {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: var(--am-muted);
+  line-height: 1.45;
+}
+
+.areamap-results {
+  position: absolute;
+  z-index: 2;
+  right: 1rem;
+  bottom: 3.25rem;
+  left: 1rem;
+  max-width: 20rem;
+  margin-left: auto;
+  padding: 1rem 1.1rem;
+  border-radius: calc(var(--am-radius) + 2px);
+  border: 1px solid var(--am-line);
+  background: var(--am-panel);
+  backdrop-filter: blur(10px);
+  box-shadow: var(--am-shadow);
+  animation: areamap-rise 560ms 80ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@media (min-width: 640px) {
+  .areamap-results {
+    top: 1rem;
+    bottom: auto;
+    left: auto;
+    width: 20rem;
+  }
+}
+
+.areamap-panel__title {
+  margin: 0 0 0.85rem;
+  font-size: 0.75rem;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--am-muted);
+}
+
+.areamap-stat + .areamap-stat {
+  margin-top: 0.9rem;
+  padding-top: 0.9rem;
+  border-top: 1px solid var(--am-line);
+}
+
+.areamap-stat__label-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.25rem;
+}
+
+.areamap-stat__label {
+  font-size: 0.8125rem;
+  color: var(--am-muted);
+}
+
+.areamap-stat__value {
+  margin: 0;
+  font-family: var(--font-areamap-display), Georgia, serif;
+  font-size: 1.65rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  color: var(--am-ink);
+}
+
+.areamap-stat__unit {
+  margin-left: 0.35rem;
+  font-family: var(--font-areamap-body), system-ui, sans-serif;
+  font-size: 0.85rem;
+  font-weight: 550;
+  color: var(--am-muted);
+}
+
+.areamap-hint,
+.areamap-meta {
+  margin: 0.4rem 0 0;
+  font-size: 0.75rem;
+  color: var(--am-muted);
+}
+
+.areamap-select {
+  appearance: none;
+  border: 1px solid var(--am-line);
+  background: #fff
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%235a6b64' d='M3 4.5 6 8l3-3.5'/%3E%3C/svg%3E")
+    no-repeat right 0.45rem center;
+  border-radius: 8px;
+  padding: 0.2rem 1.4rem 0.2rem 0.45rem;
+  font: inherit;
+  font-size: 0.75rem;
+  color: var(--am-text);
+  cursor: pointer;
+}
+
+.areamap-footer {
+  position: absolute;
+  z-index: 2;
+  left: 1rem;
+  right: 1rem;
+  bottom: 0.65rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  color: rgba(20, 32, 28, 0.72);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.55);
+  pointer-events: none;
+  animation: areamap-fade 700ms 120ms ease both;
+}
+
+.areamap-footer__link {
+  pointer-events: auto;
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.areamap-footer__sep {
+  opacity: 0.6;
+}
+
+@keyframes areamap-rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes areamap-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.areamap-stage .maplibregl-ctrl-bottom-left {
+  bottom: 1.75rem;
+}
+.areamap-stage .maplibregl-ctrl-bottom-right {
+  bottom: 1.75rem;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

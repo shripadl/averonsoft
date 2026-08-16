@@ -1,10 +1,27 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 import { safePostLoginPath } from '@/lib/safe-post-login-path'
+import { isAreaMapHost } from '@/lib/area-map-host'
 
 const ADMIN_ROLES = ['admin', 'super_admin', 'support']
 
 export async function proxy(request: NextRequest) {
+  const host = request.headers.get('host')
+  let pathname = request.nextUrl.pathname
+
+  // CNAME / subdomain → /area-map (same Vercel project)
+  let rewritePath: string | null = null
+  if (isAreaMapHost(host)) {
+    if (
+      !pathname.startsWith('/area-map') &&
+      !pathname.startsWith('/_next') &&
+      !pathname.startsWith('/api')
+    ) {
+      rewritePath = pathname === '/' ? '/area-map' : `/area-map${pathname}`
+      pathname = rewritePath
+    }
+  }
+
   let supabaseResponse = NextResponse.next({
     request,
   })
@@ -49,17 +66,18 @@ export async function proxy(request: NextRequest) {
     '/tools/sip-swp',
     '/resume-builder',
     '/uk-tax-calculator',
+    '/area-map',
   ]
   const isPublicTool = publicToolPaths.some(path =>
-    request.nextUrl.pathname === path || request.nextUrl.pathname.startsWith(path + '/')
+    pathname === path || pathname.startsWith(path + '/')
   )
 
   // Protected routes (excluding public tools)
   const protectedRoutes = ['/dashboard', '/admin', '/super-admin']
   const isProtectedRoute = protectedRoutes.some(route =>
-    request.nextUrl.pathname.startsWith(route)
+    pathname.startsWith(route)
   )
-  const isProtectedTool = request.nextUrl.pathname.startsWith('/tools') && !isPublicTool
+  const isProtectedTool = pathname.startsWith('/tools') && !isPublicTool
 
   // Redirect to login if accessing protected route without auth
   if ((isProtectedRoute || isProtectedTool) && !user) {
@@ -70,7 +88,7 @@ export async function proxy(request: NextRequest) {
   }
 
   // Admin routes and banned check: fetch profile once for protected routes
-  const isAdminRoute = request.nextUrl.pathname.startsWith('/admin')
+  const isAdminRoute = pathname.startsWith('/admin')
   if ((isProtectedRoute || isAdminRoute) && user) {
     const { data: profile } = await supabase
       .from('profiles')
@@ -95,10 +113,20 @@ export async function proxy(request: NextRequest) {
   }
 
   // Redirect if logged in and accessing login/signup (prefer ?next= post-login destination)
-  if (user && (request.nextUrl.pathname === '/login' || request.nextUrl.pathname === '/signup')) {
+  if (user && (pathname === '/login' || pathname === '/signup')) {
     const dest = safePostLoginPath(request.nextUrl.searchParams.get('next')) || '/dashboard'
     const url = new URL(dest, request.nextUrl.origin)
     return NextResponse.redirect(url)
+  }
+
+  if (rewritePath) {
+    const url = request.nextUrl.clone()
+    url.pathname = rewritePath
+    const rewriteResponse = NextResponse.rewrite(url)
+    supabaseResponse.cookies.getAll().forEach((cookie) => {
+      rewriteResponse.cookies.set(cookie.name, cookie.value)
+    })
+    return rewriteResponse
   }
 
   return supabaseResponse

@@ -20,6 +20,7 @@ const TOOLS = [
   { id: 'resumebuilder', name: 'CV / Resume Builder', key: 'resumebuilder' },
   { id: 'sipswp', name: 'SIP / SWP Calculator', key: 'sipswp' },
   { id: 'uktaxcalculator', name: 'UK Tax Calculator', key: 'uktaxcalculator' },
+  { id: 'areamap', name: 'PlotMeasure', key: 'areamap' },
 ]
 
 function Toggle({

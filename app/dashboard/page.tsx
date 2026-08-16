@@ -18,6 +18,7 @@ import {
   FileUser,
   TrendingUp,
   Calculator,
+  MapPinned,
 } from 'lucide-react'
 import { LogoutButton } from "@/app/components/LogoutButton"
 import { getToolSettings, getVisibleTools } from '@/lib/tool-settings'
@@ -37,6 +38,7 @@ const TOOL_ICONS: Record<string, typeof CreditCard> = {
   resumebuilder: FileUser,
   sipswp: TrendingUp,
   uktaxcalculator: Calculator,
+  areamap: MapPinned,
 }
 
 export default async function DashboardPage() {
@@ -118,6 +120,7 @@ export default async function DashboardPage() {
               resumebuilder: 'Build a CV with templates, PDF export, and certificate upload.',
               sipswp: 'SIP accumulation and SWP drawdown projections with regional presets.',
               uktaxcalculator: 'Estimate UK take-home pay, tax bands, NI, pension and student loans.',
+              areamap: 'Draw a polygon on the map and measure area and perimeter.',
             }
             return (
               <Card key={tool.key}>
