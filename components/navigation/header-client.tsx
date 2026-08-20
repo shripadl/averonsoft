@@ -9,7 +9,7 @@ import { ThemeToggle } from '@/components/theme-toggle'
 import { ToolsMenu } from '@/components/navigation/ToolsMenu'
 import { AccountMenu } from '@/app/components/AccountMenu'
 import { LogoutButton } from '@/app/components/LogoutButton'
-import type { ToolConfig } from '@/lib/tool-settings'
+import type { ToolConfig } from '@/lib/tool-config'
 
 interface HeaderClientProps {
   user: { email?: string | null } | null

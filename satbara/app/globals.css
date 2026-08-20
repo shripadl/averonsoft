@@ -1,0 +1,48 @@
+@import "tailwindcss";
+@import "../styles/satbara-ui.css";
+
+:root {
+  --sb-ink: #1a2332;
+  --sb-panel: rgba(248, 250, 252, 0.94);
+  --sb-line: rgba(26, 35, 50, 0.12);
+  --sb-muted: #5c6b7a;
+  --sb-text: #1a2332;
+  --sb-accent: #0d6e6e;
+  --sb-accent-deep: #0a5252;
+  --sb-accent-soft: #d4ecec;
+  --sb-warm: #c9842a;
+  --sb-radius: 14px;
+  --sb-shadow: 0 16px 48px -20px rgba(26, 35, 50, 0.4);
+}
+
+@theme inline {
+  --font-sans: var(--font-satbara-body), system-ui, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--sb-text);
+  font-family: var(--font-satbara-body), system-ui, sans-serif;
+  background: #e9eef3;
+}
+
+::selection {
+  background: var(--sb-accent-soft);
+  color: var(--sb-accent-deep);
+}
+
+.satbara-root {
+  position: relative;
+  inset: auto;
+  z-index: auto;
+  overflow: visible;
+}

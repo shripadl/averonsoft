@@ -21,7 +21,10 @@
     "paths": {
       "@/*": ["./*"],
       "@payframe/*": ["./uk-tax-calculator/*"],
-      "@areamap/*": ["./area-map/*"]
+      "@areamap/*": ["./area-map/*"],
+      "@homedecor/*": ["./home-decor/*"],
+      "@satbara/*": ["./satbara/*"],
+      "@passphoto/*": ["./passport-photo/*"]
     }
   },
   "include": [
@@ -45,6 +48,21 @@
     "area-map/.next",
     "area-map/app",
     "area-map/next.config.ts",
-    "area-map/next-env.d.ts"
+    "area-map/next-env.d.ts",
+    "home-decor/node_modules",
+    "home-decor/.next",
+    "home-decor/app",
+    "home-decor/next.config.ts",
+    "home-decor/next-env.d.ts",
+    "satbara/node_modules",
+    "satbara/.next",
+    "satbara/app",
+    "satbara/next.config.ts",
+    "satbara/next-env.d.ts",
+    "passport-photo/node_modules",
+    "passport-photo/.next",
+    "passport-photo/app",
+    "passport-photo/next.config.ts",
+    "passport-photo/next-env.d.ts"
   ]
 }

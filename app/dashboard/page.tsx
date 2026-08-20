@@ -19,6 +19,9 @@ import {
   TrendingUp,
   Calculator,
   MapPinned,
+  Sofa,
+  ScrollText,
+  Camera,
 } from 'lucide-react'
 import { LogoutButton } from "@/app/components/LogoutButton"
 import { getToolSettings, getVisibleTools } from '@/lib/tool-settings'
@@ -39,6 +42,9 @@ const TOOL_ICONS: Record<string, typeof CreditCard> = {
   sipswp: TrendingUp,
   uktaxcalculator: Calculator,
   areamap: MapPinned,
+  homedecor: Sofa,
+  satbara: ScrollText,
+  passportphoto: Camera,
 }
 
 export default async function DashboardPage() {
@@ -121,6 +127,9 @@ export default async function DashboardPage() {
               sipswp: 'SIP accumulation and SWP drawdown projections with regional presets.',
               uktaxcalculator: 'Estimate UK take-home pay, tax bands, NI, pension and student loans.',
               areamap: 'Draw a polygon on the map and measure area and perimeter.',
+              homedecor: 'Plan rooms to real dimensions and place furniture in 3D.',
+              satbara: 'Demo 7/12 index + MahaBhulekh location checklist (not live statewide data).',
+              passportphoto: 'UK passport photo crop and size in the browser. Photos stay on your device.',
             }
             return (
               <Card key={tool.key}>

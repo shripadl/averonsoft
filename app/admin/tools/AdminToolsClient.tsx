@@ -4,24 +4,13 @@ import { useState, useEffect } from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Loader2 } from 'lucide-react'
 import { toast } from 'sonner'
+import { TOOL_CONFIG } from '@/lib/tool-config'
 
-const TOOLS = [
-  { id: 'pdfconverter', name: 'PDF Converter', key: 'pdfconverter' },
-  { id: 'charactercounter', name: 'Character Counter', key: 'charactercounter' },
-  { id: 'jsonformatter', name: 'JSON Formatter', key: 'jsonformatter' },
-  { id: 'smartimageresizer', name: 'Smart Image Toolkit', key: 'smartimageresizer' },
-  { id: 'businesscard', name: 'Business Card', key: 'businesscard' },
-  { id: 'aiworkspace', name: 'AI Code Workspace', key: 'aiworkspace' },
-  { id: 'daw', name: 'DAW', key: 'daw' },
-  { id: 'regexexplainer', name: 'RegExplain', key: 'regexexplainer' },
-  { id: 'sportanalytics', name: 'Sports Analytics', key: 'sportanalytics' },
-  { id: 'practiceexams', name: 'Practice Exams', key: 'practiceexams' },
-  { id: 'examgenerator', name: 'Exam Question Generator', key: 'examgenerator' },
-  { id: 'resumebuilder', name: 'CV / Resume Builder', key: 'resumebuilder' },
-  { id: 'sipswp', name: 'SIP / SWP Calculator', key: 'sipswp' },
-  { id: 'uktaxcalculator', name: 'UK Tax Calculator', key: 'uktaxcalculator' },
-  { id: 'areamap', name: 'PlotMeasure', key: 'areamap' },
-]
+const TOOLS = TOOL_CONFIG.map((t) => ({
+  id: t.key,
+  name: t.name,
+  key: t.key,
+}))
 
 function Toggle({
   checked,

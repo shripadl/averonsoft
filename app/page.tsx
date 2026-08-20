@@ -17,6 +17,9 @@ import {
   TrendingUp,
   Calculator,
   MapPinned,
+  Sofa,
+  ScrollText,
+  Camera,
 } from 'lucide-react'
 
 const TOOL_DESCRIPTIONS: Record<string, string> = {
@@ -40,6 +43,12 @@ const TOOL_DESCRIPTIONS: Record<string, string> = {
     'UK take-home pay from HMRC rates — tax bands, NI, pension and student loans. All in your browser.',
   areamap:
     'Draw a polygon on an open map and get area and perimeter. MapLibre + OpenStreetMap. No API keys.',
+  homedecor:
+    'Plan rooms to real dimensions, import builder floor plans, and place furniture in 3D before you buy.',
+  satbara:
+    'Maharashtra 7/12 location helper with a small demo index — live extracts stay on MahaBhulekh.',
+  passportphoto:
+    'Format a UK passport portrait in the browser — crop, size, optional background. Photos stay on your device.',
 }
 
 const TOOL_ICONS: Record<string, typeof FileText> = {
@@ -58,6 +67,9 @@ const TOOL_ICONS: Record<string, typeof FileText> = {
   sipswp: TrendingUp,
   uktaxcalculator: Calculator,
   areamap: MapPinned,
+  homedecor: Sofa,
+  satbara: ScrollText,
+  passportphoto: Camera,
 }
 
 export default async function HomePage() {

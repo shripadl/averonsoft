@@ -1,0 +1,40 @@
+@import "tailwindcss";
+
+:root {
+  --hd-ink: #142033;
+  --hd-panel: rgba(244, 248, 252, 0.94);
+  --hd-line: rgba(20, 32, 51, 0.14);
+  --hd-muted: #5a6b7d;
+  --hd-text: #142033;
+  --hd-accent: #1e5a8a;
+  --hd-accent-deep: #143d5e;
+  --hd-accent-soft: #d6e6f4;
+  --hd-danger: #b33b2e;
+  --hd-radius: 14px;
+  --hd-shadow: 0 14px 44px -20px rgba(20, 32, 51, 0.5);
+}
+
+@theme inline {
+  --font-sans: var(--font-homedecor-body), system-ui, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--hd-text);
+  font-family: var(--font-homedecor-body), system-ui, sans-serif;
+  background: #d5e0ec;
+}
+
+::selection {
+  background: var(--hd-accent-soft);
+  color: var(--hd-accent-deep);
+}

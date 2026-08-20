@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { ChevronDown, Wrench } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
-import type { ToolConfig } from '@/lib/tool-settings'
+import type { ToolConfig } from '@/lib/tool-config'
 
 function isToolActive(pathname: string, href: string): boolean {
   return pathname === href || pathname.startsWith(`${href}/`)

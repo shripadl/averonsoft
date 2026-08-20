@@ -1,0 +1,506 @@
+/* Scoped PhotoSpec theme — does not override Averonsoft global tokens. */
+
+body:has(.passphoto-root) header.sticky,
+body:has(.passphoto-root) > div.flex > footer,
+body:has(.passphoto-root) > div.flex > header {
+  display: none !important;
+}
+
+body:has(.passphoto-root) main.flex-1 {
+  padding: 0;
+  margin: 0;
+  min-height: 100dvh;
+}
+
+.passphoto-root {
+  --pp-ink: #1b2430;
+  --pp-panel: rgba(250, 248, 244, 0.94);
+  --pp-line: rgba(27, 36, 48, 0.12);
+  --pp-muted: #5d6773;
+  --pp-text: #1b2430;
+  --pp-accent: #1f4e6b;
+  --pp-accent-deep: #16384d;
+  --pp-accent-soft: #d5e4ee;
+  --pp-ok: #1f6b4a;
+  --pp-warn: #8a5a12;
+  --pp-fail: #9b2c2c;
+  --pp-radius: 14px;
+  --pp-shadow: 0 16px 48px -20px rgba(27, 36, 48, 0.42);
+  color: var(--pp-text);
+  font-family: var(--font-passphoto-body), system-ui, sans-serif;
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  overflow: auto;
+}
+
+.passphoto-root--standalone,
+.passphoto-root--embedded {
+  min-height: 100dvh;
+}
+
+.passphoto-stage {
+  position: relative;
+  width: 100%;
+  min-height: 100dvh;
+  padding: 1.25rem 1.1rem 2.5rem;
+  background:
+    radial-gradient(ellipse 70% 50% at 100% 0%, #e4eef4 0%, transparent 55%),
+    radial-gradient(ellipse 50% 40% at 0% 100%, #efe6d6 0%, transparent 50%),
+    linear-gradient(165deg, #eef1f4 0%, #e8ece8 50%, #f3eee6 100%);
+}
+
+.passphoto-hero {
+  max-width: 68rem;
+  margin: 0 auto 1.25rem;
+}
+
+.passphoto-brand {
+  margin: 0 0 0.35rem;
+  font-family: var(--font-passphoto-display), system-ui, sans-serif;
+  font-size: clamp(2rem, 4.5vw, 2.8rem);
+  font-weight: 650;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  color: var(--pp-ink);
+}
+
+.passphoto-title {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--pp-accent-deep);
+}
+
+.passphoto-lede {
+  margin: 0.55rem 0 0;
+  max-width: 38rem;
+  color: var(--pp-muted);
+  font-size: 0.98rem;
+  line-height: 1.45;
+}
+
+.passphoto-banner {
+  margin: 0.9rem 0 0;
+  max-width: 46rem;
+  padding: 0.75rem 0.9rem;
+  border: 1px solid var(--pp-line);
+  border-radius: var(--pp-radius);
+  background: var(--pp-panel);
+  color: var(--pp-muted);
+  font-size: 0.88rem;
+  line-height: 1.45;
+}
+
+.passphoto-banner a {
+  color: var(--pp-accent-deep);
+  font-weight: 600;
+}
+
+.passphoto-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 22rem) minmax(0, 1fr);
+  gap: 1.1rem;
+  max-width: 68rem;
+  margin: 0 auto;
+}
+
+@media (max-width: 860px) {
+  .passphoto-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+.passphoto-panel,
+.passphoto-preview {
+  background: var(--pp-panel);
+  border: 1px solid var(--pp-line);
+  border-radius: var(--pp-radius);
+  box-shadow: var(--pp-shadow);
+  padding: 1.1rem 1.15rem 1.25rem;
+}
+
+.passphoto-panel__title {
+  margin: 1rem 0 0.35rem;
+  font-size: 0.92rem;
+  font-weight: 650;
+}
+
+.passphoto-panel__title:first-child {
+  margin-top: 0;
+}
+
+.passphoto-hint {
+  margin: 0 0 0.75rem;
+  color: var(--pp-muted);
+  font-size: 0.86rem;
+  line-height: 1.4;
+}
+
+.passphoto-file-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
+
+.passphoto-file-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.65rem;
+  margin-bottom: 0.85rem;
+}
+
+.passphoto-file-name {
+  font-size: 0.84rem;
+  color: var(--pp-muted);
+}
+
+.passphoto-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin-top: 0.65rem;
+}
+
+.passphoto-btn {
+  appearance: none;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 12px;
+  padding: 0.7rem 1.15rem;
+  font-size: 0.92rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  color: var(--pp-accent-deep);
+  background: linear-gradient(180deg, #ffffff 0%, #eef3f7 48%, #d5dee7 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.95),
+    inset 0 -1px 0 rgba(22, 56, 77, 0.08),
+    0 3px 0 #8fa3b5,
+    0 8px 16px rgba(27, 36, 48, 0.18);
+  transform: translateY(0);
+  transition: transform 80ms ease, box-shadow 80ms ease, filter 80ms ease;
+}
+
+.passphoto-btn:hover:not(:disabled) {
+  filter: brightness(1.05);
+}
+
+.passphoto-btn:active:not(:disabled) {
+  transform: translateY(3px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.7),
+    0 0 0 #8fa3b5,
+    0 3px 8px rgba(27, 36, 48, 0.16);
+}
+
+.passphoto-btn:focus-visible {
+  outline: 3px solid #7eb7d8;
+  outline-offset: 2px;
+}
+
+.passphoto-btn:disabled {
+  cursor: not-allowed;
+  filter: grayscale(0.25);
+  opacity: 0.55;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.8),
+    0 2px 0 #b7c3ce;
+}
+
+.passphoto-btn--primary {
+  color: #fff;
+  background: linear-gradient(180deg, #4aa3d4 0%, #2178ab 46%, #15557a 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.38),
+    inset 0 -1px 0 rgba(8, 30, 46, 0.2),
+    0 4px 0 #0d3d57,
+    0 10px 18px rgba(21, 85, 122, 0.38);
+}
+
+.passphoto-btn--primary:active:not(:disabled) {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.25),
+    0 0 0 #0d3d57,
+    0 4px 10px rgba(21, 85, 122, 0.28);
+}
+
+.passphoto-check {
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-start;
+  margin: 0.5rem 0 0.75rem;
+  font-size: 0.86rem;
+  line-height: 1.35;
+}
+
+.passphoto-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  margin-bottom: 0.65rem;
+  font-size: 0.82rem;
+  color: var(--pp-muted);
+}
+
+.passphoto-field input[type="range"] {
+  width: 100%;
+}
+
+.passphoto-select {
+  width: 100%;
+  max-width: 14rem;
+  border: 1px solid var(--pp-line);
+  border-radius: 10px;
+  background: #fff;
+  color: var(--pp-ink);
+  padding: 0.4rem 0.55rem;
+  font-size: 0.88rem;
+}
+
+.passphoto-error {
+  margin: 0.75rem 0 0;
+  color: var(--pp-fail);
+  font-size: 0.88rem;
+}
+
+.passphoto-steps {
+  list-style: none;
+  margin: 1rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.passphoto-step {
+  display: flex;
+  gap: 0.55rem;
+  align-items: center;
+  font-size: 0.84rem;
+  color: var(--pp-muted);
+}
+
+.passphoto-step.is-active {
+  color: var(--pp-accent-deep);
+  font-weight: 600;
+}
+
+.passphoto-step.is-done {
+  color: var(--pp-ok);
+}
+
+.passphoto-step__mark {
+  width: 1.35rem;
+  height: 1.35rem;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  font-size: 0.72rem;
+  border: 1px solid var(--pp-line);
+  background: #fff;
+}
+
+.passphoto-step.is-active .passphoto-step__mark {
+  border-color: var(--pp-accent);
+  background: var(--pp-accent-soft);
+}
+
+.passphoto-step.is-done .passphoto-step__mark {
+  border-color: var(--pp-ok);
+  background: #e6f4ec;
+}
+
+.passphoto-frames {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+@media (max-width: 640px) {
+  .passphoto-frames {
+    grid-template-columns: 1fr;
+  }
+}
+
+.passphoto-frame {
+  margin: 0;
+}
+
+.passphoto-frame figcaption {
+  font-size: 0.78rem;
+  font-weight: 650;
+  margin-bottom: 0.4rem;
+  color: var(--pp-muted);
+}
+
+.passphoto-frame img,
+.passphoto-placeholder {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: contain;
+  background: #f3f1ec;
+  border: 1px solid var(--pp-line);
+  border-radius: 10px;
+}
+
+.passphoto-frame--sheet {
+  margin-top: 0.75rem;
+}
+
+.passphoto-frame--sheet img {
+  aspect-ratio: 4 / 6;
+  max-height: 28rem;
+  width: auto;
+  max-width: 100%;
+  margin-inline: auto;
+  display: block;
+}
+
+.passphoto-placeholder {
+  display: grid;
+  place-items: center;
+  color: var(--pp-muted);
+  font-size: 0.86rem;
+}
+
+.passphoto-checks {
+  margin-top: 1rem;
+}
+
+.passphoto-checks ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.passphoto-check-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  padding: 0.55rem 0.65rem;
+  border-radius: 10px;
+  border: 1px solid var(--pp-line);
+  font-size: 0.84rem;
+}
+
+.passphoto-check-row span {
+  color: var(--pp-muted);
+}
+
+.passphoto-check-row.is-pass {
+  border-color: #c5e4d3;
+  background: #f3faf6;
+}
+
+.passphoto-check-row.is-warn {
+  border-color: #ead7a8;
+  background: #fbf6ea;
+}
+
+.passphoto-check-row.is-fail {
+  border-color: #ecc4c4;
+  background: #fbf3f3;
+}
+
+.passphoto-verdict {
+  margin-top: 1rem;
+  padding: 0.85rem 0.95rem;
+  border-radius: 12px;
+  border: 1px solid var(--pp-line);
+}
+
+.passphoto-verdict h2 {
+  margin: 0 0 0.35rem;
+  font-size: 1rem;
+}
+
+.passphoto-verdict p {
+  margin: 0;
+  font-size: 0.86rem;
+  line-height: 1.45;
+  color: var(--pp-muted);
+}
+
+.passphoto-verdict.is-reject {
+  border-color: #ecc4c4;
+  background: #fbf3f3;
+}
+
+.passphoto-verdict.is-improve {
+  border-color: #ead7a8;
+  background: #fbf6ea;
+}
+
+.passphoto-verdict.is-ok {
+  border-color: #c5e4d3;
+  background: #f3faf6;
+}
+
+.passphoto-fix {
+  display: block;
+  margin-top: 0.25rem;
+  font-size: 0.78rem;
+  font-style: normal;
+  font-weight: 650;
+}
+
+.passphoto-check-row.is-fail .passphoto-fix {
+  color: var(--pp-fail);
+}
+
+.passphoto-check-row.is-warn .passphoto-fix {
+  color: var(--pp-warn);
+}
+
+.passphoto-footer {
+  max-width: 68rem;
+  margin: 1.5rem auto 0;
+  font-size: 0.82rem;
+  color: var(--pp-muted);
+}
+
+.passphoto-legal {
+  margin-top: 1rem;
+  padding: 0.95rem 1.05rem;
+  border: 1px solid var(--pp-line);
+  border-radius: var(--pp-radius);
+  background: var(--pp-panel);
+  color: var(--pp-muted);
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
+.passphoto-legal h2 {
+  margin: 0 0 0.4rem;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--pp-ink);
+}
+
+.passphoto-legal p {
+  margin: 0 0 0.55rem;
+}
+
+.passphoto-legal p:last-child {
+  margin-bottom: 0;
+}
+
+.passphoto-footer__link {
+  color: var(--pp-accent-deep);
+  text-decoration: none;
+}
+
+.passphoto-footer__sep {
+  margin: 0 0.4rem;
+}
