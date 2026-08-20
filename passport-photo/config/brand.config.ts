@@ -8,9 +8,9 @@ export const brand = {
     process.env.NEXT_PUBLIC_TAGLINE ??
     "Format a UK passport portrait in your browser. Photos never leave this device.",
   /** Public hostname for CNAME / standalone deploy. */
-  domain: process.env.NEXT_PUBLIC_DOMAIN ?? "passport.averonsoft.com",
+  domain: process.env.NEXT_PUBLIC_DOMAIN ?? "photospec.averonsoft.com",
   baseUrl:
-    process.env.NEXT_PUBLIC_BASE_URL ?? "https://averonsoft.com/passport-photo",
+    process.env.NEXT_PUBLIC_BASE_URL ?? "https://photospec.averonsoft.com",
   contactEmail:
     process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "hello@averonsoft.com",
   logoText: process.env.NEXT_PUBLIC_LOGO_TEXT ?? "PhotoSpec",

@@ -16,7 +16,7 @@ This is a formatting aid, not an HM Passport Office service.
 
 ## Run under Averonsoft
 
-Mounted at `/passport-photo`. Optional CNAME: `passport.averonsoft.com`
+Mounted at `/passport-photo`. Optional CNAME: `photospec.averonsoft.com`
 (see `DETACH.md`).
 
 ## Standalone
